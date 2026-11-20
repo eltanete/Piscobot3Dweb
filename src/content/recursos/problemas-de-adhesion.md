@@ -1,37 +1,34 @@
 ---
-titulo: Problemas de adhesión a la cama
-descripcion: Piezas que se despegan, warping y primera capa irregular. Nivelación, distancia de la boquilla, temperatura y superficies de impresión.
+titulo: Cómo solucionar problemas de adhesión en impresoras 3D
+descripcion: Piezas que se despegan, warping y primera capa irregular. Nivelación, temperatura de cama, limpieza y adhesivos para mejorar la adhesión.
 categoria: Adhesión
 icono: target
-fecha: 2026-11-20
-provisorio: true
+fecha: 2025-05-15
+actualizado: 2026-11-20
+wpSlug: problemas-de-adhesion
 ---
 
-La primera capa define el resto de la impresión. La mayoría de los problemas de adhesión se resuelven con tres variables bien controladas: distancia, temperatura y limpieza.
+Cuando las piezas no se pegan a la cama se genera desperdicio de material y retrasos. Te explicamos las causas, las soluciones básicas y cómo el servicio técnico puede mejorar tus resultados.
 
-## Síntomas habituales
+## ¿Qué son los problemas de adhesión?
 
-- La pieza se despega a mitad de la impresión.
-- **Warping:** las esquinas se levantan, sobre todo en ABS, ASA o nylon.
-- Primera capa con surcos, zonas transparentes o material arrastrado.
+Ocurren cuando la primera capa no se pega adecuadamente a la superficie de impresión, y la pieza se despega durante el proceso o no se forma correctamente.
 
-## Las tres variables clave
+## Causas comunes
 
-### 1. Distancia boquilla–cama (Z offset)
+- **Cama desnivelada:** la boquilla queda demasiado lejos o demasiado cerca de la superficie.
+- **Temperatura incorrecta:** para PLA suele estar entre 50 y 70 °C; para ABS, entre 80 y 100 °C.
+- **Superficie sucia:** grasa, polvo u otros residuos impiden que el filamento se adhiera.
+- **Falta de adhesivos:** materiales como el ABS suelen necesitar laca adhesiva o cinta.
 
-Una boquilla demasiado alta deja líneas redondas que no se pegan; demasiado baja, arrastra material y raya la superficie. La línea ideal se ve levemente aplastada y sin espacios entre pasadas.
+## Soluciones
 
-### 2. Temperatura
+- **Nivelar la cama:** usá una hoja de papel entre la boquilla y la cama y ajustá hasta sentir una leve resistencia.
+- **Ajustar la temperatura** según el filamento.
+- **Limpiar la cama** con alcohol isopropílico antes de imprimir.
+- **Usar adhesivos** (laca o cinta) en materiales que lo requieran.
+- **Primera capa más lenta** y ventilador de capa apagado o bajo en las primeras capas.
 
-Cada material tiene un rango de temperatura de cama recomendado. En materiales técnicos, evitá corrientes de aire y considerá un gabinete cerrado para reducir el warping.
+## ¿Por qué elegir PISCOBOT 3D?
 
-### 3. Superficie limpia
-
-La grasa de los dedos alcanza para arruinar la adhesión. Limpiá la cama con alcohol isopropílico antes de imprimir y usá la superficie adecuada para cada material (PEI, vidrio, láminas texturadas).
-
-## Otros factores
-
-- **Nivelación:** si la primera capa sale bien de un lado y mal del otro, la cama no está nivelada o está deformada.
-- **Velocidad de primera capa:** imprimila más lento que el resto.
-- **Brim o balsa:** ayudan en piezas con poca superficie de apoyo o esquinas agudas.
-- **Ventilador de capa:** apagado o bajo en las primeras capas mejora la adhesión.
+Si los problemas siguen, puede que la plataforma o el eje Z necesiten calibración profesional. Nuestros técnicos diagnostican y solucionan problemas de adhesión para clientes como Globant. Conocé el [servicio técnico](/industria/servicio-tecnico).

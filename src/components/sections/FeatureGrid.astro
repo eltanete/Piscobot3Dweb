@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import Icon, { type IconName } from '../ui/Icon.astro';
 
 interface Item {
@@ -6,6 +8,8 @@ interface Item {
   texto: string;
   icono?: IconName;
   meta?: string;
+  imagen?: ImageMetadata;
+  enlace?: string;
 }
 
 interface Props {
@@ -27,39 +31,60 @@ const cols = {
   {items.map((item) => (
     <li
       class:list={[
-        'flex flex-col',
+        'flex flex-col overflow-hidden',
         variante === 'tarjeta' &&
           (oscuro
-            ? 'rounded-lg border border-grafito-800 bg-grafito-900 p-6'
-            : 'rounded-lg border border-grafito-200 bg-white p-6 shadow-tarjeta'),
+            ? 'rounded-lg border border-grafito-800 bg-grafito-900'
+            : 'rounded-lg border border-grafito-200 bg-white shadow-tarjeta'),
       ]}
     >
-      <div class="mb-4 flex items-center justify-between gap-4">
-        {item.icono && (
-          <span
-            class:list={[
-              'inline-flex size-11 items-center justify-center rounded-md',
-              oscuro ? 'bg-grafito-800 text-white' : 'bg-acento-suave text-acento-texto',
-            ]}
-          >
-            <Icon name={item.icono} size={22} />
-          </span>
+      {item.imagen && (
+        <Image
+          src={item.imagen}
+          alt=""
+          widths={[400, 640]}
+          sizes="(min-width: 1280px) 320px, (min-width: 768px) 50vw, 100vw"
+          class="aspect-[4/3] w-full object-cover"
+        />
+      )}
+      <div class:list={['flex flex-1 flex-col', variante === 'tarjeta' && 'p-6']}>
+        {(item.icono || item.meta) && (
+          <div class="mb-4 flex items-center justify-between gap-4">
+            {item.icono && (
+              <span
+                class:list={[
+                  'inline-flex size-11 items-center justify-center rounded-md',
+                  oscuro ? 'bg-grafito-800 text-white' : 'bg-acento-suave text-acento-texto',
+                ]}
+              >
+                <Icon name={item.icono} size={22} />
+              </span>
+            )}
+            {item.meta && (
+              <span class="font-mono text-xs font-semibold tracking-wide text-grafito-500 uppercase">
+                {item.meta}
+              </span>
+            )}
+          </div>
         )}
-        {item.meta && (
-          <span
-            class:list={[
-              'font-mono text-xs font-semibold tracking-wide uppercase',
-              oscuro ? 'text-grafito-500' : 'text-grafito-500',
-            ]}
+        <h3 class="text-lg">{item.titulo}</h3>
+        <p
+          class:list={[
+            'mt-2 flex-1 leading-relaxed',
+            oscuro ? 'text-grafito-400' : 'text-grafito-600',
+          ]}
+        >
+          {item.texto}
+        </p>
+        {item.enlace && (
+          <a
+            href={item.enlace}
+            class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-acento-texto hover:underline"
           >
-            {item.meta}
-          </span>
+            Leer la guía <Icon name="arrow-right" size={16} />
+          </a>
         )}
       </div>
-      <h3 class="text-lg">{item.titulo}</h3>
-      <p class:list={['mt-2 leading-relaxed', oscuro ? 'text-grafito-400' : 'text-grafito-600']}>
-        {item.texto}
-      </p>
     </li>
   ))}
 </ul>

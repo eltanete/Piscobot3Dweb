@@ -1,36 +1,39 @@
 ---
-titulo: Problemas de extrusión en impresoras 3D
-descripcion: Sub-extrusión, atascos, filamento que patina y capas faltantes. Cómo reconocer cada síntoma, sus causas más comunes y qué revisar primero.
+titulo: Cómo solucionar problemas de extrusión en impresoras 3D
+descripcion: Sub-extrusión, sobre-extrusión y atascos. Qué son, sus causas más comunes y cómo solucionarlos por tu cuenta o con servicio técnico especializado en Argentina.
 categoria: Extrusión
 icono: layers
-fecha: 2026-11-20
+fecha: 2025-05-15
+actualizado: 2026-11-20
 wpSlug: problemas-de-extrusion
-provisorio: true
 ---
 
-La extrusión es el corazón de una impresora FDM: si el filamento no sale en la cantidad y el momento correctos, ninguna otra calibración alcanza. Estos son los síntomas que más vemos en el taller y por dónde empezar a revisar.
+Los problemas de extrusión son una de las fallas más comunes en la impresión 3D y pueden frustrar a cualquier usuario, desde principiantes hasta profesionales. En esta guía te explicamos qué son, cuáles son sus causas más comunes y cómo solucionarlos, ya sea por tu cuenta o con la ayuda de un servicio técnico especializado.
 
-## Síntomas habituales
+## ¿Qué son los problemas de extrusión?
 
-| Síntoma              | Qué se ve                                               | Causa probable                                                          |
-| -------------------- | ------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Sub-extrusión        | Paredes finas, huecos entre líneas, relleno "esponjoso" | Boquilla parcialmente tapada, temperatura baja, pasos/mm mal calibrados |
-| Sobre-extrusión      | Bordes gruesos, gotas, superficie rugosa                | Flujo o pasos/mm demasiado altos, diámetro de filamento mal configurado |
-| Atasco total         | El motor hace clic y no sale material                   | Boquilla tapada, heat creep, PTFE degradado                             |
-| Filamento que patina | Marcas en el filamento, ruido en el extrusor            | Tensión del engranaje incorrecta, retracciones excesivas                |
+Ocurren cuando el filamento no sale correctamente por la boquilla. Pueden manifestarse como **sub-extrusión** (se imprime menos material del necesario y las piezas quedan débiles o con huecos) o **sobre-extrusión** (se imprime de más, causando deformaciones o acumulaciones). Ambos afectan la calidad y pueden provocar fallas en la fabricación.
 
-## Qué revisar primero
+## Causas comunes
 
-1. **Temperatura.** Confirmá que el hotend llega a la temperatura indicada para el material y que se mantiene estable durante la impresión.
-2. **Boquilla.** Una boquilla desgastada o parcialmente tapada es la causa más común de sub-extrusión. Hacé una extrusión manual en el aire: el hilo debe salir recto y constante.
-3. **Camino del filamento.** Revisá que el carrete gire libre y que el tubo PTFE no esté quemado ni separado de la boquilla.
-4. **Engranaje del extrusor.** Limpiá los restos de filamento y ajustá la tensión: ni tan floja que patine, ni tan fuerte que aplaste el filamento.
-5. **Calibración de pasos/mm (e-steps).** Medí cuánto filamento entra realmente al pedir 100 mm y corregí el valor.
+- **Boquilla obstruida:** la acumulación de residuos o material degradado bloquea el flujo.
+- **Filamento de mala calidad:** impurezas, humedad o diámetro inconsistente causan atascos o extrusión irregular.
+- **Temperatura incorrecta:** si la boquilla no está a la temperatura adecuada, el material no se funde bien.
+- **Extrusor desgastado:** los engranajes pierden agarre con el uso y no empujan el filamento correctamente.
+- **Configuraciones erróneas:** velocidad, retracción u offset de la boquilla mal ajustados.
 
-## Heat creep: el atasco que vuelve
+## Soluciones
 
-Si la impresora se atasca siempre después de un rato imprimiendo, el problema suele ser que el calor sube por el disipador y ablanda el filamento antes de tiempo. Revisá el ventilador del disipador, la pasta térmica y las retracciones (muy largas favorecen el atasco).
+- **Limpiar la boquilla:** calentala a temperatura alta (por ejemplo, 200–250 °C para PLA) y usá una aguja fina o filamento de limpieza para retirar residuos.
+- **Usar filamento de calidad:** mantenelo seco y sin impurezas; guardalo en un ambiente seco o usá un secador de filamento.
+- **Ajustar la temperatura:** respetá las temperaturas recomendadas para cada material.
+- **Mantener el extrusor:** revisá el desgaste de los engranajes, limpialos y reemplazalos si hace falta.
+- **Revisar la configuración:** ajustá velocidad de extrusión y retracción según el fabricante o tus pruebas, y calibrá los pasos/mm del extrusor.
 
-## Cuándo conviene un diagnóstico
+## Atascos que vuelven: heat creep
 
-Si después de estos pasos el problema persiste, o aparece y desaparece sin patrón claro, conviene un diagnóstico completo: muchas veces hay más de una causa combinada (por ejemplo, un termistor que mide mal y una boquilla gastada).
+Si la impresora se atasca siempre después de un rato imprimiendo, suele ser porque el calor sube por el disipador y ablanda el filamento antes de tiempo. Revisá el ventilador del disipador y evitá retracciones demasiado largas.
+
+## ¿Por qué elegir PISCOBOT 3D?
+
+Si probaste estas soluciones y el problema sigue, probablemente necesites un técnico especializado. Con más de 10 años de experiencia, diagnosticamos y reparamos cualquier problema de extrusión, y trabajamos con clientes como Mercedes Benz y Conuar. Conocé el [servicio técnico](/industria/servicio-tecnico).

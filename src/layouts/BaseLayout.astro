@@ -27,7 +27,7 @@ const {
   title,
   description = SITE.description,
   vertical,
-  ogImage = '/og/default.png',
+  ogImage = '/og/default.jpg',
   ogType = 'website',
   noindex = false,
   cta,
@@ -51,7 +51,7 @@ const organizacion = {
   name: sitio.nombre,
   description: sitio.descripcion,
   url: Astro.site?.href,
-  logo: new URL('/favicon.svg', Astro.site).href,
+  logo: new URL('/icon-512.png', Astro.site).href,
   image: ogUrl,
   email: sitio.email,
   telephone: sitio.telefono,
@@ -75,8 +75,9 @@ const organizacion = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content={robots} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#1a1c21" />
     <meta name="generator" content={Astro.generator} />

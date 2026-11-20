@@ -1,0 +1,25 @@
+{
+  "titulo": "Preguntas frecuentes sobre diseño 3D",
+  "preguntas": [
+    {
+      "pregunta": "¿Cómo es el proceso de diseño?",
+      "respuesta": "1. Compartís tu boceto, idea o archivo (STL, STEP u OBJ). Si no tenés modelo, lo diseñamos desde cero.\n2. En 12 horas hábiles recibís una cotización con tiempos, costos y recomendaciones.\n3. Iteramos hasta la solución óptima (incluye 2 devoluciones; las siguientes tienen costo).\n4. Si hace falta, simulamos y prototipamos en 3D.\n5. Recibís el archivo optimizado o el prototipo fabricado."
+    },
+    {
+      "pregunta": "¿Se pueden mejorar piezas existentes?",
+      "respuesta": "Sí. Aplicamos ingeniería inversa para mejorar diseño y resistencia, y reducir costos de producción."
+    },
+    {
+      "pregunta": "¿Puedo pedir un diseño sin planos ni archivos?",
+      "respuesta": "Sí. A partir de bocetos, referencias físicas o ideas desarrollamos el modelo 3D desde cero."
+    },
+    {
+      "pregunta": "¿Qué archivos se entregan?",
+      "respuesta": "STL, STEP, OBJ o el formato que requiera tu proceso de manufactura."
+    },
+    {
+      "pregunta": "¿Qué garantía tengo sobre el diseño?",
+      "respuesta": "Todos los diseños tienen garantía de funcionamiento según el uso definido: si la pieza no se comporta como se especificó, la corregimos sin costo. Además firmamos acuerdos de confidencialidad."
+    }
+  ]
+}

@@ -1,5 +1,8 @@
 ---
-// Logotipo provisorio (wordmark). Reemplazar por el SVG oficial cuando esté disponible.
+// Isotipo oficial (hexágono con cubo) + wordmark en texto.
+import { Image } from 'astro:assets';
+import isotipo from '../../assets/images/marca/isotipo.png';
+
 interface Props {
   oscuro?: boolean;
   class?: string;
@@ -7,16 +10,14 @@ interface Props {
 const { oscuro = false, class: className } = Astro.props;
 ---
 
-<span class:list={['inline-flex items-center gap-1.5 leading-none', className]}>
+<span class:list={['inline-flex items-center gap-2.5 leading-none', className]}>
+  <Image src={isotipo} alt="" width={36} height={36} class="size-9 rounded-md" loading="eager" />
   <span
     class:list={[
       'text-[1.125rem] font-extrabold tracking-[-0.03em]',
       oscuro ? 'text-white' : 'text-grafito-950',
     ]}
   >
-    PISCOBOT
-  </span>
-  <span class="rounded-[0.3rem] bg-azul-600 px-1.5 py-1 font-mono text-[0.75rem] font-semibold text-white">
-    3D
+    PISCOBOT <span class="text-azul-600">3D</span>
   </span>
 </span>

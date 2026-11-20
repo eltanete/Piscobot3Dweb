@@ -1,29 +1,41 @@
 {
-  "titulo": "Preguntas frecuentes sobre impresión y diseño",
+  "titulo": "Preguntas frecuentes sobre impresión 3D",
   "preguntas": [
     {
-      "pregunta": "¿Qué archivos necesito para cotizar?",
-      "respuesta": "Lo ideal es un STL o STEP. Si no tenés archivo, nos sirve un plano, fotos con medidas o la pieza física: en ese caso cotizamos también el diseño o la ingeniería inversa."
+      "pregunta": "¿Cómo es el proceso de trabajo?",
+      "respuesta": "1. Enviás tu archivo (STL, STEP u OBJ) y recibís una cotización detallada en 12 horas hábiles, con costos de impresión, materiales y post-procesado.\n2. Aprobás el presupuesto y hacemos una impresión de prueba (costo único no reembolsable) para validar calidad y ajustes.\n3. Abonás el 50 % inicial para materiales e inicio de producción.\n4. Coordinamos la entrega (retiro en taller o envío con seguimiento). El 50 % restante se abona antes del despacho."
     },
     {
-      "pregunta": "¿Qué materiales usan?",
-      "respuesta": "Trabajamos con PLA, PETG, TPU, ABS/ASA, nylon y resinas, entre otros. Te recomendamos el material según la función de la pieza: resistencia, temperatura, flexibilidad o terminación."
+      "pregunta": "¿Cuáles son los tiempos de entrega?",
+      "respuesta": "Dependen de la complejidad (desde 24 horas para modelos simples hasta 7 días para proyectos grandes), del material (nylon o fibra de carbono pueden requerir más tiempo) y de la demanda. Los pedidos urgentes tienen un recargo del 30 %."
     },
     {
-      "pregunta": "¿Cuál es el proceso?",
-      "respuesta": "1) Nos enviás el archivo o la idea. 2) Revisamos viabilidad y te cotizamos material, plazo y precio. 3) Aprobás y fabricamos. 4) Controlamos la calidad y coordinamos la entrega."
+      "pregunta": "¿Qué materiales ofrecen?",
+      "respuesta": "• PLA / ABS: prototipos rápidos y piezas no estructurales.\n• PETG / Nylon: alta resistencia química y térmica para piezas técnicas.\n• Resinas SLA/DLP: detalle ultra fino.\n• Premium: fibra de carbono, TPU flexible, PEEK y más.\nTe asesoramos sin costo para elegir el material adecuado."
     },
     {
-      "pregunta": "¿Hacen grandes cantidades?",
-      "respuesta": "Sí. Producimos series cortas y grandes cantidades con control de calidad por lote. Para volúmenes altos planificamos la producción por etapas."
+      "pregunta": "¿Puedo modificar el diseño después de enviarlo?",
+      "respuesta": "Sí, antes de iniciar la impresión. Una vez en producción, los cambios implican un costo adicional por reiniciar el proceso."
     },
     {
-      "pregunta": "¿Cuáles son las formas de pago?",
-      "respuesta": "Las detallamos en la página de Condiciones. Para producciones se suele trabajar con un anticipo y el saldo contra entrega. [Completar con las formas de pago vigentes]"
+      "pregunta": "¿Qué pasa si la impresión falla?",
+      "respuesta": "Si es un error nuestro, reimprimimos sin costo y priorizamos tu pedido. Si es un error del archivo (mallas no cerradas, espesores incorrectos), te ofrecemos 50 % de descuento en la reimpresión de las unidades falladas y asesoramiento para corregir el archivo."
     },
     {
-      "pregunta": "¿Quién es dueño del diseño?",
-      "respuesta": "Cuando desarrollamos un diseño a pedido, te entregamos los archivos finales. Si necesitás un acuerdo de confidencialidad, lo firmamos antes de empezar."
+      "pregunta": "¿Cómo se cotiza?",
+      "respuesta": "Según el volumen de material, el tiempo de impresión (complejidad y parámetros) y el post-procesado (pulido, pintura, ensamblaje). Podemos ajustar altura de capa (0,05 a 0,3 mm), densidad de relleno, soportes y velocidad."
+    },
+    {
+      "pregunta": "¿Qué formas de pago aceptan?",
+      "respuesta": "50 % de adelanto para iniciar la producción y 50 % contra entrega. Efectivo, transferencia bancaria, cripto (USDT) o Mercado Pago (con recargo del 5 %). Emitimos factura C con IVA incluido."
+    },
+    {
+      "pregunta": "¿Hacen post-procesado?",
+      "respuesta": "Sí: pulido y lijado, pintura y texturizado (mate, brillo, metálico), tratamientos térmicos/químicos y ensamblaje de componentes."
+    },
+    {
+      "pregunta": "¿Tienen descuentos por volumen?",
+      "respuesta": "Sí. Para pedidos de más de 50 unidades aplicamos descuentos progresivos de hasta 25 %. También tenemos planes de suscripción para clientes frecuentes."
     }
   ]
 }

@@ -2,24 +2,40 @@
   "titulo": "Preguntas frecuentes sobre las capacitaciones",
   "preguntas": [
     {
-      "pregunta": "¿Las capacitaciones son presenciales?",
-      "respuesta": "Sí, son principalmente presenciales porque la práctica sobre equipos reales es clave. Pueden dictarse en nuestro taller o en tu empresa (in company)."
+      "pregunta": "¿Qué temas cubren las capacitaciones?",
+      "respuesta": "Operación, mantenimiento y optimización de impresoras 3D: configuración y calibración de equipos, uso de software de impresión (Cura, PrusaSlicer, etc.), mantenimiento preventivo y correctivo, y optimización de procesos para reducir tiempos de inactividad. Las sesiones se adaptan a las necesidades de tu empresa o proyecto."
     },
     {
-      "pregunta": "¿Necesito conocimientos previos?",
-      "respuesta": "No para el Módulo 1. Para los módulos avanzados recomendamos haber hecho los anteriores o tener experiencia equivalente; lo evaluamos con vos antes de empezar."
+      "pregunta": "¿Quiénes pueden participar?",
+      "respuesta": "Empresas industriales (manufactura, medicina, etc.), pymes con granjas de impresión y particulares interesados en dominar la impresión 3D. No se requiere experiencia previa: hay módulos para principiantes y avanzados."
+    },
+    {
+      "pregunta": "¿Dónde y cómo se realizan?",
+      "respuesta": "Presencial: en tu planta o en nuestro taller de Villa Devoto, CABA.\nOnline: sesiones remotas con soporte en vivo.\nAmbos formatos incluyen materiales didácticos y soporte post-capacitación."
+    },
+    {
+      "pregunta": "¿Cuánto duran?",
+      "respuesta": "• Módulos básicos: 4 a 8 horas.\n• Módulos avanzados: 12 a 16 horas, enfocados en mantenimiento y optimización.\n• En planta: personalizadas, desde 1 día hasta 1 semana."
     },
     {
       "pregunta": "¿Cuánto cuestan?",
-      "respuesta": "Los valores dependen del módulo, la modalidad y la cantidad de participantes. [Completar con precios de referencia si se decide publicarlos] Pedinos una propuesta y te la enviamos en el día."
+      "respuesta": "Dependen del formato, la duración y la cantidad de participantes. Como referencia:\n• Online: desde USD 50 por participante (mínimo 3 personas).\n• Presencial: desde USD 100 por participante.\n• En planta: cotización personalizada según ubicación y alcance."
     },
     {
-      "pregunta": "¿Entregan certificado?",
-      "respuesta": "Sí, cada participante recibe un certificado de asistencia con el detalle de los contenidos del módulo."
+      "pregunta": "¿Hay descuentos por cantidad de participantes?",
+      "respuesta": "• 5 a 10 participantes: 25 % de descuento por persona.\n• Más de 10 participantes: 30 % de descuento por persona.\n• En planta para empresas: hasta 15 % de descuento para grupos desde 3 personas."
     },
     {
-      "pregunta": "¿Puedo armar un temario a medida?",
-      "respuesta": "Sí. Para empresas e instituciones adaptamos los contenidos a sus equipos, materiales y aplicaciones."
+      "pregunta": "¿Qué requisitos hay para participar?",
+      "respuesta": "Presencial: acceso a una computadora y una impresora 3D (propia o provista por nosotros). Online: computadora con internet y software de videoconferencia. Si tenés equipos específicos (Creality, Prusa, Bambu Lab), adaptamos el contenido."
+    },
+    {
+      "pregunta": "¿Ofrecen soporte y material después?",
+      "respuesta": "Sí: consultas remotas por WhatsApp o email, asesoramiento técnico, manuales digitales, videos tutoriales y perfiles de impresión para Cura o PrusaSlicer, incluidos en el costo."
+    },
+    {
+      "pregunta": "¿Puedo extender la garantía de mis equipos?",
+      "respuesta": "Sí. Tras la capacitación podés contratar una garantía extendida de 6 a 12 meses que incluye reparaciones por fallas técnicas y soporte prioritario, desde USD 80 por equipo según marca y modelo. Además, tenés 10 % de descuento en la suscripción de mantenimiento básica y 15 % en la premium durante 6 meses."
     }
   ]
 }

@@ -1,29 +1,23 @@
 [
   {
-    "id": "testimonio-industria-1",
-    "autor": "Nombre a completar",
-    "cargo": "Responsable de mantenimiento",
-    "empresa": "Empresa industrial",
-    "texto": "Testimonio de ejemplo: reemplazar por un testimonio real del sitio actual. Ideal: qué problema tenían, qué resolvimos y qué resultado obtuvieron.",
-    "vertical": "industria",
-    "ejemplo": true
+    "id": "martin-disenador-industrial",
+    "autor": "Martín",
+    "cargo": "Diseñador industrial",
+    "texto": "Excelente servicio técnico, súper comprometidos y responsables con el trabajo. Tenía la impresora frenada por una falla de desplazamiento de capas en un eje. Diagnosticaron el problema y lo presupuestaron de forma expedita, me asesoraron y ofrecieron mejoras. Realizaron el arreglo en el tiempo pactado y la impresora quedó imprimiendo mejor que nunca.",
+    "vertical": "industria"
   },
   {
-    "id": "testimonio-industria-2",
-    "autor": "Nombre a completar",
-    "cargo": "Docente",
-    "empresa": "Institución educativa",
-    "texto": "Testimonio de ejemplo sobre capacitaciones: reemplazar por un testimonio real.",
-    "vertical": "industria",
-    "ejemplo": true
+    "id": "juan-manuel-emprendedor",
+    "autor": "Juan Manuel",
+    "cargo": "Emprendedor",
+    "texto": "Entré buscando soporte técnico para mi Ender 5 Pro porque se me había quemado la fuente. Recibí atención súper profesional y resolvieron mi problema en menos de una semana. La confianza generada me llevó a comprar dos Prusa MK3 y hacerles el service preventivo integral con ellos también. Un game-changer para quienes nos dedicamos a esto.",
+    "vertical": "industria"
   },
   {
-    "id": "testimonio-marcas-1",
-    "autor": "Nombre a completar",
-    "cargo": "Directora de cuentas",
-    "empresa": "Agencia",
-    "texto": "Testimonio de ejemplo sobre merchandising o una activación: reemplazar por un testimonio real.",
-    "vertical": "marcas",
-    "ejemplo": true
+    "id": "federico-ingeniero-biomedico",
+    "autor": "Federico",
+    "cargo": "Ingeniero biomédico",
+    "texto": "Súper recomendables: responsabilidad, capacidad y dedicación. Resolvieron un problema de mi máquina y la pusieron a punto. También tomé la capacitación sobre puesta a punto, nivelación y calibración de parámetros en los slicers, lo que me permitió hacer modificaciones a conciencia antes de imprimir los modelos que entrego.",
+    "vertical": "industria"
   }
 ]

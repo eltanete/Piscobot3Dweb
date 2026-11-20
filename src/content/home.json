@@ -2,7 +2,7 @@
   "hero": {
     "eyebrow": "Especialistas técnicos en impresión 3D",
     "titulo": "Conocemos la impresión 3D por dentro. Por eso tus piezas salen bien.",
-    "bajada": "Más de 10 años reparando, enseñando, imprimiendo y desarrollando con tecnología 3D. Esa autoridad técnica trabaja para tu industria o para tu marca.",
+    "bajada": "Más de 10 años de servicio técnico, capacitación, impresión y desarrollo con tecnología 3D, trabajando con ingenieros de empresas líderes. Esa autoridad técnica trabaja para tu industria o para tu marca.",
     "ctaPrincipal": "Cotizar proyecto",
     "ctaSecundario": "Hablar por WhatsApp"
   },
@@ -29,10 +29,22 @@
     }
   },
   "contadores": [
-    { "valor": "+10", "etiqueta": "años en impresión 3D" },
-    { "valor": "5", "etiqueta": "servicios especializados" },
-    { "valor": "FDM · Resina", "etiqueta": "tecnologías que dominamos" },
-    { "valor": "1 equipo", "etiqueta": "del diagnóstico a la pieza final" }
+    {
+      "valor": "+800",
+      "etiqueta": "máquinas reparadas"
+    },
+    {
+      "valor": "+600",
+      "etiqueta": "clientes satisfechos"
+    },
+    {
+      "valor": "+20.000",
+      "etiqueta": "horas de producción ahorradas"
+    },
+    {
+      "valor": "+30k",
+      "etiqueta": "piezas fabricadas"
+    }
   ],
   "autoridad": {
     "eyebrow": "Por qué PISCOBOT 3D",
@@ -75,10 +87,47 @@
         "tipo": "servicio-tecnico",
         "icono": "wrench"
       },
-      { "label": "Capacitar a mi equipo", "tipo": "capacitaciones", "icono": "graduation-cap" },
-      { "label": "Imprimir o desarrollar una pieza", "tipo": "impresion", "icono": "layers" },
-      { "label": "Merchandising para mi marca", "tipo": "merchandising", "icono": "gift" },
-      { "label": "Un proyecto especial o activación", "tipo": "proyectos", "icono": "sparkles" }
+      {
+        "label": "Capacitar a mi equipo",
+        "tipo": "capacitaciones",
+        "icono": "graduation-cap"
+      },
+      {
+        "label": "Imprimir o desarrollar una pieza",
+        "tipo": "impresion",
+        "icono": "layers"
+      },
+      {
+        "label": "Merchandising para mi marca",
+        "tipo": "merchandising",
+        "icono": "gift"
+      },
+      {
+        "label": "Un proyecto especial o activación",
+        "tipo": "proyectos",
+        "icono": "sparkles"
+      }
+    ]
+  },
+  "dolores": {
+    "eyebrow": "¿Tu empresa está en esta situación?",
+    "titulo": "Podemos evitar las fallas en tu producción 3D",
+    "items": [
+      {
+        "titulo": "Equipos fuera de servicio",
+        "texto": "Minimizamos tiempos muertos con mantenimiento preventivo y correctivo, asegurando continuidad operativa.",
+        "icono": "alert"
+      },
+      {
+        "titulo": "Procesos ineficientes",
+        "texto": "Modernizamos tus equipos y optimizamos el flujo de trabajo para cumplir los estándares más exigentes.",
+        "icono": "settings"
+      },
+      {
+        "titulo": "Personal no calificado",
+        "texto": "Formación especializada para que tu equipo resuelva incidencias y opere con mayor autonomía.",
+        "icono": "graduation-cap"
+      }
     ]
   }
 }

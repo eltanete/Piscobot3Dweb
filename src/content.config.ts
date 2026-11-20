@@ -1,4 +1,4 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, type SchemaContext } from 'astro:content';
 import { glob, file } from 'astro/loaders';
 import { z } from 'astro/zod';
 
@@ -28,21 +28,31 @@ const ICONOS = [
 ] as const;
 const icono = z.enum(ICONOS);
 
+type ImageFn = SchemaContext['image'];
+
 const item = z.object({
   titulo: z.string(),
   texto: z.string(),
   icono: icono.optional(),
   meta: z.string().optional(),
 });
+const crearItem = (image: ImageFn) =>
+  item.extend({
+    imagen: image().optional(),
+    enlace: z.string().optional(),
+  });
 
-const bloque = z.object({
-  id: z.string().optional(),
-  eyebrow: z.string().optional(),
-  titulo: z.string(),
-  bajada: z.string().optional(),
-  items: z.array(item).default([]),
-  fondo: z.enum(['blanco', 'gris', 'oscuro']).default('blanco'),
-});
+const crearBloque = (image: ImageFn) =>
+  z.object({
+    id: z.string().optional(),
+    eyebrow: z.string().optional(),
+    titulo: z.string(),
+    bajada: z.string().optional(),
+    items: z.array(crearItem(image)).default([]),
+    fondo: z.enum(['blanco', 'gris', 'oscuro']).default('blanco'),
+    /** Lista de viñetas opcional (p. ej. "qué incluye"). */
+    lista: z.array(z.string()).default([]),
+  });
 
 const seo = z
   .object({
@@ -54,28 +64,31 @@ const seo = z
 /** Servicios: una entrada por página de servicio (5 en total, ver sitemap). */
 const servicios = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/servicios' }),
-  schema: z.object({
-    titulo: z.string(),
-    vertical,
-    orden: z.number().default(0),
-    icono,
-    resumen: z.string(),
-    hero: z.object({
-      eyebrow: z.string(),
+  schema: ({ image }) =>
+    z.object({
       titulo: z.string(),
-      bajada: z.string(),
+      vertical,
+      orden: z.number().default(0),
+      icono,
+      resumen: z.string(),
+      imagen: image().optional(),
+      imagenAlt: z.string().optional(),
+      hero: z.object({
+        eyebrow: z.string(),
+        titulo: z.string(),
+        bajada: z.string(),
+      }),
+      cta: z.object({
+        label: z.string(),
+        tipo: z.string(),
+      }),
+      whatsapp: z.string(),
+      pruebas: z.array(z.object({ valor: z.coerce.string(), etiqueta: z.string() })).default([]),
+      beneficios: z.array(item).default([]),
+      bloques: z.array(crearBloque(image)).default([]),
+      faq: z.array(z.string()).default([]),
+      seo,
     }),
-    cta: z.object({
-      label: z.string(),
-      tipo: z.string(),
-    }),
-    whatsapp: z.string(),
-    pruebas: z.array(z.object({ valor: z.string(), etiqueta: z.string() })).default([]),
-    beneficios: z.array(item).default([]),
-    bloques: z.array(bloque).default([]),
-    faq: z.string().optional(),
-    seo,
-  }),
 });
 
 const casos = defineCollection({

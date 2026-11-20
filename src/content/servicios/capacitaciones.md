@@ -3,82 +3,81 @@ titulo: Capacitación técnica en impresión 3D
 vertical: industria
 orden: 2
 icono: graduation-cap
-resumen: Formación práctica para equipos técnicos, escuelas y particulares, desde el uso diario hasta el mantenimiento y diagnóstico de impresoras 3D.
+resumen: Capacitación intensiva en tu planta, en nuestro taller u online. Hardware, software, reparación y materiales técnicos en 4 módulos.
+imagen: ../../assets/images/servicios/capacitacion-planta.webp
+imagenAlt: Técnico frente a una granja de impresoras 3D industriales
 hero:
-  eyebrow: Capacitaciones · Impresión 3D
-  titulo: Que tu equipo domine la impresión 3D, no sólo que la use
-  bajada: Capacitaciones técnicas por módulos, dictadas por quienes reparan impresoras todos los días. Teoría justa y mucha práctica sobre equipos reales.
+  eyebrow: Capacitación técnica en planta · Abordaje intensivo
+  titulo: Tu equipo puede ser experto en impresión 3D en sólo 6 horas
+  bajada: Capacitación técnica intensiva en la planta de tu empresa — hardware, software y reparación — para eliminar fallas recurrentes, optimizar procesos y ahorrar costosas inactividades. Autonomía técnica asegurada.
 cta:
-  label: Consultar capacitaciones
+  label: Capacitar a mi equipo
   tipo: capacitaciones
-whatsapp: Hola, quiero información sobre las capacitaciones técnicas en impresión 3D.
+whatsapp: Hola PISCOBOT 3D, quiero información sobre la capacitación técnica en impresión 3D.
 pruebas:
-  - valor: '4'
-    etiqueta: módulos progresivos
-  - valor: In company
-    etiqueta: o en nuestro taller
-  - valor: Práctica
-    etiqueta: sobre equipos reales
+  - valor: 6 h
+    etiqueta: programa completo
+  - valor: 4
+    etiqueta: módulos
+  - valor: Planta · Taller · Online
+    etiqueta: modalidades
 beneficios:
-  - titulo: Menos dependencia del soporte externo
-    texto: Tu equipo aprende a resolver las fallas cotidianas y a detectar a tiempo las que necesitan un técnico.
-    icono: shield-check
-  - titulo: Más piezas buenas al primer intento
-    texto: Laminado, materiales y calibración bien entendidos se traducen en menos material y horas perdidas.
+  - titulo: Reducí costos hasta un 50 %
+    texto: Las reparaciones externas consumen presupuesto, tiempo y recursos. Evitá reparaciones de emergencia y costos inesperados.
     icono: target
-  - titulo: Contenido adaptado a tus equipos
-    texto: Armamos el temario según las impresoras, materiales y aplicaciones que usan en tu organización.
-    icono: settings
+  - titulo: Menos costos por inactividad
+    texto: Tu equipo aprende a identificar señales tempranas de desgaste para lograr una producción non-stop.
+    icono: clock
+  - titulo: Autonomía técnica inmediata
+    texto: Operar, calibrar y mantener tu flota sin ayuda externa, con nuestro asesoramiento online cuando lo necesites.
+    icono: shield-check
 bloques:
   - id: modulos
-    eyebrow: Programa
-    titulo: Cuatro módulos, de lo esencial a lo avanzado
-    bajada: Se pueden tomar completos o por separado según el nivel del equipo. Duración y modalidad a definir en cada propuesta.
+    eyebrow: Programa por módulos
+    titulo: Podés tomar la capacitación completa o por módulos
     items:
-      - titulo: 'Módulo 1 · Fundamentos'
-        texto: Tecnologías de impresión 3D, partes de la impresora, materiales y flujo de trabajo de modelo a pieza.
-        icono: book
-        meta: Inicial
-      - titulo: 'Módulo 2 · Laminado y materiales'
-        texto: Configuración del laminador, perfiles por material, soportes, orientación y estrategias para piezas funcionales.
-        icono: layers
-        meta: Intermedio
-      - titulo: 'Módulo 3 · Calibración y mantenimiento'
-        texto: Calibración de ejes, extrusión y cama; rutinas de mantenimiento preventivo y registro de intervenciones.
+      - titulo: Módulo 1 · Hardware
+        texto: Calibración profesional, proceso de impresión, usos y costumbres, y mantenimiento preventivo básico.
         icono: settings
-        meta: Intermedio
-      - titulo: 'Módulo 4 · Diagnóstico y reparación'
-        texto: Método de diagnóstico de fallas, reemplazo de componentes, electrónica básica y firmware.
+        meta: 90 min
+      - titulo: Módulo 2 · Software
+        texto: Explicación en profundidad y optimización de parámetros del slicer. Problemas usuales de impresión.
+        icono: cpu
+        meta: 120 min
+      - titulo: Módulo 3 · Reparación
+        texto: Protocolos de mantenimiento preventivo y correctivo. Identificación de fallas de hardware y software.
         icono: wrench
-        meta: Avanzado
-  - id: workshops
-    eyebrow: Workshops
-    titulo: Workshops cortos y temáticos
-    bajada: Encuentros intensivos sobre un tema puntual, ideales para equipos que ya imprimen y quieren mejorar un aspecto específico.
+        meta: 150 min
+      - titulo: Módulo 4 · Materiales técnicos
+        texto: Manipulación y configuración específica de materiales avanzados (ABS, nylon, TPU, PEEK, etc.).
+        icono: layers
+        meta: 90 min
+  - id: beneficios-exclusivos
+    eyebrow: Beneficios exclusivos
+    titulo: Sé más competitivo con una capacitación técnica
     fondo: gris
     items:
-      - titulo: Materiales técnicos
-        texto: Cómo imprimir PETG, TPU, nylon y compuestos sin sorpresas.
+      - titulo: Maximizá tu producción sin inversión extra
+        texto: Con la configuración correcta de parámetros se puede llegar a duplicar la producción en el mismo tiempo, sin sumar máquinas.
         icono: layers
-      - titulo: Piezas funcionales
-        texto: Diseño para impresión 3D, tolerancias, encastres y resistencia.
-        icono: box
-      - titulo: Mantenimiento express
-        texto: La rutina mínima para mantener un parque de impresoras productivo.
-        icono: clock
+      - titulo: Prevención de errores críticos
+        texto: Tu equipo domina el diagnóstico de fallas digitales y reduce el costo por iteración en el prototipado.
+        icono: alert
+      - titulo: Recursos y material de apoyo
+        texto: Guías paso a paso, videos y perfiles de impresión para distintos materiales, más asesoramiento posterior.
+        icono: book
   - id: particulares
-    eyebrow: Particulares
-    titulo: ¿Querés aprender por tu cuenta?
-    bajada: Tenemos opciones para makers y particulares que quieren sacarle más provecho a su impresora o arrancar desde cero.
-    items:
-      - titulo: Clases individuales
-        texto: A tu ritmo, con tu propia impresora o con equipos del taller.
-        icono: users
-      - titulo: Grupos reducidos
-        texto: Cursos cortos con pocos participantes para practicar en serio.
-        icono: calendar
-faq: capacitaciones
+    eyebrow: Particulares y emprendedores
+    titulo: Workshops para hacer crecer tu negocio 3D
+    bajada: Hoy cualquiera compra una impresora; pocos saben sacarle el máximo provecho.
+    lista:
+      - Dominá el software de impresión
+      - Optimizá costos de producción
+      - Mejorá la calidad de impresión
+      - Lográ ser más competitivo
+faq:
+  - capacitaciones
 seo:
-  titulo: Capacitación técnica en impresión 3D — cursos y workshops
-  descripcion: Capacitación técnica en impresión 3D por módulos para empresas, escuelas y particulares. Laminado, materiales, calibración, mantenimiento y diagnóstico de impresoras.
+  titulo: Capacitación técnica en impresión 3D en planta, taller u online
+  descripcion: Capacitá a tu equipo en impresión 3D en sólo 6 horas. Hardware, software, reparación y materiales técnicos. En tu planta, en nuestro taller de CABA u online.
 ---

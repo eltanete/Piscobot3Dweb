@@ -1,8 +1,12 @@
 [
-  { "id": "cliente-1", "nombre": "Cliente 1" },
-  { "id": "cliente-2", "nombre": "Cliente 2" },
-  { "id": "cliente-3", "nombre": "Cliente 3" },
-  { "id": "cliente-4", "nombre": "Cliente 4" },
-  { "id": "cliente-5", "nombre": "Cliente 5" },
-  { "id": "cliente-6", "nombre": "Cliente 6" }
+  { "id": "cliente-01", "nombre": "Cliente 1", "logo": "../assets/images/clientes/cliente-01.png" },
+  { "id": "cliente-02", "nombre": "Cliente 2", "logo": "../assets/images/clientes/cliente-02.png" },
+  { "id": "cliente-03", "nombre": "Cliente 3", "logo": "../assets/images/clientes/cliente-03.png" },
+  { "id": "cliente-04", "nombre": "Cliente 4", "logo": "../assets/images/clientes/cliente-04.png" },
+  { "id": "cliente-05", "nombre": "Cliente 5", "logo": "../assets/images/clientes/cliente-05.png" },
+  { "id": "cliente-06", "nombre": "Cliente 6", "logo": "../assets/images/clientes/cliente-06.png" },
+  { "id": "cliente-07", "nombre": "Cliente 7", "logo": "../assets/images/clientes/cliente-07.png" },
+  { "id": "cliente-08", "nombre": "Cliente 8", "logo": "../assets/images/clientes/cliente-08.png" },
+  { "id": "cliente-09", "nombre": "Cliente 9", "logo": "../assets/images/clientes/cliente-09.png" },
+  { "id": "cliente-10", "nombre": "Cliente 10", "logo": "../assets/images/clientes/cliente-10.png" }
 ]

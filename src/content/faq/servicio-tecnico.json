@@ -2,32 +2,32 @@
   "titulo": "Preguntas frecuentes sobre el servicio técnico",
   "preguntas": [
     {
-      "pregunta": "¿Cómo ingreso mi impresora al taller?",
-      "respuesta": "Coordinás el ingreso por WhatsApp o con el formulario. Podés traer el equipo personalmente o enviarlo por transporte; te indicamos cómo embalarlo para que llegue sin daños. Al recibirlo registramos el estado, los accesorios y la falla que nos contás."
+      "pregunta": "¿Cuáles son los tiempos de entrega?",
+      "respuesta": "• Mantenimiento integral preventivo: 3 a 5 días hábiles.\n• Reparaciones, upgrades y desarrollos: varían según la complejidad y la disponibilidad de repuestos.\n• Servicio prioritario: entrega más rápida, con un 50 % de recargo."
     },
     {
-      "pregunta": "¿Cuánto tarda el diagnóstico?",
-      "respuesta": "Depende de la carga del taller y del tipo de falla. Al ingresar el equipo te damos una fecha estimada y te avisamos cuando el diagnóstico está listo, junto con el presupuesto de reparación."
+      "pregunta": "¿Cómo es el ingreso de equipos?",
+      "respuesta": "Para coordinar el ingreso te hacemos una serie de preguntas para evaluar el caso y darte un presupuesto aproximado. Con ese rango de valores coordinamos día y horario. Todos los ingresos son con cita previa, sin excepción. El traslado es responsabilidad del cliente (podés enviarlo por logística o flete, con costo a tu cargo).\n\nAl ingresar el equipo probamos todos sus sistemas para registrar el estado de ingreso y emitimos un comprobante con lo conversado para el presupuesto formal."
+    },
+    {
+      "pregunta": "¿Cómo es el egreso de equipos?",
+      "respuesta": "Una vez finalizada la reparación, tenés un plazo máximo de retiro dentro de los días hábiles acordados. Pasado ese plazo se aplica un cargo diario por resguardo del equipo."
+    },
+    {
+      "pregunta": "¿Cómo trabajan?",
+      "respuesta": "1. Presupuesto estimado a distancia.\n2. Con el equipo ingresado, cotización formal para tu confirmación.\n3. Te informamos todas las fallas detectadas.\n4. Finalizada la reparación, el equipo pasa por pruebas de funcionamiento.\n5. Te avisamos para coordinar el retiro."
     },
     {
       "pregunta": "¿El diagnóstico tiene costo?",
-      "respuesta": "El diagnóstico implica tiempo de banco y pruebas de impresión. Te informamos el valor antes de ingresar el equipo y, si aprobás la reparación, te explicamos cómo se descuenta. [Completar con la política vigente]"
+      "respuesta": "Si una vez ingresada la máquina decidís no avanzar con la reparación, el diagnóstico y presupuesto técnico tienen un costo según la complejidad de la falla. Cubre la revisión detallada, el desarmado y la detección precisa de los problemas. Si aceptás la reparación, ese costo se desestima."
     },
     {
-      "pregunta": "¿Qué pasa si no apruebo el presupuesto?",
-      "respuesta": "Retirás el equipo en el estado en que ingresó, con el informe de diagnóstico para que sepas qué tiene."
+      "pregunta": "¿Qué pasa si aparecen fallas no previstas?",
+      "respuesta": "A veces, al desmontar el equipo, aparecen fallas adicionales o repuestos en mal estado. En ese caso te comunicamos inmediatamente un presupuesto actualizado. En algunos casos la única forma de garantizar el funcionamiento es reemplazar el componente dañado."
     },
     {
-      "pregunta": "¿Cómo es el egreso del equipo?",
-      "respuesta": "Antes de entregarlo imprimimos una pieza de prueba. Te avisamos que está listo, coordinamos el retiro o el envío y te entregamos el detalle de lo que se hizo."
-    },
-    {
-      "pregunta": "¿Las reparaciones tienen garantía?",
-      "respuesta": "Sí. La garantía cubre el trabajo realizado y los repuestos que colocamos. El plazo y las condiciones están detallados en la página de Condiciones."
-    },
-    {
-      "pregunta": "¿Qué marcas y tecnologías atienden?",
-      "respuesta": "Trabajamos con impresoras FDM y de resina de las marcas más comunes del mercado. Si tu equipo es poco habitual, consultanos por WhatsApp con el modelo y te confirmamos."
+      "pregunta": "¿Qué garantía tienen las reparaciones?",
+      "respuesta": "Cubre la mano de obra realizada y los repuestos colocados (con garantía del proveedor). Duración: 30 días, con opción de extensión al tomar nuestras capacitaciones. Es válida sólo si el equipo no fue intervenido ni modificado por el usuario.\n\nSi surge un inconveniente, primero damos soporte a distancia; si persiste, coordinamos el reingreso (traslado a cargo del cliente). Si es una falla nueva, accedés a un descuento sobre la reparación."
     }
   ]
 }

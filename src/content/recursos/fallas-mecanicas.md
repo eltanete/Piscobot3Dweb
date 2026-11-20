@@ -1,35 +1,40 @@
 ---
-titulo: Fallas mecánicas en impresoras 3D
-descripcion: Desplazamiento de capas, ruidos, ghosting y juego en los ejes. Cómo diagnosticar correas, poleas, rodamientos y guías.
+titulo: Cómo corregir fallos mecánicos en impresoras 3D
+descripcion: Correas flojas, ejes desalineados, piezas desgastadas y falta de lubricación. Causas y soluciones de los fallos mecánicos más comunes.
 categoria: Mecánica
 icono: settings
-fecha: 2026-11-20
-provisorio: true
+fecha: 2025-05-15
+actualizado: 2026-11-20
+wpSlug: fallas-mecanicas
 ---
 
-Una impresora 3D es, ante todo, una máquina de movimiento preciso. Cuando la mecánica pierde ajuste, aparecen defectos que ningún perfil de laminado puede compensar.
+Los fallos mecánicos pueden ser un gran obstáculo para obtener impresiones de calidad. Desde correas flojas hasta ejes desalineados, estos problemas causan piezas defectuosas y paradas inesperadas. Te contamos las causas más comunes y cómo solucionarlas.
+
+## ¿Qué son los fallos mecánicos?
+
+Son problemas en los componentes físicos de la impresora que afectan su funcionamiento: correas, poleas, rodamientos y ejes, cruciales para el movimiento preciso durante la impresión.
 
 ## Síntomas habituales
 
 - **Desplazamiento de capas:** la pieza queda "escalonada" en X o Y.
-- **Ghosting o ringing:** ondas repetidas cerca de esquinas y bordes.
-- **Ruidos nuevos:** chasquidos, rozamientos o vibraciones que antes no estaban.
-- **Medidas incorrectas:** piezas que salen más grandes o más chicas de lo esperado.
+- **Ghosting:** ondas repetidas cerca de esquinas y bordes.
+- **Ruidos nuevos:** chasquidos, rozamientos o vibraciones.
+- **Medidas incorrectas** en las piezas.
 
-## Qué revisar
+## Causas comunes
 
-1. **Correas.** Deben tener tensión pareja: firmes, sin estar tirantes. Una correa floja produce juego; una muy tensa desgasta rodamientos.
-2. **Poleas.** Verificá que los prisioneros estén ajustados sobre la parte plana del eje del motor.
-3. **Ruedas y rodamientos.** Las ruedas excéntricas deben girar con leve resistencia, sin juego. Un rodamiento con ruido o "puntos duros" debe reemplazarse.
-4. **Guías y varillas.** Limpiá y lubricá según el tipo (aceite liviano o grasa específica, nunca WD-40 como lubricante permanente).
-5. **Estructura.** Revisá que el marco esté a escuadra y que los tornillos de la estructura no se hayan aflojado.
+- **Correas flojas:** la impresora pierde pasos y las piezas salen imprecisas o deformadas.
+- **Ejes desalineados:** X, Y y Z deben estar perfectamente alineados para que la boquilla se posicione bien.
+- **Piezas desgastadas:** poleas, rodamientos o la boquilla se desgastan con el uso.
+- **Falta de lubricación:** aumenta la fricción y las vibraciones.
 
-## Desplazamiento de capas: causas frecuentes
+## Soluciones
 
-- Velocidad o aceleración demasiado altas para la mecánica del equipo.
-- Corriente de motores insuficiente o drivers que se recalientan.
-- La boquilla choca con partes levantadas de la pieza (warping, sobre-extrusión).
+- **Ajustar las correas:** tensas, pero no demasiado, para que no pierdan pasos.
+- **Realinear los ejes:** con nivel o calibre, siguiendo las instrucciones del fabricante.
+- **Reemplazar piezas desgastadas:** revisá periódicamente poleas, rodamientos y boquillas.
+- **Lubricar:** aplicá lubricante adecuado en ejes y rodamientos cada cierta cantidad de horas de uso.
 
-## Mantenimiento preventivo
+## ¿Por qué elegir PISCOBOT 3D?
 
-Una revisión mecánica periódica (correas, ruedas, lubricación y ajuste de tornillería) evita la mayoría de estas fallas. La frecuencia depende de las horas de uso del equipo.
+Si los fallos persisten, es momento de recurrir a profesionales. Tenemos más de 10 años reparando y manteniendo impresoras 3D para empresas como UBA y Globant. Conocé el [servicio técnico](/industria/servicio-tecnico) y el [mantenimiento preventivo](/industria/servicio-tecnico#servicios).

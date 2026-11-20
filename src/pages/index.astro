@@ -8,6 +8,7 @@ import Button from '../components/ui/Button.astro';
 import Stat from '../components/ui/Stat.astro';
 import Icon, { type IconName } from '../components/ui/Icon.astro';
 import Bifurcacion from '../components/sections/Bifurcacion.astro';
+import FeatureGrid from '../components/sections/FeatureGrid.astro';
 import ServiceCard from '../components/sections/ServiceCard.astro';
 import CasoCard from '../components/sections/CasoCard.astro';
 import RecursoCard from '../components/sections/RecursoCard.astro';
@@ -96,6 +97,12 @@ const rutaServicio = (s: (typeof servicios)[number]) => `/${s.data.vertical}/${s
         <Stat valor={c.valor} etiqueta={c.etiqueta} />
       ))}
     </dl>
+  </Section>
+
+  <!-- 4b · Dolores del cliente industrial -->
+  <Section>
+    <SectionHeader eyebrow={home.dolores.eyebrow} titulo={home.dolores.titulo} />
+    <FeatureGrid items={home.dolores.items as never} />
   </Section>
 
   <!-- 5 · Autoridad técnica compartida -->

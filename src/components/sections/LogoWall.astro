@@ -5,21 +5,23 @@ import { Image } from 'astro:assets';
 interface Props {
   titulo?: string;
 }
-const { titulo = 'Empresas e instituciones que confían en nosotros' } = Astro.props;
+const { titulo = 'Empresas que confían en nosotros' } = Astro.props;
 const clientes = await getCollection('clientes');
+// Los logos originales son blancos sobre transparente: se oscurecen con brightness-0.
+const alt = (nombre: string) => (/^Cliente \d+$/.test(nombre) ? 'Logo de cliente' : nombre);
 ---
 
 <div>
   <p class="eyebrow mb-8 text-center text-grafito-500">{titulo}</p>
-  <ul class="grid grid-cols-2 items-center gap-4 md:grid-cols-3 xl:grid-cols-6">
+  <ul class="grid grid-cols-2 items-center gap-x-6 gap-y-8 md:grid-cols-5">
     {clientes.map(({ data: c }) => (
-      <li class="flex h-16 items-center justify-center rounded-md border border-dashed border-grafito-300 px-4">
+      <li class="flex h-14 items-center justify-center px-2">
         {c.logo ? (
           <Image
             src={c.logo}
-            alt={c.nombre}
-            height={40}
-            class="max-h-10 w-auto opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0"
+            alt={alt(c.nombre)}
+            height={56}
+            class="max-h-12 w-auto opacity-55 brightness-0 transition-opacity hover:opacity-90"
           />
         ) : (
           <span class="font-mono text-xs text-grafito-400">{c.nombre}</span>

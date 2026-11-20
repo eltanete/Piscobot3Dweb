@@ -3,7 +3,7 @@
   "preguntas": [
     {
       "pregunta": "¿Cuál es la cantidad mínima?",
-      "respuesta": "Depende del objeto. Cada pieza del catálogo indica su mínimo sugerido; para tiradas más chicas consultanos."
+      "respuesta": "Trabajamos sin mínimos de fabricación elevados: desde prototipos hasta producciones de cientos de unidades. Cada objeto del catálogo indica un mínimo sugerido; para tiradas más chicas, consultanos."
     },
     {
       "pregunta": "¿Puedo ver una muestra antes de producir?",
@@ -11,7 +11,11 @@
     },
     {
       "pregunta": "¿Cuánto tarda una producción?",
-      "respuesta": "El plazo depende del objeto y la cantidad. Te lo confirmamos en la cotización, planificando hacia atrás desde la fecha en que lo necesitás."
+      "respuesta": "Depende del objeto y la cantidad. Te lo confirmamos en la cotización, planificando hacia atrás desde la fecha en que lo necesitás. Los pedidos urgentes tienen recargo."
+    },
+    {
+      "pregunta": "¿Tienen descuentos por volumen?",
+      "respuesta": "Sí. Para pedidos de más de 50 unidades aplicamos descuentos progresivos de hasta 25 %."
     },
     {
       "pregunta": "¿Pueden diseñar un objeto que no esté en el catálogo?",
