@@ -1,5 +1,57 @@
 ---
-import PlaceholderPage from '../components/layout/PlaceholderPage.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Container from '../components/ui/Container.astro';
+import Icon from '../components/ui/Icon.astro';
+import QuoteForm from '../components/islands/QuoteForm';
+import { sitio } from '../lib/constants';
+import { whatsappUrl, MENSAJES_WHATSAPP } from '../lib/whatsapp';
+
+const garantias = [
+  { icono: 'clock', texto: 'Presupuesto en menos de 24 horas hábiles' },
+  { icono: 'shield-check', texto: 'Asesoramiento técnico sin costo' },
+  { icono: 'file', texto: 'Firmamos acuerdos de confidencialidad' },
+] as const;
 ---
 
-<PlaceholderPage title="Cotizar" />
+<BaseLayout
+  title="Pedir cotización"
+  description="Cotizá servicio técnico, capacitaciones, impresión 3D, diseño, merchandising o proyectos especiales. Adjuntá tus archivos STL/STEP y recibí un presupuesto en 24 horas."
+  cta={{ label: 'WhatsApp', href: whatsappUrl(MENSAJES_WHATSAPP.general) }}
+>
+  <PageHero
+    eyebrow="Cotización"
+    titulo="Contanos qué necesitás y te respondemos en 24 horas"
+    bajada="Cuatro pasos simples. Podés adjuntar tus archivos STL, STEP, planos o fotos."
+    migas={[{ label: 'Cotizar' }]}
+    compacto
+  />
+  <Container class="grid gap-10 py-12 md:py-16 xl:grid-cols-12">
+    <div class="xl:col-span-8">
+      <QuoteForm client:load />
+    </div>
+    <aside class="space-y-6 xl:col-span-4">
+      <ul class="space-y-4 rounded-lg border border-grafito-200 bg-grafito-50 p-6">
+        {garantias.map((g) => (
+          <li class="flex items-start gap-3">
+            <Icon name={g.icono} size={20} class="mt-0.5 shrink-0 text-azul-600" />
+            <span class="text-sm text-grafito-700">{g.texto}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="rounded-lg bg-grafito-950 p-6 text-grafito-300">
+        <p class="text-lg font-semibold text-white">¿Preferís hablar?</p>
+        <p class="mt-2 text-sm">{sitio.horario}.</p>
+        <a
+          href={whatsappUrl(MENSAJES_WHATSAPP.general)}
+          target="_blank"
+          rel="noopener"
+          class="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-whatsapp-oscuro font-semibold text-white"
+          data-evento="whatsapp_click"
+        >
+          <Icon name="message" size={18} /> WhatsApp {sitio.telefono}
+        </a>
+      </div>
+    </aside>
+  </Container>
+</BaseLayout>

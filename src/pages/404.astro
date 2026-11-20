@@ -1,5 +1,32 @@
 ---
-import PlaceholderPage from '../components/layout/PlaceholderPage.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Button from '../components/ui/Button.astro';
+import { NAV_VERTICALES } from '../lib/nav';
 ---
 
-<PlaceholderPage title="Página no encontrada" />
+<BaseLayout title="Página no encontrada" noindex>
+  <section class="relative isolate overflow-hidden bg-grafito-950 text-white">
+    <div class="fondo-grilla absolute inset-0 -z-10"></div>
+    <Container class="py-24 md:py-32">
+      <p class="font-mono text-sm text-azul-400">Error 404</p>
+      <h1 class="text-display mt-4 text-white">Esta pieza no salió de la impresora</h1>
+      <p class="text-bajada mt-6 max-w-xl text-grafito-300">
+        La página que buscás no existe o cambió de lugar. Probá con alguna de estas secciones:
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <Button href="/" variante="claro">
+          Ir al inicio
+        </Button>
+        {NAV_VERTICALES.map((g) => (
+          <Button href={g.href} variante="secundario">
+            {g.label}
+          </Button>
+        ))}
+        <Button href="/recursos" variante="secundario">
+          Guías técnicas
+        </Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

@@ -1,5 +1,83 @@
 ---
-import PlaceholderPage from '../components/layout/PlaceholderPage.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Container from '../components/ui/Container.astro';
+import Icon, { type IconName } from '../components/ui/Icon.astro';
+import ContactForm from '../components/islands/ContactForm';
+import { sitio } from '../lib/constants';
+import { whatsappUrl, MENSAJES_WHATSAPP } from '../lib/whatsapp';
+
+const datos: { icono: IconName; titulo: string; valor: string; href?: string; nota?: string }[] = [
+  {
+    icono: 'message',
+    titulo: 'WhatsApp',
+    valor: sitio.telefono,
+    href: whatsappUrl(MENSAJES_WHATSAPP.general),
+  },
+  {
+    icono: 'phone',
+    titulo: 'Teléfono',
+    valor: sitio.telefono,
+    href: `tel:${sitio.telefono.replace(/[^\d+]/g, '')}`,
+  },
+  { icono: 'mail', titulo: 'Email', valor: sitio.email, href: `mailto:${sitio.email}` },
+  {
+    icono: 'map-pin',
+    titulo: 'Taller',
+    valor: `${sitio.direccion}, ${sitio.ciudad}`,
+    href: sitio.mapaUrl,
+    nota: sitio.notaVisitas,
+  },
+  { icono: 'clock', titulo: 'Horario', valor: sitio.horario },
+];
 ---
 
-<PlaceholderPage title="Contacto" />
+<BaseLayout
+  title="Contacto"
+  description={`Contactate con PISCOBOT 3D por WhatsApp, teléfono o email. ${sitio.horario}. Taller en Villa Devoto, CABA.`}
+>
+  <PageHero
+    eyebrow="Contacto"
+    titulo="Hablemos de tu proyecto"
+    bajada="Escribinos por el medio que prefieras. Para cotizaciones con archivos, usá el formulario de cotización."
+    migas={[{ label: 'Contacto' }]}
+    compacto
+  >
+    <a
+      href="/cotizar"
+      class="inline-flex h-11 items-center rounded-md bg-azul-600 px-5 font-semibold text-white hover:bg-azul-700"
+    >
+      Pedir cotización
+    </a>
+  </PageHero>
+  <Container class="grid gap-10 py-12 md:py-16 xl:grid-cols-12">
+    <ul class="space-y-3 xl:col-span-5">
+      {datos.map((d) => (
+        <li class="flex items-start gap-4 rounded-lg border border-grafito-200 p-5">
+          <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-md bg-azul-50 text-azul-600">
+            <Icon name={d.icono} size={22} />
+          </span>
+          <div>
+            <p class="eyebrow text-grafito-500">{d.titulo}</p>
+            {d.href ? (
+              <a
+                href={d.href}
+                class="mt-1 block font-medium text-grafito-950 hover:text-azul-600"
+                {...(d.href.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}
+                data-evento={d.icono === 'message' ? 'whatsapp_click' : undefined}
+              >
+                {d.valor}
+              </a>
+            ) : (
+              <p class="mt-1 font-medium text-grafito-950">{d.valor}</p>
+            )}
+            {d.nota && <p class="mt-1 text-sm text-grafito-500">{d.nota}</p>}
+          </div>
+        </li>
+      ))}
+    </ul>
+    <div class="xl:col-span-7">
+      <ContactForm client:visible />
+    </div>
+  </Container>
+</BaseLayout>
