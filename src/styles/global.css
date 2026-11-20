@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+
+/* Tokens provisorios — se definen en detalle en la Fase 2 (sistema de diseño). */
+@theme {
+  --color-grafito: #1a1c21;
+  --color-marca: #0033ff;
+  --color-acento-marcas: #ff6600;
+}

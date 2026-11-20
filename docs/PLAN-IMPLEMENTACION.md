@@ -8,13 +8,13 @@
 
 ## 0. Hallazgos al revisar el entorno (20/11/2026)
 
-| Item | Estado | Impacto |
-| --- | --- | --- |
-| Carpeta `WEBPISCOBOT3D2026` | Vacía | Arrancamos de cero |
-| **Node.js / npm** | **No instalado** | Bloquea la Fase 1. Hay que instalar Node LTS |
-| **Git** | **No instalado** | Bloquea el versionado y la subida a GitHub |
-| Backup `piscobot3d-backup-2026-11-20.zip` | No está en `C:\CLAUDE` | Bloquea la Fase 3 (migración de contenido) |
-| Plan de Hostinger | Sin confirmar | Define el modo de deploy (Node vs. estático + PHP) |
+| Item                                      | Estado                 | Impacto                                            |
+| ----------------------------------------- | ---------------------- | -------------------------------------------------- |
+| Carpeta `WEBPISCOBOT3D2026`               | Vacía                  | Arrancamos de cero                                 |
+| **Node.js / npm**                         | **No instalado**       | Bloquea la Fase 1. Hay que instalar Node LTS       |
+| **Git**                                   | **No instalado**       | Bloquea el versionado y la subida a GitHub         |
+| Backup `piscobot3d-backup-2026-11-20.zip` | No está en `C:\CLAUDE` | Bloquea la Fase 3 (migración de contenido)         |
+| Plan de Hostinger                         | Sin confirmar          | Define el modo de deploy (Node vs. estático + PHP) |
 
 ---
 
@@ -33,17 +33,17 @@ En lugar de dos apps separadas (front y API), usamos **un único proyecto Astro*
 
 ### 1.2 Decisiones técnicas que tomo (salvo que indiques lo contrario)
 
-| Tema | Decisión | Motivo |
-| --- | --- | --- |
-| Gestor de paquetes | **npm** | Viene con Node, es lo que Hostinger usa por defecto en su build |
-| Islas interactivas | **React** (no Preact) | Keystatic exige React; evitamos tener dos frameworks |
-| Tailwind | v4 vía `@tailwindcss/vite`, tokens en CSS (`@theme`) | Config mínima, tokens en un solo lugar |
-| Validación | `zod` compartido entre front y back | Mismas reglas en el formulario y en el endpoint |
-| Email | `nodemailer` + SMTP de Hostinger (Resend como alternativa) | Sin costo extra |
-| Adjuntos | Hasta 20 MB por archivo, adjuntos al email; para más, campo "link de descarga" (Drive/WeTransfer) | Evita guardar archivos de clientes en el servidor |
-| Tipografías | Self-hosted con `@fontsource` (Inter + JetBrains Mono, a validar en Fase 2) | Sin dependencia de Google Fonts, mejor LCP |
-| Calidad de código | ESLint + Prettier + `astro check` + Vitest (back) + Playwright (E2E formularios) | Red de seguridad antes de cada deploy |
-| CI | GitHub Actions: lint + typecheck + test + build en cada PR | Nada roto llega a `main` |
+| Tema               | Decisión                                                                                          | Motivo                                                          |
+| ------------------ | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Gestor de paquetes | **npm**                                                                                           | Viene con Node, es lo que Hostinger usa por defecto en su build |
+| Islas interactivas | **React** (no Preact)                                                                             | Keystatic exige React; evitamos tener dos frameworks            |
+| Tailwind           | v4 vía `@tailwindcss/vite`, tokens en CSS (`@theme`)                                              | Config mínima, tokens en un solo lugar                          |
+| Validación         | `zod` compartido entre front y back                                                               | Mismas reglas en el formulario y en el endpoint                 |
+| Email              | `nodemailer` + SMTP de Hostinger (Resend como alternativa)                                        | Sin costo extra                                                 |
+| Adjuntos           | Hasta 20 MB por archivo, adjuntos al email; para más, campo "link de descarga" (Drive/WeTransfer) | Evita guardar archivos de clientes en el servidor               |
+| Tipografías        | Self-hosted con `@fontsource` (Inter + JetBrains Mono, a validar en Fase 2)                       | Sin dependencia de Google Fonts, mejor LCP                      |
+| Calidad de código  | ESLint + Prettier + `astro check` + Vitest (back) + Playwright (E2E formularios)                  | Red de seguridad antes de cada deploy                           |
+| CI                 | GitHub Actions: lint + typecheck + test + build en cada PR                                        | Nada roto llega a `main`                                        |
 
 ### 1.3 Estructura de carpetas objetivo
 
@@ -85,13 +85,13 @@ WEBPISCOBOT3D2026/
 
 ### 1.4 Mapa de URLs (sitemap del plan)
 
-| Grupo | Rutas |
-| --- | --- |
-| Home | `/` |
+| Grupo               | Rutas                                                                                                                             |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Home                | `/`                                                                                                                               |
 | Industria y Técnica | `/industria`, `/industria/servicio-tecnico`, `/industria/capacitaciones`, `/industria/impresion-y-desarrollo` (incluye `#diseno`) |
-| Marcas y Agencias | `/marcas`, `/marcas/merchandising`, `/marcas/proyectos-especiales` |
-| Comunes | `/casos` (+ detalle), `/recursos` (+ 6 guías), `/nosotros`, `/condiciones`, `/contacto`, `/cotizar` |
-| Sistema | `/404`, `/sitemap-index.xml`, `/robots.txt`, `/keystatic` (protegido) |
+| Marcas y Agencias   | `/marcas`, `/marcas/merchandising`, `/marcas/proyectos-especiales`                                                                |
+| Comunes             | `/casos` (+ detalle), `/recursos` (+ 6 guías), `/nosotros`, `/condiciones`, `/contacto`, `/cotizar`                               |
+| Sistema             | `/404`, `/sitemap-index.xml`, `/robots.txt`, `/keystatic` (protegido)                                                             |
 
 ---
 
@@ -101,7 +101,7 @@ Cada fase termina con **entregable revisable + commit/PR** y tiene un criterio d
 
 ---
 
-### Fase 0 — Preparación del entorno *(½ día · la hacés vos con mi guía)*
+### Fase 0 — Preparación del entorno _(½ día · la hacés vos con mi guía)_
 
 **Objetivo:** que la máquina y las cuentas estén listas.
 
@@ -115,7 +115,7 @@ Cada fase termina con **entregable revisable + commit/PR** y tiene un criterio d
 
 ---
 
-### Fase 1 — Scaffold del proyecto *(1 día)*
+### Fase 1 — Scaffold del proyecto _(1 día)_
 
 **Objetivo:** esqueleto funcionando en `localhost` con todo el tooling.
 
@@ -123,7 +123,7 @@ Cada fase termina con **entregable revisable + commit/PR** y tiene un criterio d
 - [ ] Integraciones: `@astrojs/node` (modo standalone), `@astrojs/react`, `@astrojs/sitemap`, Tailwind v4, `@astrojs/mdx`.
 - [ ] ESLint + Prettier (con plugin Astro y Tailwind), `.editorconfig`, `.nvmrc`.
 - [ ] Estructura de carpetas de §1.3 con archivos placeholder.
-- [ ] `.env.example` (SMTP_*, TURNSTILE_*, WHATSAPP_NUMBER, SITE_URL, GA_ID, KEYSTATIC_*), `.gitignore` (incluye `.env`, `dist/`, `node_modules/`, backups).
+- [ ] `.env.example` (SMTP__, TURNSTILE__, WHATSAPP_NUMBER, SITE_URL, GA_ID, KEYSTATIC_*), `.gitignore` (incluye `.env`, `dist/`, `node_modules/`, backups).
 - [ ] `README.md` (cómo correr, variables, deploy) y `CLAUDE.md` (convenciones para futuras sesiones).
 - [ ] GitHub Actions `ci.yml`: install → lint → `astro check` → test → build.
 - [ ] `git init`, primer commit, push a GitHub.
@@ -132,11 +132,11 @@ Cada fase termina con **entregable revisable + commit/PR** y tiene un criterio d
 
 ---
 
-### Fase 2 — Sistema de diseño *(3–4 días)*
+### Fase 2 — Sistema de diseño _(3–4 días)_
 
 **Objetivo:** tokens y componentes base, visibles en una página `/styleguide` (sólo en desarrollo).
 
-- [ ] **Tokens** en `global.css` (`@theme`): grafito `#1A1C21`, blanco, azul marca `#0033FF`, naranja `#FF6600` (acento Marcas, *a validar*), neutros, estados; escala de espaciado 8 px; radios; sombras; breakpoints 375 / 768 / 1280 / 1440.
+- [ ] **Tokens** en `global.css` (`@theme`): grafito `#1A1C21`, blanco, azul marca `#0033FF`, naranja `#FF6600` (acento Marcas, _a validar_), neutros, estados; escala de espaciado 8 px; radios; sombras; breakpoints 375 / 768 / 1280 / 1440.
 - [ ] Tipografía: 1 sans de interfaz + 1 mono para datos técnicos; escala tipográfica fluida (`clamp`).
 - [ ] Tema por vertical: atributo `data-vertical="industria|marcas"` que cambia el color de acento.
 - [ ] Componentes `ui/`: Button (primario/secundario/WhatsApp), Link, Container, Section, Grid, Card, Badge, Accordion (accesible, `<details>`), Tabs, Input/Select/Textarea/FileInput, Stat (contador), Icon.
@@ -149,7 +149,7 @@ Cada fase termina con **entregable revisable + commit/PR** y tiene un criterio d
 
 ---
 
-### Fase 3 — Modelo de contenido y migración *(3–4 días, en paralelo con Fase 2)*
+### Fase 3 — Modelo de contenido y migración _(3–4 días, en paralelo con Fase 2)_
 
 **Objetivo:** todo el contenido como datos tipados, fuera de los componentes.
 
@@ -169,7 +169,7 @@ Cada fase termina con **entregable revisable + commit/PR** y tiene un criterio d
 
 ---
 
-### Fase 4 — Páginas *(7–10 días)*
+### Fase 4 — Páginas _(7–10 días)_
 
 **Objetivo:** todas las rutas del sitemap construidas con componentes y contenido real.
 
@@ -189,7 +189,7 @@ Reglas aplicadas en cada página: qué / para quién / próximo paso en el prime
 
 ---
 
-### Fase 5 — Backend: formularios y cotización *(4–5 días)*
+### Fase 5 — Backend: formularios y cotización _(4–5 días)_
 
 **Objetivo:** convertir visitas en leads clasificados.
 
@@ -207,7 +207,7 @@ Reglas aplicadas en cada página: qué / para quién / próximo paso en el prime
 
 ---
 
-### Fase 6 — CMS Keystatic *(2–3 días)*
+### Fase 6 — CMS Keystatic _(2–3 días)_
 
 **Objetivo:** que el equipo edite textos, casos, merch y guías sin tocar código.
 
@@ -215,13 +215,13 @@ Reglas aplicadas en cada página: qué / para quién / próximo paso en el prime
 - [ ] Modo **local** para desarrollo (edita los archivos del repo directamente).
 - [ ] Modo **GitHub** para producción: el panel en `/keystatic` hace commits al repo → Hostinger redeploya solo. Requiere crear una GitHub App (te guío) y variables `KEYSTATIC_*`.
 - [ ] `docs/guia-editor.md`: cómo entrar, editar, subir imágenes y publicar.
-- [ ] *Si no hay Node en producción:* el panel queda sólo en modo local (edita quien corra el proyecto) — se documenta la limitación.
+- [ ] _Si no hay Node en producción:_ el panel queda sólo en modo local (edita quien corra el proyecto) — se documenta la limitación.
 
 **Terminado cuando:** un cambio hecho desde el panel aparece en el sitio tras el redeploy.
 
 ---
 
-### Fase 7 — SEO, analítica y redirecciones *(2–3 días)*
+### Fase 7 — SEO, analítica y redirecciones _(2–3 días)_
 
 - [ ] `BaseLayout`: title/description por página (conservando las keywords que hoy posicionan), canonical, Open Graph y Twitter cards.
 - [ ] **Imágenes OG** por página (generadas en build con plantilla de marca).
@@ -235,7 +235,7 @@ Reglas aplicadas en cada página: qué / para quién / próximo paso en el prime
 
 ---
 
-### Fase 8 — QA *(3–4 días)*
+### Fase 8 — QA _(3–4 días)_
 
 - [ ] Lighthouse mobile ≥ 95 en Home, una página por vertical y una guía; LCP < 2,0 s.
 - [ ] Accesibilidad AA: axe sin errores, navegación por teclado, foco visible, alt en imágenes, contraste.
@@ -248,10 +248,10 @@ Reglas aplicadas en cada página: qué / para quién / próximo paso en el prime
 
 ---
 
-### Fase 9 — Deploy y lanzamiento *(2–3 días)*
+### Fase 9 — Deploy y lanzamiento _(2–3 días)_
 
 - [ ] **Hostinger (Node, Business/Cloud):** crear app Node.js conectada al repo de GitHub, build `npm run build`, start `node ./dist/server/entry.mjs`, variables de entorno cargadas en el panel.
-  *(Plan B Premium: build estático + subida de `dist/` y los PHP.)*
+      _(Plan B Premium: build estático + subida de `dist/` y los PHP.)_
 - [ ] Publicar en **subdominio de prueba** (p. ej. `nuevo.piscobot3d.com`) con `noindex`.
 - [ ] Pruebas finales en el subdominio (formularios con SMTP real, redirecciones).
 - [ ] **Cambio de dominio**: apuntar DNS, verificar HTTPS, quitar `noindex`.
@@ -262,7 +262,7 @@ Reglas aplicadas en cada página: qué / para quién / próximo paso en el prime
 
 ---
 
-### Fase 10 — Post-lanzamiento *(semanas 9–12)*
+### Fase 10 — Post-lanzamiento _(semanas 9–12)_
 
 - [ ] Revisar conversiones por vertical en GA4 y ajustar CTAs.
 - [ ] Publicar nuevas guías y casos desde Keystatic.
@@ -272,16 +272,16 @@ Reglas aplicadas en cada página: qué / para quién / próximo paso en el prime
 
 ## 3. Cronograma resumido
 
-| Semana | Fases |
-| --- | --- |
-| 1 | F0 Entorno · F1 Scaffold |
-| 2–3 | F2 Diseño · F3 Contenido (en paralelo) |
-| 4–5 | F4 Páginas |
-| 6 | F5 Backend · F6 Keystatic |
-| 7 | F7 SEO/analítica · ajustes de contenido final |
-| 8 | F8 QA |
-| 9 | F9 Deploy y lanzamiento |
-| 10–12 | F10 Post-lanzamiento |
+| Semana | Fases                                         |
+| ------ | --------------------------------------------- |
+| 1      | F0 Entorno · F1 Scaffold                      |
+| 2–3    | F2 Diseño · F3 Contenido (en paralelo)        |
+| 4–5    | F4 Páginas                                    |
+| 6      | F5 Backend · F6 Keystatic                     |
+| 7      | F7 SEO/analítica · ajustes de contenido final |
+| 8      | F8 QA                                         |
+| 9      | F9 Deploy y lanzamiento                       |
+| 10–12  | F10 Post-lanzamiento                          |
 
 Coincide con las 8–10 semanas del plan original. El cuello de botella real es el **contenido nuevo** (textos finales, fotos, catálogo de merch, modelos GLB), que no depende del desarrollo.
 
@@ -290,28 +290,22 @@ Coincide con las 8–10 semanas del plan original. El cuello de botella real es 
 ## 4. Qué necesito de vos antes de arrancar
 
 **Para la Fase 0–1 (bloqueante):**
+
 1. Instalar Node.js LTS y Git (o autorizarme a guiarte paso a paso).
 2. Nombre del repo en GitHub y si será privado.
 3. Ubicación del backup `.zip`.
 
-**Para Fases 2–9 (se puede avanzar con supuestos):**
-4. Plan de Hostinger → define Node vs. estático + PHP.
-5. ¿Naranja como acento de Marcas? (asumo **sí**).
-6. ¿Se muestra la venta de insumos? (asumo **no** en el menú, mención en Nosotros).
-7. ¿Precios de referencia de capacitaciones? (asumo **sí**, como hoy).
-8. Listado de 6–12 objetos base de merch y modelo de precio.
-9. Quién edita el contenido y cuenta de email para recibir cotizaciones.
-10. Fotos propias y logos de clientes con permiso.
+**Para Fases 2–9 (se puede avanzar con supuestos):** 4. Plan de Hostinger → define Node vs. estático + PHP. 5. ¿Naranja como acento de Marcas? (asumo **sí**). 6. ¿Se muestra la venta de insumos? (asumo **no** en el menú, mención en Nosotros). 7. ¿Precios de referencia de capacitaciones? (asumo **sí**, como hoy). 8. Listado de 6–12 objetos base de merch y modelo de precio. 9. Quién edita el contenido y cuenta de email para recibir cotizaciones. 10. Fotos propias y logos de clientes con permiso.
 
 ---
 
 ## 5. Riesgos y mitigaciones
 
-| Riesgo | Mitigación |
-| --- | --- |
-| Hostinger sin Node | Arquitectura estática-primero + endpoints PHP equivalentes (Plan B listo desde Fase 5) |
-| Contenido final se demora | Migramos los textos actuales como base; el sitio puede lanzarse con ellos y mejorarse desde Keystatic |
-| Pérdida de SEO al migrar | Redirecciones 301 completas, mismos keywords en títulos, monitoreo en Search Console |
-| Adjuntos muy pesados por email | Límite de 20 MB + campo de link externo |
-| Spam en formularios | Turnstile + honeypot + rate limit |
-| Keystatic en GitHub mode requiere configuración | Se documenta paso a paso; fallback a modo local |
+| Riesgo                                          | Mitigación                                                                                            |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Hostinger sin Node                              | Arquitectura estática-primero + endpoints PHP equivalentes (Plan B listo desde Fase 5)                |
+| Contenido final se demora                       | Migramos los textos actuales como base; el sitio puede lanzarse con ellos y mejorarse desde Keystatic |
+| Pérdida de SEO al migrar                        | Redirecciones 301 completas, mismos keywords en títulos, monitoreo en Search Console                  |
+| Adjuntos muy pesados por email                  | Límite de 20 MB + campo de link externo                                                               |
+| Spam en formularios                             | Turnstile + honeypot + rate limit                                                                     |
+| Keystatic en GitHub mode requiere configuración | Se documenta paso a paso; fallback a modo local                                                       |
