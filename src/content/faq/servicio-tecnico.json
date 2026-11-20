@@ -1,0 +1,33 @@
+{
+  "titulo": "Preguntas frecuentes sobre el servicio técnico",
+  "preguntas": [
+    {
+      "pregunta": "¿Cómo ingreso mi impresora al taller?",
+      "respuesta": "Coordinás el ingreso por WhatsApp o con el formulario. Podés traer el equipo personalmente o enviarlo por transporte; te indicamos cómo embalarlo para que llegue sin daños. Al recibirlo registramos el estado, los accesorios y la falla que nos contás."
+    },
+    {
+      "pregunta": "¿Cuánto tarda el diagnóstico?",
+      "respuesta": "Depende de la carga del taller y del tipo de falla. Al ingresar el equipo te damos una fecha estimada y te avisamos cuando el diagnóstico está listo, junto con el presupuesto de reparación."
+    },
+    {
+      "pregunta": "¿El diagnóstico tiene costo?",
+      "respuesta": "El diagnóstico implica tiempo de banco y pruebas de impresión. Te informamos el valor antes de ingresar el equipo y, si aprobás la reparación, te explicamos cómo se descuenta. [Completar con la política vigente]"
+    },
+    {
+      "pregunta": "¿Qué pasa si no apruebo el presupuesto?",
+      "respuesta": "Retirás el equipo en el estado en que ingresó, con el informe de diagnóstico para que sepas qué tiene."
+    },
+    {
+      "pregunta": "¿Cómo es el egreso del equipo?",
+      "respuesta": "Antes de entregarlo imprimimos una pieza de prueba. Te avisamos que está listo, coordinamos el retiro o el envío y te entregamos el detalle de lo que se hizo."
+    },
+    {
+      "pregunta": "¿Las reparaciones tienen garantía?",
+      "respuesta": "Sí. La garantía cubre el trabajo realizado y los repuestos que colocamos. El plazo y las condiciones están detallados en la página de Condiciones."
+    },
+    {
+      "pregunta": "¿Qué marcas y tecnologías atienden?",
+      "respuesta": "Trabajamos con impresoras FDM y de resina de las marcas más comunes del mercado. Si tu equipo es poco habitual, consultanos por WhatsApp con el modelo y te confirmamos."
+    }
+  ]
+}

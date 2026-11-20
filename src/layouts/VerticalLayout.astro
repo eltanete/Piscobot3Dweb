@@ -1,0 +1,138 @@
+---
+// Landing de cada vertical (/industria, /marcas).
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Button from '../components/ui/Button.astro';
+import ServiceCard from '../components/sections/ServiceCard.astro';
+import FeatureGrid from '../components/sections/FeatureGrid.astro';
+import CasoCard from '../components/sections/CasoCard.astro';
+import RecursoCard from '../components/sections/RecursoCard.astro';
+import Testimonios from '../components/sections/Testimonios.astro';
+import QueNecesitas from '../components/sections/QueNecesitas.astro';
+import { VERTICALES, type Vertical } from '../lib/constants';
+import { whatsappUrl } from '../lib/whatsapp';
+import type { IconName } from '../components/ui/Icon.astro';
+
+interface Props {
+  vertical: Vertical;
+  hero: { eyebrow: string; titulo: string; bajada: string };
+  seo: { titulo: string; descripcion: string };
+  cta: { label: string; tipo: string };
+  whatsapp: string;
+  paraQuien: { titulo: string; texto: string; icono: IconName }[];
+  tipos: string[];
+}
+
+const { vertical, hero, seo, cta, whatsapp, paraQuien, tipos } = Astro.props;
+const v = VERTICALES[vertical];
+
+const servicios = (await getCollection('servicios', (s) => s.data.vertical === vertical)).sort(
+  (a, b) => a.data.orden - b.data.orden,
+);
+const casos = (await getCollection('casos', (c) => c.data.vertical === vertical))
+  .sort((a, b) => a.data.orden - b.data.orden)
+  .slice(0, 3);
+const testimonios = await getCollection('testimonios', (t) => t.data.vertical === vertical);
+const recursos = vertical === 'industria' ? (await getCollection('recursos')).slice(0, 3) : [];
+---
+
+<BaseLayout
+  title={seo.titulo}
+  description={seo.descripcion}
+  vertical={vertical}
+  cta={{ label: cta.label, href: `/cotizar?tipo=${cta.tipo}` }}
+  mensajeWhatsapp={whatsapp}
+>
+  <PageHero
+    eyebrow={hero.eyebrow}
+    titulo={hero.titulo}
+    bajada={hero.bajada}
+    migas={[{ label: v.nombre }]}
+  >
+    <Button
+      href={`/cotizar?tipo=${cta.tipo}`}
+      tamano="lg"
+      iconoFinal="arrow-right"
+      evento="cta_vertical"
+    >
+      {cta.label}
+    </Button>
+    <Button
+      href={whatsappUrl(whatsapp)}
+      variante="whatsapp"
+      tamano="lg"
+      icono="message"
+      evento="whatsapp_click"
+    >
+      WhatsApp
+    </Button>
+  </PageHero>
+
+  <Section>
+    <SectionHeader
+      eyebrow="Servicios"
+      titulo={`Qué hacemos para ${vertical === 'industria' ? 'tu industria' : 'tu marca'}`}
+    />
+    <ul class:list={['grid gap-6', servicios.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2']}>
+      {servicios.map((s) => (
+        <li>
+          <ServiceCard
+            titulo={s.data.titulo}
+            resumen={s.data.resumen}
+            href={`/${vertical}/${s.id}`}
+            icono={s.data.icono}
+            vertical={vertical}
+          />
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section fondo="gris">
+    <SectionHeader eyebrow="Para quién" titulo="Con quién trabajamos" />
+    <FeatureGrid items={paraQuien} columnas={paraQuien.length === 4 ? 4 : 3} variante="simple" />
+  </Section>
+
+  {casos.length > 0 && (
+    <Section>
+      <SectionHeader eyebrow="Casos" titulo="Trabajos reales" />
+      <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {casos.map((c) => (
+          <li>
+            <CasoCard caso={c} />
+          </li>
+        ))}
+      </ul>
+      <div class="mt-8">
+        <Button href={`/casos?vertical=${vertical}`} variante="secundario" iconoFinal="arrow-right">
+          Ver todos los casos
+        </Button>
+      </div>
+    </Section>
+  )}
+
+  {testimonios.length > 0 && (
+    <Section fondo="gris">
+      <SectionHeader eyebrow="Testimonios" titulo="Lo que dicen nuestros clientes" />
+      <Testimonios testimonios={testimonios} />
+    </Section>
+  )}
+
+  {recursos.length > 0 && (
+    <Section>
+      <SectionHeader eyebrow="Recursos" titulo="Guías técnicas gratuitas" />
+      <ul class="grid gap-6 md:grid-cols-3">
+        {recursos.map((r) => (
+          <li>
+            <RecursoCard recurso={r} />
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )}
+
+  <QueNecesitas soloTipos={tipos} />
+</BaseLayout>

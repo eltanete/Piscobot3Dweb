@@ -1,0 +1,48 @@
+---
+import JsonLd from '../seo/JsonLd.astro';
+
+interface Miga {
+  label: string;
+  href?: string;
+}
+interface Props {
+  items: Miga[];
+  oscuro?: boolean;
+}
+const { items, oscuro = false } = Astro.props;
+const todas: Miga[] = [{ label: 'Inicio', href: '/' }, ...items];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: todas.map((m, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: m.label,
+    ...(m.href ? { item: new URL(m.href, Astro.site).href } : {}),
+  })),
+};
+---
+
+<nav aria-label="Migas de pan" class="mb-6">
+  <ol
+    class:list={[
+      'flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs',
+      oscuro ? 'text-grafito-400' : 'text-grafito-500',
+    ]}
+  >
+    {todas.map((m, i) => (
+      <li class="flex items-center gap-2">
+        {i > 0 && <span aria-hidden="true">/</span>}
+        {m.href && i < todas.length - 1 ? (
+          <a href={m.href} class="hover:underline">
+            {m.label}
+          </a>
+        ) : (
+          <span aria-current={i === todas.length - 1 ? 'page' : undefined}>{m.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+<JsonLd data={schema} />

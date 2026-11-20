@@ -1,0 +1,107 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import Container from '../../components/ui/Container.astro';
+import Button from '../../components/ui/Button.astro';
+import Badge from '../../components/ui/Badge.astro';
+import ModelViewer from '../../components/islands/ModelViewer.astro';
+import QueNecesitas from '../../components/sections/QueNecesitas.astro';
+import { VERTICALES } from '../../lib/constants';
+
+export async function getStaticPaths() {
+  const casos = await getCollection('casos');
+  return casos.map((caso) => ({ params: { slug: caso.id }, props: { caso } }));
+}
+
+const { caso } = Astro.props;
+const d = caso.data;
+const { Content } = await render(caso);
+const servicio = await getEntry('servicios', d.servicio);
+const v = VERTICALES[d.vertical];
+const tipo = servicio?.data.cta.tipo ?? 'impresion';
+---
+
+<BaseLayout
+  title={d.titulo}
+  description={d.resumen}
+  vertical={d.vertical}
+  ogType="article"
+  cta={{ label: 'Quiero algo así', href: `/cotizar?tipo=${tipo}` }}
+>
+  <PageHero
+    eyebrow={`Caso · ${servicio?.data.titulo ?? ''}`}
+    titulo={d.titulo}
+    bajada={d.resumen}
+    migas={[{ label: 'Casos', href: '/casos' }, { label: d.titulo }]}
+    pruebas={d.metricas}
+    compacto
+  />
+
+  <Container class="grid gap-12 py-16 md:py-20 xl:grid-cols-12">
+    <aside class="xl:order-2 xl:col-span-4">
+      <dl class="space-y-4 rounded-lg border border-grafito-200 bg-grafito-50 p-6 text-sm xl:sticky xl:top-24">
+        <div>
+          <dt class="eyebrow text-grafito-500">Vertical</dt>
+          <dd class="mt-1">
+            <Badge tono={d.vertical}>{v.nombre}</Badge>
+          </dd>
+        </div>
+        {d.cliente && (
+          <div>
+            <dt class="eyebrow text-grafito-500">Cliente</dt>
+            <dd class="mt-1 font-medium">{d.cliente}</dd>
+          </div>
+        )}
+        <div>
+          <dt class="eyebrow text-grafito-500">Material</dt>
+          <dd class="mt-1 font-mono">{d.material}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow text-grafito-500">Aplicación</dt>
+          <dd class="mt-1">{d.aplicacion}</dd>
+        </div>
+        {servicio && (
+          <div>
+            <dt class="eyebrow text-grafito-500">Servicio</dt>
+            <dd class="mt-1">
+              <a
+                href={`/${servicio.data.vertical}/${servicio.id}`}
+                class="font-medium text-acento-texto underline"
+              >
+                {servicio.data.titulo}
+              </a>
+            </dd>
+          </div>
+        )}
+        <div class="pt-2">
+          <Button href={`/cotizar?tipo=${tipo}`} bloque iconoFinal="arrow-right" evento="cta_caso">
+            Quiero algo así
+          </Button>
+        </div>
+      </dl>
+    </aside>
+
+    <div class="xl:col-span-8">
+      {d.modelo3d ? (
+        <div class="mb-10">
+          <ModelViewer src={d.modelo3d} alt={`Modelo 3D: ${d.titulo}`} />
+        </div>
+      ) : d.imagen ? (
+        <Image
+          src={d.imagen}
+          alt={d.imagenAlt ?? d.titulo}
+          widths={[600, 1000, 1400]}
+          sizes="(min-width: 1280px) 800px, 100vw"
+          class="mb-10 w-full rounded-lg"
+        />
+      ) : null}
+      <article class="prose-piscobot">
+        <Content />
+      </article>
+    </div>
+  </Container>
+
+  <QueNecesitas />
+</BaseLayout>

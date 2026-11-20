@@ -1,0 +1,21 @@
+{
+  "titulo": "Preguntas frecuentes sobre merchandising",
+  "preguntas": [
+    {
+      "pregunta": "¿Cuál es la cantidad mínima?",
+      "respuesta": "Depende del objeto. Cada pieza del catálogo indica su mínimo sugerido; para tiradas más chicas consultanos."
+    },
+    {
+      "pregunta": "¿Puedo ver una muestra antes de producir?",
+      "respuesta": "Sí. Antes de la producción imprimimos una muestra física para validar color, tamaño y terminación."
+    },
+    {
+      "pregunta": "¿Cuánto tarda una producción?",
+      "respuesta": "El plazo depende del objeto y la cantidad. Te lo confirmamos en la cotización, planificando hacia atrás desde la fecha en que lo necesitás."
+    },
+    {
+      "pregunta": "¿Pueden diseñar un objeto que no esté en el catálogo?",
+      "respuesta": "Sí, es lo que hacemos en Proyectos especiales: diseñamos piezas únicas a partir de tu idea o de la campaña."
+    }
+  ]
+}

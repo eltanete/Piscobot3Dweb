@@ -1,5 +1,8 @@
 ---
-import PlaceholderPage from '../components/layout/PlaceholderPage.astro';
+import PaginaLayout from '../layouts/PaginaLayout.astro';
+import QueNecesitas from '../components/sections/QueNecesitas.astro';
 ---
 
-<PlaceholderPage title="Nosotros" />
+<PaginaLayout slug="nosotros">
+  <QueNecesitas slot="despues" />
+</PaginaLayout>

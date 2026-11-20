@@ -1,5 +1,36 @@
 ---
-import PlaceholderPage from '../../components/layout/PlaceholderPage.astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import Section from '../../components/ui/Section.astro';
+import RecursoCard from '../../components/sections/RecursoCard.astro';
+import QueNecesitas from '../../components/sections/QueNecesitas.astro';
+
+const recursos = (await getCollection('recursos')).sort((a, b) =>
+  a.data.titulo.localeCompare(b.data.titulo, 'es'),
+);
 ---
 
-<PlaceholderPage title="Recursos" />
+<BaseLayout
+  title="Recursos: guías técnicas de impresión 3D"
+  description="Guías técnicas para diagnosticar y resolver fallas de impresoras 3D: extrusión, mecánica, adhesión, electrónica, problemas térmicos y fallas recurrentes."
+  vertical="industria"
+>
+  <PageHero
+    eyebrow="Recursos"
+    titulo="Guías técnicas para resolver fallas de impresoras 3D"
+    bajada="Lo que aprendemos reparando impresoras todos los días, ordenado por tipo de falla."
+    migas={[{ label: 'Recursos' }]}
+    compacto
+  />
+  <Section>
+    <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {recursos.map((r) => (
+        <li>
+          <RecursoCard recurso={r} />
+        </li>
+      ))}
+    </ul>
+  </Section>
+  <QueNecesitas soloTipos={['servicio-tecnico', 'capacitaciones', 'impresion']} />
+</BaseLayout>

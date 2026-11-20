@@ -1,0 +1,35 @@
+---
+import Container from './Container.astro';
+
+interface Props {
+  id?: string;
+  fondo?: 'blanco' | 'gris' | 'oscuro' | 'acento';
+  ancho?: 'normal' | 'angosto' | 'ancho';
+  espaciado?: 'normal' | 'compacto';
+  class?: string;
+  'aria-labelledby'?: string;
+}
+
+const {
+  id,
+  fondo = 'blanco',
+  ancho = 'normal',
+  espaciado = 'normal',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const fondos = {
+  blanco: 'bg-white',
+  gris: 'bg-grafito-50',
+  oscuro: 'bg-grafito-950 text-grafito-200 [&_h2]:text-white [&_h3]:text-white',
+  acento: 'bg-acento-suave',
+};
+const espacios = { normal: 'py-16 md:py-24', compacto: 'py-10 md:py-14' };
+---
+
+<section id={id} class:list={[fondos[fondo], espacios[espaciado], className]} {...rest}>
+  <Container ancho={ancho}>
+    <slot />
+  </Container>
+</section>

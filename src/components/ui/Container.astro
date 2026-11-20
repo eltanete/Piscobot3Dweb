@@ -1,0 +1,12 @@
+---
+interface Props {
+  ancho?: 'normal' | 'angosto' | 'ancho';
+  class?: string;
+}
+const { ancho = 'normal', class: className } = Astro.props;
+const anchos = { angosto: 'max-w-3xl', normal: 'max-w-7xl', ancho: 'max-w-[90rem]' };
+---
+
+<div class:list={['mx-auto w-full px-4 md:px-8', anchos[ancho], className]}>
+  <slot />
+</div>

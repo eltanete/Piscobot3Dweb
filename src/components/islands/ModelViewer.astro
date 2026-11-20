@@ -1,0 +1,43 @@
+---
+// Visor 3D con <model-viewer>. El script se carga recién cuando el visor entra en pantalla.
+interface Props {
+  src: string;
+  alt: string;
+  poster?: string;
+}
+const { src, alt, poster } = Astro.props;
+---
+
+<div class="relative aspect-square w-full overflow-hidden rounded-lg border border-grafito-200 bg-grafito-50 md:aspect-[4/3]">
+  <model-viewer
+    data-model-viewer
+    src={src}
+    alt={alt}
+    poster={poster}
+    camera-controls
+    auto-rotate
+    shadow-intensity="0.6"
+    loading="lazy"
+    reveal="auto"
+    style="width:100%;height:100%;--poster-color:transparent"
+  ></model-viewer>
+  <p class="pointer-events-none absolute bottom-3 left-3 rounded bg-white/90 px-2 py-1 font-mono text-[0.6875rem] text-grafito-600">
+    Arrastrá para rotar · pellizcá para hacer zoom
+  </p>
+</div>
+
+<script>
+  const visor = document.querySelector('[data-model-viewer]');
+  if (visor) {
+    const io = new IntersectionObserver(
+      (entradas) => {
+        if (entradas.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          import('@google/model-viewer');
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    io.observe(visor);
+  }
+</script>

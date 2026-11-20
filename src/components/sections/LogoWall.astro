@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+interface Props {
+  titulo?: string;
+}
+const { titulo = 'Empresas e instituciones que confían en nosotros' } = Astro.props;
+const clientes = await getCollection('clientes');
+---
+
+<div>
+  <p class="eyebrow mb-8 text-center text-grafito-500">{titulo}</p>
+  <ul class="grid grid-cols-2 items-center gap-4 md:grid-cols-3 xl:grid-cols-6">
+    {clientes.map(({ data: c }) => (
+      <li class="flex h-16 items-center justify-center rounded-md border border-dashed border-grafito-300 px-4">
+        {c.logo ? (
+          <Image
+            src={c.logo}
+            alt={c.nombre}
+            height={40}
+            class="max-h-10 w-auto opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0"
+          />
+        ) : (
+          <span class="font-mono text-xs text-grafito-400">{c.nombre}</span>
+        )}
+      </li>
+    ))}
+  </ul>
+</div>

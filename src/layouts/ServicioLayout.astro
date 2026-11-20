@@ -1,0 +1,139 @@
+---
+// Plantilla común para las 5 páginas de servicio. El contenido viene de src/content/servicios.
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import FeatureGrid from '../components/sections/FeatureGrid.astro';
+import FaqSection from '../components/sections/FaqSection.astro';
+import CasoCard from '../components/sections/CasoCard.astro';
+import Testimonios from '../components/sections/Testimonios.astro';
+import QueNecesitas from '../components/sections/QueNecesitas.astro';
+import Button from '../components/ui/Button.astro';
+import { VERTICALES } from '../lib/constants';
+import { whatsappUrl } from '../lib/whatsapp';
+
+interface Props {
+  servicio: CollectionEntry<'servicios'>;
+}
+
+const { servicio } = Astro.props;
+const s = servicio.data;
+const { Content } = await render(servicio);
+const vertical = VERTICALES[s.vertical];
+const ctaHref = `/cotizar?tipo=${s.cta.tipo}`;
+
+const casos = (await getCollection('casos', (c) => c.data.servicio === servicio.id)).sort(
+  (a, b) => a.data.orden - b.data.orden,
+);
+const testimonios = await getCollection('testimonios', (t) => t.data.vertical === s.vertical);
+const tiposVertical =
+  s.vertical === 'industria'
+    ? ['servicio-tecnico', 'capacitaciones', 'impresion']
+    : ['merchandising', 'proyectos'];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: s.titulo,
+  description: s.resumen,
+  serviceType: s.titulo,
+  provider: { '@id': new URL('/#organizacion', Astro.site).href },
+  areaServed: { '@type': 'Country', name: 'Argentina' },
+};
+---
+
+<BaseLayout
+  title={s.seo.titulo ?? s.titulo}
+  description={s.seo.descripcion ?? s.resumen}
+  vertical={s.vertical}
+  cta={{ label: s.cta.label, href: ctaHref }}
+  mensajeWhatsapp={s.whatsapp}
+  schema={schema}
+>
+  <PageHero
+    eyebrow={s.hero.eyebrow}
+    titulo={s.hero.titulo}
+    bajada={s.hero.bajada}
+    migas={[{ label: vertical.nombre, href: vertical.href }, { label: s.titulo }]}
+    pruebas={s.pruebas}
+  >
+    <Button href={ctaHref} tamano="lg" iconoFinal="arrow-right" evento="cta_servicio">
+      {s.cta.label}
+    </Button>
+    <Button
+      href={whatsappUrl(s.whatsapp)}
+      variante="whatsapp"
+      tamano="lg"
+      icono="message"
+      evento="whatsapp_click"
+    >
+      WhatsApp
+    </Button>
+  </PageHero>
+
+  {s.beneficios.length > 0 && (
+    <Section>
+      <SectionHeader
+        eyebrow="Beneficios"
+        titulo={`Por qué elegirnos para ${s.titulo.toLowerCase()}`}
+      />
+      <FeatureGrid items={s.beneficios} variante="simple" />
+    </Section>
+  )}
+
+  {s.bloques.map((b) => (
+    <Section id={b.id} fondo={b.fondo}>
+      <SectionHeader
+        eyebrow={b.eyebrow}
+        titulo={b.titulo}
+        bajada={b.bajada}
+        oscuro={b.fondo === 'oscuro'}
+      />
+      <FeatureGrid
+        items={b.items}
+        columnas={b.items.length === 4 ? 4 : b.items.length === 2 ? 2 : 3}
+        oscuro={b.fondo === 'oscuro'}
+      />
+    </Section>
+  ))}
+
+  <Content />
+
+  <!-- Contenido propio de cada página (galería de merch, etc.) -->
+  <slot />
+
+  {casos.length > 0 && (
+    <Section fondo="gris">
+      <SectionHeader eyebrow="Casos" titulo="Trabajos reales con este servicio" />
+      <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {casos.map((c) => (
+          <li>
+            <CasoCard caso={c} />
+          </li>
+        ))}
+      </ul>
+      <div class="mt-8">
+        <Button
+          href={`/casos?vertical=${s.vertical}`}
+          variante="secundario"
+          iconoFinal="arrow-right"
+        >
+          Ver todos los casos
+        </Button>
+      </div>
+    </Section>
+  )}
+
+  {testimonios.length > 0 && (
+    <Section>
+      <SectionHeader eyebrow="Testimonios" titulo="Lo que dicen nuestros clientes" />
+      <Testimonios testimonios={testimonios} />
+    </Section>
+  )}
+
+  {s.faq && <FaqSection tema={s.faq} fondo="gris" />}
+
+  <QueNecesitas soloTipos={tiposVertical} />
+</BaseLayout>

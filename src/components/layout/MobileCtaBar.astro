@@ -1,0 +1,40 @@
+---
+// Barra fija inferior en mobile: CTA principal + WhatsApp siempre visibles.
+import Icon from '../ui/Icon.astro';
+import { whatsappUrl, MENSAJES_WHATSAPP } from '../../lib/whatsapp';
+
+interface Props {
+  ctaLabel?: string;
+  ctaHref?: string;
+  mensajeWhatsapp?: string;
+}
+
+const {
+  ctaLabel = 'Cotizar',
+  ctaHref = '/cotizar',
+  mensajeWhatsapp = MENSAJES_WHATSAPP.general,
+} = Astro.props;
+---
+
+<div class="fixed inset-x-0 bottom-0 z-30 border-t border-grafito-200 bg-white/95 px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur md:hidden">
+  <div class="grid grid-cols-2 gap-2">
+    <a
+      href={ctaHref}
+      class="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-acento font-semibold text-sobre-acento"
+      data-evento="cta_barra_mobile"
+    >
+      {ctaLabel}
+      <Icon name="arrow-right" size={18} />
+    </a>
+    <a
+      href={whatsappUrl(mensajeWhatsapp)}
+      target="_blank"
+      rel="noopener"
+      class="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-whatsapp-oscuro font-semibold text-white"
+      data-evento="whatsapp_click"
+    >
+      <Icon name="message" size={18} />
+      WhatsApp
+    </a>
+  </div>
+</div>

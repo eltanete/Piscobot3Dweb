@@ -1,0 +1,101 @@
+---
+import Logo from './Logo.astro';
+import Icon from '../ui/Icon.astro';
+import { NAV_VERTICALES, NAV_COMUNES, NAV_FOOTER_EXTRA } from '../../lib/nav';
+import { sitio } from '../../lib/constants';
+import { whatsappUrl, MENSAJES_WHATSAPP } from '../../lib/whatsapp';
+
+const redes = Object.entries(sitio.redes).filter(([, url]) => url);
+const anio = new Date().getFullYear();
+---
+
+<footer class="bg-grafito-950 pb-28 text-grafito-300 md:pb-0">
+  <div class="mx-auto grid max-w-7xl gap-12 px-4 py-16 md:grid-cols-12 md:px-8">
+    <div class="md:col-span-4">
+      <Logo oscuro />
+      <p class="mt-4 max-w-xs text-sm leading-relaxed text-grafito-400">{sitio.descripcion}</p>
+      <ul class="mt-6 space-y-3 text-sm">
+        <li>
+          <a
+            href={`tel:${sitio.telefono.replace(/[^\d+]/g, '')}`}
+            class="flex items-center gap-3 hover:text-white"
+          >
+            <Icon name="phone" size={16} />
+            {sitio.telefono}
+          </a>
+        </li>
+        <li>
+          <a
+            href={whatsappUrl(MENSAJES_WHATSAPP.general)}
+            class="flex items-center gap-3 hover:text-white"
+            data-evento="whatsapp_click"
+          >
+            <Icon name="message" size={16} />
+            WhatsApp
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${sitio.email}`} class="flex items-center gap-3 hover:text-white">
+            <Icon name="mail" size={16} />
+            {sitio.email}
+          </a>
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="map-pin" size={16} />
+          {sitio.direccion}
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="clock" size={16} />
+          {sitio.horario}
+        </li>
+      </ul>
+    </div>
+
+    {NAV_VERTICALES.map((grupo) => (
+      <nav aria-label={grupo.label} class="md:col-span-3">
+        <p class="eyebrow mb-4 text-grafito-500">{grupo.label}</p>
+        <ul class="space-y-2.5 text-sm">
+          {grupo.items.map((item) => (
+            <li>
+              <a href={item.href} class="hover:text-white">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ))}
+
+    <nav aria-label="PISCOBOT 3D" class="md:col-span-2">
+      <p class="eyebrow mb-4 text-grafito-500">PISCOBOT 3D</p>
+      <ul class="space-y-2.5 text-sm">
+        {[...NAV_COMUNES, ...NAV_FOOTER_EXTRA].map((item) => (
+          <li>
+            <a href={item.href} class="hover:text-white">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="border-t border-grafito-800">
+    <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-xs text-grafito-500 md:flex-row md:items-center md:justify-between md:px-8">
+      <p>
+        © {anio} {sitio.nombre}. Todos los derechos reservados.
+      </p>
+      {redes.length > 0 && (
+        <ul class="flex gap-4">
+          {redes.map(([red, url]) => (
+            <li>
+              <a href={url} target="_blank" rel="noopener" class="capitalize hover:text-white">
+                {red}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+</footer>

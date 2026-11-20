@@ -1,0 +1,12 @@
+nombre: Llavero técnico
+categoria: eventos
+descripcion: Llavero liviano con detalle funcional (abrebotellas o ficha) y la marca grabada.
+materiales:
+  - PLA
+  - PETG
+  - TPU
+personalizacion:
+  - Forma del isotipo
+  - Nombre personalizado
+minimo: 100
+orden: 3

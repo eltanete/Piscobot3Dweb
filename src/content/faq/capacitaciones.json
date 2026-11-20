@@ -1,0 +1,25 @@
+{
+  "titulo": "Preguntas frecuentes sobre las capacitaciones",
+  "preguntas": [
+    {
+      "pregunta": "¿Las capacitaciones son presenciales?",
+      "respuesta": "Sí, son principalmente presenciales porque la práctica sobre equipos reales es clave. Pueden dictarse en nuestro taller o en tu empresa (in company)."
+    },
+    {
+      "pregunta": "¿Necesito conocimientos previos?",
+      "respuesta": "No para el Módulo 1. Para los módulos avanzados recomendamos haber hecho los anteriores o tener experiencia equivalente; lo evaluamos con vos antes de empezar."
+    },
+    {
+      "pregunta": "¿Cuánto cuestan?",
+      "respuesta": "Los valores dependen del módulo, la modalidad y la cantidad de participantes. [Completar con precios de referencia si se decide publicarlos] Pedinos una propuesta y te la enviamos en el día."
+    },
+    {
+      "pregunta": "¿Entregan certificado?",
+      "respuesta": "Sí, cada participante recibe un certificado de asistencia con el detalle de los contenidos del módulo."
+    },
+    {
+      "pregunta": "¿Puedo armar un temario a medida?",
+      "respuesta": "Sí. Para empresas e instituciones adaptamos los contenidos a sus equipos, materiales y aplicaciones."
+    }
+  ]
+}

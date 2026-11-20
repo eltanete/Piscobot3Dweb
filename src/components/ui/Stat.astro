@@ -1,0 +1,20 @@
+---
+interface Props {
+  valor: string;
+  etiqueta: string;
+  oscuro?: boolean;
+}
+const { valor, etiqueta, oscuro = false } = Astro.props;
+---
+
+<div class:list={['border-l-2 pl-4', oscuro ? 'border-azul-500' : 'border-acento']}>
+  <p
+    class:list={[
+      'font-mono text-3xl font-semibold tracking-tight md:text-4xl',
+      oscuro ? 'text-white' : 'text-grafito-950',
+    ]}
+  >
+    {valor}
+  </p>
+  <p class:list={['mt-1 text-sm', oscuro ? 'text-grafito-400' : 'text-grafito-600']}>{etiqueta}</p>
+</div>

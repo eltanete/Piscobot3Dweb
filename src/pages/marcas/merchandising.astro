@@ -1,5 +1,38 @@
 ---
-import PlaceholderPage from '../../components/layout/PlaceholderPage.astro';
+import { getCollection, getEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
+import ServicioLayout from '../../layouts/ServicioLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import MerchGallery, { type MerchItem } from '../../components/islands/MerchGallery';
+
+const servicio = await getEntry('servicios', 'merchandising');
+if (!servicio) throw new Error('Falta el servicio merchandising');
+
+const entradas = (await getCollection('merch')).sort((a, b) => a.data.orden - b.data.orden);
+const items: MerchItem[] = await Promise.all(
+  entradas.map(async (e) => ({
+    id: e.id,
+    nombre: e.data.nombre,
+    categoria: e.data.categoria,
+    descripcion: e.data.descripcion,
+    materiales: e.data.materiales,
+    personalizacion: e.data.personalizacion,
+    minimo: e.data.minimo,
+    imagen: e.data.imagen
+      ? (await getImage({ src: e.data.imagen, width: 600, format: 'webp' })).src
+      : null,
+  })),
+);
 ---
 
-<PlaceholderPage title="Merchandising impreso en 3D" vertical="marcas" />
+<ServicioLayout servicio={servicio}>
+  <Section id="catalogo">
+    <SectionHeader
+      eyebrow="Catálogo curado"
+      titulo="Objetos base para personalizar"
+      bajada="Una selección de objetos útiles que adaptamos a tu marca. Si no encontrás lo que buscás, lo diseñamos."
+    />
+    <MerchGallery client:visible items={items} />
+  </Section>
+</ServicioLayout>

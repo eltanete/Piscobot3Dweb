@@ -1,0 +1,74 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon, { type IconName } from './Icon.astro';
+
+type Variante = 'primario' | 'secundario' | 'fantasma' | 'whatsapp' | 'claro';
+type Tamano = 'sm' | 'md' | 'lg';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'class'> {
+  href?: string;
+  variante?: Variante;
+  tamano?: Tamano;
+  icono?: IconName;
+  iconoFinal?: IconName;
+  bloque?: boolean;
+  type?: 'button' | 'submit';
+  class?: string;
+  evento?: string;
+}
+
+const {
+  href,
+  variante = 'primario',
+  tamano = 'md',
+  icono,
+  iconoFinal,
+  bloque = false,
+  type = 'button',
+  class: className,
+  evento,
+  ...rest
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60 select-none';
+
+const variantes: Record<Variante, string> = {
+  primario: 'bg-acento text-sobre-acento hover:bg-acento-hover focus-visible:outline-acento',
+  secundario:
+    'border border-grafito-300 bg-white text-grafito-900 hover:border-grafito-900 hover:bg-grafito-50',
+  fantasma: 'text-grafito-900 hover:bg-grafito-100',
+  whatsapp: 'bg-whatsapp-oscuro text-white hover:bg-[#0f7a41]',
+  claro: 'bg-white text-grafito-950 hover:bg-grafito-100',
+};
+
+const tamanos: Record<Tamano, string> = {
+  sm: 'h-9 px-3.5 text-sm',
+  md: 'h-11 px-5 text-[0.9375rem]',
+  lg: 'h-13 px-6 text-base',
+};
+
+const clases = [base, variantes[variante], tamanos[tamano], bloque && 'w-full', className];
+const esExterno = href?.startsWith('http');
+const tam = tamano === 'lg' ? 20 : 18;
+---
+
+{href ? (
+  <a
+    href={href}
+    class:list={clases}
+    data-evento={evento}
+    {...(esExterno ? { target: '_blank', rel: 'noopener' } : {})}
+    {...rest}
+  >
+    {icono && <Icon name={icono} size={tam} />}
+    <slot />
+    {iconoFinal && <Icon name={iconoFinal} size={tam} />}
+  </a>
+) : (
+  <button type={type} class:list={clases} data-evento={evento}>
+    {icono && <Icon name={icono} size={tam} />}
+    <slot />
+    {iconoFinal && <Icon name={iconoFinal} size={tam} />}
+  </button>
+)}

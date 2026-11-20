@@ -1,5 +1,39 @@
 ---
-import PlaceholderPage from '../../components/layout/PlaceholderPage.astro';
+import VerticalLayout from '../../layouts/VerticalLayout.astro';
+import { MENSAJES_WHATSAPP } from '../../lib/whatsapp';
 ---
 
-<PlaceholderPage title="Marcas y Agencias" vertical="marcas" />
+<VerticalLayout
+  vertical="marcas"
+  hero={{
+    eyebrow: 'Marcas y Agencias',
+    titulo: 'Objetos con tu marca que la gente quiere conservar',
+    bajada:
+      'Merchandising curado y personalizable, y proyectos especiales para lanzamientos, eventos y activaciones. Diseño y fabricación 3D en un solo equipo.',
+  }}
+  seo={{
+    titulo: 'Merchandising y activaciones de marca impresos en 3D',
+    descripcion:
+      'Merchandising corporativo impreso en 3D, displays, trofeos y activaciones para marcas, agencias y eventos. Diseño y fabricación local.',
+  }}
+  cta={{ label: 'Pedir catálogo', tipo: 'merchandising' }}
+  whatsapp={MENSAJES_WHATSAPP.merchandising}
+  paraQuien={[
+    {
+      titulo: 'Equipos de marketing',
+      texto: 'Que buscan regalos y kits con identidad y uso real.',
+      icono: 'target',
+    },
+    {
+      titulo: 'Agencias',
+      texto: 'Que necesitan un proveedor técnico para materializar ideas creativas.',
+      icono: 'sparkles',
+    },
+    {
+      titulo: 'Eventos y RR. HH.',
+      texto: 'Premios, kits de bienvenida y piezas para encuentros y lanzamientos.',
+      icono: 'calendar',
+    },
+  ]}
+  tipos={['merchandising', 'proyectos']}
+/>

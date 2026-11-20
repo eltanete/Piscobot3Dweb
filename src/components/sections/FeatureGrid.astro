@@ -1,0 +1,65 @@
+---
+import Icon, { type IconName } from '../ui/Icon.astro';
+
+interface Item {
+  titulo: string;
+  texto: string;
+  icono?: IconName;
+  meta?: string;
+}
+
+interface Props {
+  items: Item[];
+  columnas?: 2 | 3 | 4;
+  oscuro?: boolean;
+  variante?: 'tarjeta' | 'simple';
+}
+
+const { items, columnas = 3, oscuro = false, variante = 'tarjeta' } = Astro.props;
+const cols = {
+  2: 'md:grid-cols-2',
+  3: 'md:grid-cols-2 xl:grid-cols-3',
+  4: 'md:grid-cols-2 xl:grid-cols-4',
+};
+---
+
+<ul class:list={['grid gap-4 md:gap-6', cols[columnas]]}>
+  {items.map((item) => (
+    <li
+      class:list={[
+        'flex flex-col',
+        variante === 'tarjeta' &&
+          (oscuro
+            ? 'rounded-lg border border-grafito-800 bg-grafito-900 p-6'
+            : 'rounded-lg border border-grafito-200 bg-white p-6 shadow-tarjeta'),
+      ]}
+    >
+      <div class="mb-4 flex items-center justify-between gap-4">
+        {item.icono && (
+          <span
+            class:list={[
+              'inline-flex size-11 items-center justify-center rounded-md',
+              oscuro ? 'bg-grafito-800 text-white' : 'bg-acento-suave text-acento-texto',
+            ]}
+          >
+            <Icon name={item.icono} size={22} />
+          </span>
+        )}
+        {item.meta && (
+          <span
+            class:list={[
+              'font-mono text-xs font-semibold tracking-wide uppercase',
+              oscuro ? 'text-grafito-500' : 'text-grafito-500',
+            ]}
+          >
+            {item.meta}
+          </span>
+        )}
+      </div>
+      <h3 class="text-lg">{item.titulo}</h3>
+      <p class:list={['mt-2 leading-relaxed', oscuro ? 'text-grafito-400' : 'text-grafito-600']}>
+        {item.texto}
+      </p>
+    </li>
+  ))}
+</ul>

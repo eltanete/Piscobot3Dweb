@@ -1,0 +1,29 @@
+---
+import Icon, { type IconName } from '../ui/Icon.astro';
+
+interface Props {
+  titulo: string;
+  resumen: string;
+  href: string;
+  icono: IconName;
+  vertical: 'industria' | 'marcas';
+}
+
+const { titulo, resumen, href, icono, vertical } = Astro.props;
+---
+
+<a
+  href={href}
+  data-vertical={vertical}
+  class="group flex h-full flex-col rounded-lg border border-grafito-200 bg-white p-6 shadow-tarjeta transition-all hover:-translate-y-0.5 hover:border-acento hover:shadow-elevada"
+>
+  <span class="mb-5 inline-flex size-12 items-center justify-center rounded-md bg-acento-suave text-acento-texto">
+    <Icon name={icono} size={24} />
+  </span>
+  <h3 class="text-xl">{titulo}</h3>
+  <p class="mt-2 flex-1 leading-relaxed text-grafito-600">{resumen}</p>
+  <span class="mt-5 inline-flex items-center gap-1.5 font-semibold text-acento-texto">
+    Ver servicio
+    <Icon name="arrow-right" size={16} class="transition-transform group-hover:translate-x-0.5" />
+  </span>
+</a>

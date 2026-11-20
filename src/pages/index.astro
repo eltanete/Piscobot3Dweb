@@ -1,20 +1,225 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Button from '../components/ui/Button.astro';
+import Stat from '../components/ui/Stat.astro';
+import Icon, { type IconName } from '../components/ui/Icon.astro';
+import Bifurcacion from '../components/sections/Bifurcacion.astro';
+import ServiceCard from '../components/sections/ServiceCard.astro';
+import CasoCard from '../components/sections/CasoCard.astro';
+import RecursoCard from '../components/sections/RecursoCard.astro';
+import Testimonios from '../components/sections/Testimonios.astro';
+import LogoWall from '../components/sections/LogoWall.astro';
+import QueNecesitas from '../components/sections/QueNecesitas.astro';
+import home from '../content/home.json';
 import { SITE } from '../lib/constants';
+import { whatsappUrl, MENSAJES_WHATSAPP } from '../lib/whatsapp';
+
+const servicios = (await getCollection('servicios')).sort((a, b) => a.data.orden - b.data.orden);
+const industria = servicios.filter((s) => s.data.vertical === 'industria');
+const marcas = servicios.filter((s) => s.data.vertical === 'marcas');
+const casos = (await getCollection('casos', (c) => c.data.destacado))
+  .sort((a, b) => a.data.orden - b.data.orden)
+  .slice(0, 3);
+const recursos = (await getCollection('recursos'))
+  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
+  .slice(0, 3);
+const testimonios = await getCollection('testimonios');
+const rutaServicio = (s: (typeof servicios)[number]) => `/${s.data.vertical}/${s.id}`;
 ---
 
 <BaseLayout title={SITE.name}>
-  <main class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-6 px-4">
-    <p class="font-mono text-sm text-marca">Fase 1 · scaffold</p>
-    <h1 class="text-4xl font-bold">{SITE.name}</h1>
-    <p class="text-lg">Nuevo sitio en construcción.</p>
-    <div class="flex flex-wrap gap-3">
-      <a class="rounded bg-marca px-4 py-2 text-white" href="/industria">
-        Industria y Técnica
-      </a>
-      <a class="rounded bg-acento-marcas px-4 py-2 text-white" href="/marcas">
-        Marcas y Agencias
-      </a>
+  <!-- 1 · Hero de autoridad -->
+  <section class="relative isolate overflow-hidden bg-grafito-950 text-white">
+    <div class="fondo-grilla absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]"></div>
+    <div
+      class="absolute -top-48 right-0 -z-10 size-[40rem] rounded-full bg-azul-600 opacity-25 blur-[140px]"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute bottom-0 -left-40 -z-10 size-[28rem] rounded-full bg-naranja-500 opacity-15 blur-[140px]"
+      aria-hidden="true"
+    ></div>
+    <Container class="pt-16 pb-20 md:pt-28 md:pb-32">
+      <div class="max-w-4xl">
+        <p class="eyebrow mb-5 flex items-center gap-2 text-grafito-300">
+          <span class="size-2 animate-pulse rounded-full bg-azul-500" aria-hidden="true"></span>
+          {home.hero.eyebrow}
+        </p>
+        <h1 class="text-display text-white">{home.hero.titulo}</h1>
+        <p class="text-bajada mt-6 max-w-2xl text-grafito-300">{home.hero.bajada}</p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <Button href="/cotizar" tamano="lg" iconoFinal="arrow-right" evento="cta_home_cotizar">
+            {home.hero.ctaPrincipal}
+          </Button>
+          <Button
+            href={whatsappUrl(MENSAJES_WHATSAPP.general)}
+            variante="whatsapp"
+            tamano="lg"
+            icono="message"
+            evento="whatsapp_click"
+          >
+            {home.hero.ctaSecundario}
+          </Button>
+        </div>
+      </div>
+
+      <!-- 2 · Prueba rápida: lo que hacemos -->
+      <ul class="mt-16 flex flex-wrap gap-x-6 gap-y-3 border-t border-grafito-800 pt-8 font-mono text-xs tracking-wide text-grafito-400 uppercase">
+        {home.prueba.map((p) => (
+          <li class="flex items-center gap-2">
+            <span class="size-1 rounded-full bg-grafito-600" aria-hidden="true" />
+            {p}
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </section>
+
+  <!-- 3 · Bifurcación -->
+  <Section id="elegi-tu-camino" class="-mt-px">
+    <SectionHeader
+      titulo={home.bifurcacion.titulo}
+      bajada={home.bifurcacion.bajada}
+      alineacion="centro"
+    />
+    <Bifurcacion industria={home.bifurcacion.industria} marcas={home.bifurcacion.marcas} />
+  </Section>
+
+  <!-- 4 · Contadores -->
+  <Section fondo="gris" espaciado="compacto">
+    <dl class="grid grid-cols-2 gap-8 xl:grid-cols-4">
+      {home.contadores.map((c) => (
+        <Stat valor={c.valor} etiqueta={c.etiqueta} />
+      ))}
+    </dl>
+  </Section>
+
+  <!-- 5 · Autoridad técnica compartida -->
+  <Section>
+    <SectionHeader
+      eyebrow={home.autoridad.eyebrow}
+      titulo={home.autoridad.titulo}
+      bajada={home.autoridad.bajada}
+    />
+    <ul class="grid gap-px overflow-hidden rounded-lg border border-grafito-200 bg-grafito-200 md:grid-cols-5">
+      {home.autoridad.items.map((item, i) => (
+        <li class="bg-white p-6">
+          <span class="font-mono text-xs text-grafito-400">0{i + 1}</span>
+          <Icon name={item.icono as IconName} size={28} class="mt-4 text-azul-600" />
+          <h3 class="mt-4 text-lg">{item.titulo}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-grafito-600">{item.texto}</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <!-- 6 · Vertical Industria -->
+  <Section fondo="gris" aria-labelledby="titulo-industria">
+    <div data-vertical="industria">
+      <SectionHeader
+        id="titulo-industria"
+        eyebrow="Industria y Técnica"
+        titulo="Soluciones técnicas para que tu producción no se detenga"
+        bajada="Para empresas, talleres, escuelas técnicas y makers que trabajan con impresión 3D."
+      />
+      <ul class="grid gap-6 md:grid-cols-3">
+        {industria.map((s) => (
+          <li>
+            <ServiceCard
+              titulo={s.data.titulo}
+              resumen={s.data.resumen}
+              href={rutaServicio(s)}
+              icono={s.data.icono}
+              vertical="industria"
+            />
+          </li>
+        ))}
+      </ul>
     </div>
-  </main>
+  </Section>
+
+  <!-- 7 · Vertical Marcas -->
+  <Section aria-labelledby="titulo-marcas">
+    <div data-vertical="marcas">
+      <SectionHeader
+        id="titulo-marcas"
+        eyebrow="Marcas y Agencias"
+        titulo="Objetos y experiencias que hacen que tu marca se recuerde"
+        bajada="Para equipos de marketing, agencias y organizadores de eventos."
+      />
+      <ul class="grid gap-6 md:grid-cols-2">
+        {marcas.map((s) => (
+          <li>
+            <ServiceCard
+              titulo={s.data.titulo}
+              resumen={s.data.resumen}
+              href={rutaServicio(s)}
+              icono={s.data.icono}
+              vertical="marcas"
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </Section>
+
+  <!-- 8 · Logos -->
+  <Section fondo="gris" espaciado="compacto">
+    <LogoWall />
+  </Section>
+
+  <!-- 9 · Casos destacados -->
+  <Section>
+    <SectionHeader
+      eyebrow="Casos"
+      titulo="Prueba antes que promesa"
+      bajada="Trabajos reales con el material, la aplicación y el resultado."
+    />
+    <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {casos.map((c) => (
+        <li>
+          <CasoCard caso={c} />
+        </li>
+      ))}
+    </ul>
+    <div class="mt-8">
+      <Button href="/casos" variante="secundario" iconoFinal="arrow-right">
+        Ver todos los casos
+      </Button>
+    </div>
+  </Section>
+
+  <!-- 10 · Testimonios -->
+  <Section fondo="gris">
+    <SectionHeader eyebrow="Testimonios" titulo="Lo que dicen quienes trabajan con nosotros" />
+    <Testimonios testimonios={testimonios} />
+  </Section>
+
+  <!-- 11 · Recursos técnicos -->
+  <Section>
+    <SectionHeader
+      eyebrow="Recursos"
+      titulo="Guías técnicas para resolver fallas"
+      bajada="Compartimos lo que aprendemos en el taller."
+    />
+    <ul class="grid gap-6 md:grid-cols-3">
+      {recursos.map((r) => (
+        <li>
+          <RecursoCard recurso={r} />
+        </li>
+      ))}
+    </ul>
+    <div class="mt-8">
+      <Button href="/recursos" variante="secundario" iconoFinal="arrow-right">
+        Ver todas las guías
+      </Button>
+    </div>
+  </Section>
+
+  <!-- 12 · ¿Qué necesitás? (13 = footer) -->
+  <QueNecesitas />
 </BaseLayout>

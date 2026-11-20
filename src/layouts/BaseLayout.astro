@@ -1,31 +1,113 @@
 ---
 import '../styles/global.css';
-import { SITE, type Vertical } from '../lib/constants';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import MobileCtaBar from '../components/layout/MobileCtaBar.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import Analytics from '../components/seo/Analytics.astro';
+import { SITE, sitio, type Vertical } from '../lib/constants';
 
 interface Props {
   title: string;
   description?: string;
   vertical?: Vertical;
+  /** Imagen para redes (ruta absoluta en /public o URL). */
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  /** CTA principal de la barra mobile. */
+  cta?: { label: string; href: string };
+  mensajeWhatsapp?: string;
+  /** Oculta header/footer (p. ej. styleguide). */
+  minimal?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description = SITE.description, vertical } = Astro.props;
-const fullTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const {
+  title,
+  description = SITE.description,
+  vertical,
+  ogImage = '/og/default.png',
+  ogType = 'website',
+  noindex = false,
+  cta,
+  mensajeWhatsapp,
+  minimal = false,
+  schema,
+} = Astro.props;
+
+const fullTitle =
+  title === SITE.name ? `${SITE.name} — ${sitio.eslogan}` : `${title} | ${SITE.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogUrl = new URL(ogImage, Astro.site).href;
+// Los entornos de prueba (PUBLIC_NOINDEX=true) nunca se indexan.
+const robots =
+  noindex || import.meta.env.PUBLIC_NOINDEX === 'true' ? 'noindex, nofollow' : 'index, follow';
+
+const organizacion = {
+  '@context': 'https://schema.org',
+  '@type': ['Organization', 'LocalBusiness'],
+  '@id': new URL('/#organizacion', Astro.site).href,
+  name: sitio.nombre,
+  description: sitio.descripcion,
+  url: Astro.site?.href,
+  logo: new URL('/favicon.svg', Astro.site).href,
+  image: ogUrl,
+  email: sitio.email,
+  telephone: sitio.telefono,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: sitio.direccion,
+    addressLocality: sitio.ciudad,
+    addressRegion: sitio.region,
+    addressCountry: sitio.pais,
+  },
+  sameAs: Object.values(sitio.redes).filter(Boolean),
+};
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es-AR">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="canonical" href={canonical} />
-    <meta name="generator" content={Astro.generator} />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={robots} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#1a1c21" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    <JsonLd data={organizacion} />
+    {schema && <JsonLd data={schema} />}
+    <slot name="head" />
+    <Analytics />
   </head>
-  <body data-vertical={vertical} class="bg-white text-grafito antialiased">
-    <slot />
+  <body data-vertical={vertical} class="flex min-h-screen flex-col">
+    {!minimal && <Header />}
+    <main id="contenido" class="flex-1">
+      <slot />
+    </main>
+    {!minimal && <Footer />}
+    {!minimal && (
+      <MobileCtaBar ctaLabel={cta?.label} ctaHref={cta?.href} mensajeWhatsapp={mensajeWhatsapp} />
+    )}
   </body>
 </html>

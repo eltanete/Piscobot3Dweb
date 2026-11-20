@@ -1,0 +1,22 @@
+---
+// Logotipo provisorio (wordmark). Reemplazar por el SVG oficial cuando esté disponible.
+interface Props {
+  oscuro?: boolean;
+  class?: string;
+}
+const { oscuro = false, class: className } = Astro.props;
+---
+
+<span class:list={['inline-flex items-center gap-1.5 leading-none', className]}>
+  <span
+    class:list={[
+      'text-[1.125rem] font-extrabold tracking-[-0.03em]',
+      oscuro ? 'text-white' : 'text-grafito-950',
+    ]}
+  >
+    PISCOBOT
+  </span>
+  <span class="rounded-[0.3rem] bg-azul-600 px-1.5 py-1 font-mono text-[0.75rem] font-semibold text-white">
+    3D
+  </span>
+</span>

@@ -1,0 +1,17 @@
+{
+  "titulo": "Preguntas frecuentes sobre proyectos especiales",
+  "preguntas": [
+    {
+      "pregunta": "¿Con cuánta anticipación tengo que consultar?",
+      "respuesta": "Cuanto antes, mejor: así hay tiempo para diseñar, prototipar y terminar las piezas. Si la fecha es cercana, consultanos igual y te decimos qué es posible."
+    },
+    {
+      "pregunta": "¿Trabajan con agencias?",
+      "respuesta": "Sí. Trabajamos con agencias como proveedor técnico, a partir de su idea creativa, y podemos firmar acuerdos de confidencialidad."
+    },
+    {
+      "pregunta": "¿Hacen piezas de gran tamaño?",
+      "respuesta": "Sí, fabricamos piezas grandes por partes, con uniones y terminación pensadas para que se vean como una sola pieza."
+    }
+  ]
+}

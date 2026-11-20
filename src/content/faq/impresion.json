@@ -1,0 +1,29 @@
+{
+  "titulo": "Preguntas frecuentes sobre impresión y diseño",
+  "preguntas": [
+    {
+      "pregunta": "¿Qué archivos necesito para cotizar?",
+      "respuesta": "Lo ideal es un STL o STEP. Si no tenés archivo, nos sirve un plano, fotos con medidas o la pieza física: en ese caso cotizamos también el diseño o la ingeniería inversa."
+    },
+    {
+      "pregunta": "¿Qué materiales usan?",
+      "respuesta": "Trabajamos con PLA, PETG, TPU, ABS/ASA, nylon y resinas, entre otros. Te recomendamos el material según la función de la pieza: resistencia, temperatura, flexibilidad o terminación."
+    },
+    {
+      "pregunta": "¿Cuál es el proceso?",
+      "respuesta": "1) Nos enviás el archivo o la idea. 2) Revisamos viabilidad y te cotizamos material, plazo y precio. 3) Aprobás y fabricamos. 4) Controlamos la calidad y coordinamos la entrega."
+    },
+    {
+      "pregunta": "¿Hacen grandes cantidades?",
+      "respuesta": "Sí. Producimos series cortas y grandes cantidades con control de calidad por lote. Para volúmenes altos planificamos la producción por etapas."
+    },
+    {
+      "pregunta": "¿Cuáles son las formas de pago?",
+      "respuesta": "Las detallamos en la página de Condiciones. Para producciones se suele trabajar con un anticipo y el saldo contra entrega. [Completar con las formas de pago vigentes]"
+    },
+    {
+      "pregunta": "¿Quién es dueño del diseño?",
+      "respuesta": "Cuando desarrollamos un diseño a pedido, te entregamos los archivos finales. Si necesitás un acuerdo de confidencialidad, lo firmamos antes de empezar."
+    }
+  ]
+}

@@ -1,5 +1,9 @@
 ---
-import PlaceholderPage from '../../components/layout/PlaceholderPage.astro';
+import { getEntry } from 'astro:content';
+import ServicioLayout from '../../layouts/ServicioLayout.astro';
+
+const servicio = await getEntry('servicios', 'proyectos-especiales');
+if (!servicio) throw new Error('Falta el servicio proyectos-especiales');
 ---
 
-<PlaceholderPage title="Proyectos especiales y activaciones" vertical="marcas" />
+<ServicioLayout servicio={servicio} />

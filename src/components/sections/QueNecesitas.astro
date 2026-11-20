@@ -1,0 +1,68 @@
+---
+// Cierre de página: preguntamos qué necesita el visitante en vez de mostrar un formulario genérico.
+import Icon, { type IconName } from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+import home from '../../content/home.json';
+import { whatsappUrl, MENSAJES_WHATSAPP } from '../../lib/whatsapp';
+
+interface Props {
+  titulo?: string;
+  bajada?: string;
+  /** Limita las opciones a una vertical. */
+  soloTipos?: string[];
+}
+
+const {
+  titulo = home.queNecesitas.titulo,
+  bajada = home.queNecesitas.bajada,
+  soloTipos,
+} = Astro.props;
+const opciones = home.queNecesitas.opciones.filter((o) => !soloTipos || soloTipos.includes(o.tipo));
+---
+
+<section class="relative isolate overflow-hidden bg-grafito-950 py-16 text-white md:py-24">
+  <div class="fondo-grilla absolute inset-0 -z-10 opacity-60"></div>
+  <div class="mx-auto max-w-7xl px-4 md:px-8">
+    <div class="grid gap-10 xl:grid-cols-12 xl:gap-16">
+      <div class="xl:col-span-5">
+        <p class="eyebrow mb-3 text-grafito-400">Próximo paso</p>
+        <h2 class="text-titulo text-white">{titulo}</h2>
+        <p class="text-bajada mt-4 text-grafito-300">{bajada}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button
+            href={whatsappUrl(MENSAJES_WHATSAPP.general)}
+            variante="whatsapp"
+            icono="message"
+            evento="whatsapp_click"
+          >
+            WhatsApp
+          </Button>
+          <Button href="/contacto" variante="claro">
+            Otras formas de contacto
+          </Button>
+        </div>
+      </div>
+      <ul class="grid gap-3 sm:grid-cols-2 xl:col-span-7">
+        {opciones.map((o) => (
+          <li>
+            <a
+              href={`/cotizar?tipo=${o.tipo}`}
+              class="group flex h-full items-center gap-4 rounded-lg border border-grafito-800 bg-grafito-900 p-5 transition-colors hover:border-azul-500 hover:bg-grafito-800"
+              data-evento="que_necesitas"
+            >
+              <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-md bg-grafito-800 text-white group-hover:bg-azul-600">
+                <Icon name={o.icono as IconName} size={22} />
+              </span>
+              <span class="flex-1 font-medium">{o.label}</span>
+              <Icon
+                name="arrow-right"
+                size={18}
+                class="text-grafito-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white"
+              />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

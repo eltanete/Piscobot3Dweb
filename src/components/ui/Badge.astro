@@ -1,0 +1,23 @@
+---
+interface Props {
+  tono?: 'neutro' | 'industria' | 'marcas' | 'acento';
+  class?: string;
+}
+const { tono = 'neutro', class: className } = Astro.props;
+const tonos = {
+  neutro: 'bg-grafito-100 text-grafito-700',
+  industria: 'bg-azul-50 text-azul-700',
+  marcas: 'bg-naranja-50 text-naranja-700',
+  acento: 'bg-acento-suave text-acento-texto',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-mono text-[0.6875rem] font-semibold tracking-wide uppercase',
+    tonos[tono],
+    className,
+  ]}
+>
+  <slot />
+</span>

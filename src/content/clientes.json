@@ -1,0 +1,8 @@
+[
+  { "id": "cliente-1", "nombre": "Cliente 1" },
+  { "id": "cliente-2", "nombre": "Cliente 2" },
+  { "id": "cliente-3", "nombre": "Cliente 3" },
+  { "id": "cliente-4", "nombre": "Cliente 4" },
+  { "id": "cliente-5", "nombre": "Cliente 5" },
+  { "id": "cliente-6", "nombre": "Cliente 6" }
+]

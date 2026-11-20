@@ -1,0 +1,121 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import Container from '../../components/ui/Container.astro';
+import Button from '../../components/ui/Button.astro';
+import RecursoCard from '../../components/sections/RecursoCard.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import { whatsappUrl, MENSAJES_WHATSAPP } from '../../lib/whatsapp';
+
+export async function getStaticPaths() {
+  const recursos = await getCollection('recursos');
+  return recursos.map((recurso) => ({ params: { slug: recurso.id }, props: { recurso } }));
+}
+
+const { recurso } = Astro.props;
+const d = recurso.data;
+const { Content, headings } = await render(recurso);
+const indice = headings.filter((h) => h.depth === 2);
+const otras = (await getCollection('recursos', (r) => r.id !== recurso.id)).slice(0, 3);
+const fecha = (f: Date) =>
+  f.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.titulo,
+  description: d.descripcion,
+  datePublished: d.fecha.toISOString(),
+  dateModified: (d.actualizado ?? d.fecha).toISOString(),
+  author: { '@id': new URL('/#organizacion', Astro.site).href },
+  publisher: { '@id': new URL('/#organizacion', Astro.site).href },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+};
+---
+
+<BaseLayout
+  title={d.titulo}
+  description={d.descripcion}
+  vertical="industria"
+  ogType="article"
+  schema={schema}
+  cta={{ label: 'Agendar diagnóstico', href: '/cotizar?tipo=servicio-tecnico' }}
+  mensajeWhatsapp={MENSAJES_WHATSAPP.servicioTecnico}
+>
+  <PageHero
+    eyebrow={`Guía técnica · ${d.categoria}`}
+    titulo={d.titulo}
+    bajada={d.descripcion}
+    migas={[{ label: 'Recursos', href: '/recursos' }, { label: d.categoria }]}
+    compacto
+  />
+
+  <Container class="grid gap-12 py-14 md:py-20 xl:grid-cols-12">
+    <aside class="xl:order-2 xl:col-span-4">
+      <div class="space-y-6 xl:sticky xl:top-24">
+        {indice.length > 0 && (
+          <nav aria-label="Índice de la guía" class="rounded-lg border border-grafito-200 p-6">
+            <p class="eyebrow mb-3 text-grafito-500">En esta guía</p>
+            <ol class="space-y-2 text-sm">
+              {indice.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`} class="text-grafito-700 hover:text-azul-600">
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+        <div class="rounded-lg bg-grafito-950 p-6 text-grafito-300">
+          <p class="text-lg font-semibold text-white">¿No se resuelve?</p>
+          <p class="mt-2 text-sm">
+            Hacemos un diagnóstico completo de tu impresora y te decimos qué tiene.
+          </p>
+          <div class="mt-4 flex flex-col gap-2">
+            <Button href="/cotizar?tipo=servicio-tecnico" bloque evento="cta_guia">
+              Agendar diagnóstico
+            </Button>
+            <Button
+              href={whatsappUrl(MENSAJES_WHATSAPP.servicioTecnico)}
+              variante="whatsapp"
+              icono="message"
+              bloque
+              evento="whatsapp_click"
+            >
+              WhatsApp
+            </Button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <article class="xl:col-span-8">
+      <p class="mb-8 font-mono text-xs text-grafito-500">
+        Publicado el <time datetime={d.fecha.toISOString()}>{fecha(d.fecha)}</time>
+        {d.actualizado && (
+          <>
+            {' '}
+            · Actualizado el{' '}
+            <time datetime={d.actualizado.toISOString()}>{fecha(d.actualizado)}</time>
+          </>
+        )}
+      </p>
+      <div class="prose-piscobot [&_blockquote]:my-6 [&_blockquote]:rounded-md [&_blockquote]:border-l-4 [&_blockquote]:border-naranja-500 [&_blockquote]:bg-naranja-50 [&_blockquote]:p-4">
+        <Content />
+      </div>
+    </article>
+  </Container>
+
+  <Section fondo="gris">
+    <SectionHeader titulo="Otras guías" />
+    <ul class="grid gap-6 md:grid-cols-3">
+      {otras.map((r) => (
+        <li>
+          <RecursoCard recurso={r} />
+        </li>
+      ))}
+    </ul>
+  </Section>
+</BaseLayout>

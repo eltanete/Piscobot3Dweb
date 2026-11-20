@@ -1,0 +1,11 @@
+nombre: Soporte para celular
+categoria: tecnologia
+descripcion: Soporte plegable para celular o tablet, útil en el escritorio y en videollamadas.
+materiales:
+  - PLA
+  - PETG
+personalizacion:
+  - Logo en relieve
+  - Colores de marca
+minimo: 50
+orden: 2

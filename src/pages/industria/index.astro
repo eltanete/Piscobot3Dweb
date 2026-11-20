@@ -1,5 +1,44 @@
 ---
-import PlaceholderPage from '../../components/layout/PlaceholderPage.astro';
+import VerticalLayout from '../../layouts/VerticalLayout.astro';
+import { MENSAJES_WHATSAPP } from '../../lib/whatsapp';
 ---
 
-<PlaceholderPage title="Industria y Técnica" vertical="industria" />
+<VerticalLayout
+  vertical="industria"
+  hero={{
+    eyebrow: 'Industria y Técnica',
+    titulo: 'Impresión 3D que funciona en producción, no sólo en la vidriera',
+    bajada:
+      'Servicio técnico, capacitaciones, impresión de piezas funcionales y desarrollo de productos, con el respaldo de quienes conocen la tecnología por dentro.',
+  }}
+  seo={{
+    titulo: 'Impresión 3D para la industria — servicio técnico, capacitación y desarrollo',
+    descripcion:
+      'Soluciones de impresión 3D para empresas, talleres y escuelas técnicas: servicio técnico de impresoras, capacitación técnica, impresión de piezas funcionales y desarrollo de productos.',
+  }}
+  cta={{ label: 'Agendar diagnóstico', tipo: 'servicio-tecnico' }}
+  whatsapp={MENSAJES_WHATSAPP.servicioTecnico}
+  paraQuien={[
+    {
+      titulo: 'Empresas y fábricas',
+      texto: 'Que usan impresión 3D para repuestos, herramental o prototipos.',
+      icono: 'settings',
+    },
+    {
+      titulo: 'Escuelas e institutos',
+      texto: 'Con laboratorios y parques de impresoras para mantener y aprovechar.',
+      icono: 'graduation-cap',
+    },
+    {
+      titulo: 'Estudios y desarrolladores',
+      texto: 'Que necesitan pasar de una idea a una pieza fabricable.',
+      icono: 'box',
+    },
+    {
+      titulo: 'Makers y particulares',
+      texto: 'Con su propia impresora y ganas de que funcione bien.',
+      icono: 'users',
+    },
+  ]}
+  tipos={['servicio-tecnico', 'capacitaciones', 'impresion']}
+/>

@@ -1,5 +1,71 @@
 ---
-import PlaceholderPage from '../../components/layout/PlaceholderPage.astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import Section from '../../components/ui/Section.astro';
+import CasoCard from '../../components/sections/CasoCard.astro';
+import QueNecesitas from '../../components/sections/QueNecesitas.astro';
+
+const casos = (await getCollection('casos')).sort((a, b) => a.data.orden - b.data.orden);
+const filtros = [
+  { valor: 'todos', label: 'Todos' },
+  { valor: 'industria', label: 'Industria y Técnica' },
+  { valor: 'marcas', label: 'Marcas y Agencias' },
+];
 ---
 
-<PlaceholderPage title="Casos" />
+<BaseLayout
+  title="Casos de éxito en impresión 3D"
+  description="Casos reales de servicio técnico, impresión 3D, desarrollo de productos, merchandising y proyectos especiales, con material, aplicación y resultado."
+>
+  <PageHero
+    eyebrow="Casos"
+    titulo="Trabajos reales, con material, aplicación y resultado"
+    bajada="Así resolvemos problemas técnicos y proyectos de marca. Filtrá por el tipo de cliente."
+    migas={[{ label: 'Casos' }]}
+    compacto
+  />
+  <Section>
+    <div role="group" aria-label="Filtrar casos" class="mb-8 flex flex-wrap gap-2">
+      {filtros.map((f) => (
+        <button
+          type="button"
+          data-filtro={f.valor}
+          aria-pressed={f.valor === 'todos' ? 'true' : 'false'}
+          class="rounded-full border border-grafito-300 bg-white px-4 py-2 text-sm font-medium text-grafito-700 hover:border-grafito-900 aria-pressed:border-grafito-950 aria-pressed:bg-grafito-950 aria-pressed:text-white"
+        >
+          {f.label}
+        </button>
+      ))}
+    </div>
+    <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3" data-lista-casos>
+      {casos.map((c) => (
+        <li data-caso-vertical={c.data.vertical}>
+          <CasoCard caso={c} />
+        </li>
+      ))}
+    </ul>
+  </Section>
+  <QueNecesitas />
+</BaseLayout>
+
+<script>
+  const botones = document.querySelectorAll<HTMLButtonElement>('[data-filtro]');
+  const items = document.querySelectorAll<HTMLElement>('[data-caso-vertical]');
+  const aplicar = (valor: string) => {
+    botones.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filtro === valor)));
+    items.forEach((i) => (i.hidden = valor !== 'todos' && i.dataset.casoVertical !== valor));
+  };
+  botones.forEach((b) =>
+    b.addEventListener('click', () => {
+      const valor = b.dataset.filtro ?? 'todos';
+      aplicar(valor);
+      const url = new URL(location.href);
+      if (valor === 'todos') url.searchParams.delete('vertical');
+      else url.searchParams.set('vertical', valor);
+      history.replaceState(null, '', url);
+    }),
+  );
+  const inicial = new URL(location.href).searchParams.get('vertical');
+  if (inicial === 'industria' || inicial === 'marcas') aplicar(inicial);
+</script>

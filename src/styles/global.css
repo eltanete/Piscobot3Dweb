@@ -1,8 +1,226 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/600.css';
 
-/* Tokens provisorios — se definen en detalle en la Fase 2 (sistema de diseño). */
+/* ==========================================================================
+   Tokens de diseño — PISCOBOT 3D
+   Paleta: grafito + blanco; azul = marca y acción; naranja = acento vertical Marcas.
+   Contraste: #FF6600 no alcanza AA con texto blanco → botones naranjas con texto grafito,
+   y texto naranja sobre blanco usa --color-naranja-700.
+   ========================================================================== */
 @theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Grafito (neutros) */
   --color-grafito: #1a1c21;
-  --color-marca: #0033ff;
-  --color-acento-marcas: #ff6600;
+  --color-grafito-950: #0f1013;
+  --color-grafito-900: #1a1c21;
+  --color-grafito-800: #26292f;
+  --color-grafito-700: #3a3e46;
+  --color-grafito-600: #555a64;
+  --color-grafito-500: #737985;
+  --color-grafito-400: #9aa0aa;
+  --color-grafito-300: #c3c7ce;
+  --color-grafito-200: #e1e3e7;
+  --color-grafito-100: #eff0f2;
+  --color-grafito-50: #f7f8f9;
+
+  /* Azul marca */
+  --color-azul-50: #eef2ff;
+  --color-azul-100: #dbe3ff;
+  --color-azul-400: #4d73ff;
+  --color-azul-500: #1a47ff;
+  --color-azul-600: #0033ff;
+  --color-azul-700: #0029cc;
+  --color-azul-800: #001f99;
+
+  /* Naranja (vertical Marcas) */
+  --color-naranja-50: #fff4ec;
+  --color-naranja-100: #ffe3cc;
+  --color-naranja-400: #ff8533;
+  --color-naranja-500: #ff6600;
+  --color-naranja-600: #e65c00;
+  --color-naranja-700: #b84a00;
+
+  /* Estados */
+  --color-exito: #16a34a;
+  --color-error: #dc2626;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-oscuro: #128c4b;
+
+  /* Radios y sombras (definidos una sola vez) */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --shadow-tarjeta: 0 1px 2px rgb(15 16 19 / 0.06), 0 4px 16px rgb(15 16 19 / 0.06);
+  --shadow-elevada: 0 2px 4px rgb(15 16 19 / 0.08), 0 12px 32px rgb(15 16 19 / 0.12);
+
+  /* Breakpoints: mobile first 375 → 768 → 1280 → 1440 */
+  --breakpoint-md: 48rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 90rem;
+}
+
+/* Acento dinámico por vertical: `inline` hace que las utilidades usen var(--acento)
+   directamente, así un [data-vertical] en cualquier elemento cambia el color de sus hijos. */
+@theme inline {
+  --color-acento: var(--acento);
+  --color-acento-hover: var(--acento-hover);
+  --color-acento-texto: var(--acento-texto);
+  --color-acento-suave: var(--acento-suave);
+  --color-sobre-acento: var(--sobre-acento);
+}
+
+:root {
+  --acento: var(--color-azul-600);
+  --acento-hover: var(--color-azul-700);
+  --acento-texto: var(--color-azul-600);
+  --acento-suave: var(--color-azul-50);
+  --sobre-acento: #fff;
+}
+
+[data-vertical='marcas'] {
+  --acento: var(--color-naranja-500);
+  --acento-hover: var(--color-naranja-400);
+  --acento-texto: var(--color-naranja-700);
+  --acento-suave: var(--color-naranja-50);
+  --sobre-acento: var(--color-grafito-900);
+}
+
+[data-vertical='industria'] {
+  --acento: var(--color-azul-600);
+  --acento-hover: var(--color-azul-700);
+  --acento-texto: var(--color-azul-600);
+  --acento-suave: var(--color-azul-50);
+  --sobre-acento: #fff;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white font-sans text-grafito-900 antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight text-balance text-grafito-950;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-azul-500;
+  }
+
+  ::selection {
+    @apply bg-azul-100 text-grafito-950;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Escala tipográfica fluida */
+@utility text-display {
+  font-size: clamp(2.25rem, 1.6rem + 3.2vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+@utility text-titulo {
+  font-size: clamp(1.75rem, 1.4rem + 1.8vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+@utility text-subtitulo {
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  line-height: 1.25;
+}
+@utility text-bajada {
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.55;
+}
+
+/* Etiqueta técnica (mono) usada sobre títulos y en fichas */
+@utility eyebrow {
+  @apply font-mono text-xs font-semibold tracking-[0.12em] uppercase;
+}
+
+/* Grilla técnica de fondo (heros oscuros) */
+@utility fondo-grilla {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+@utility fondo-grilla-clara {
+  background-image:
+    linear-gradient(to right, rgb(26 28 33 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(26 28 33 / 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Contenido largo (guías, condiciones) */
+@layer components {
+  .prose-piscobot {
+    @apply max-w-[68ch] text-[1.0625rem] leading-relaxed text-grafito-700;
+  }
+  .prose-piscobot :where(h2) {
+    @apply mt-12 mb-4 text-2xl text-grafito-950;
+  }
+  .prose-piscobot :where(h3) {
+    @apply mt-8 mb-3 text-xl text-grafito-950;
+  }
+  .prose-piscobot :where(p, ul, ol, table) {
+    @apply my-5;
+  }
+  .prose-piscobot :where(ul) {
+    @apply list-disc pl-6;
+  }
+  .prose-piscobot :where(ol) {
+    @apply list-decimal pl-6;
+  }
+  .prose-piscobot :where(li) {
+    @apply my-1.5;
+  }
+  .prose-piscobot :where(a) {
+    @apply font-medium text-acento-texto underline underline-offset-2;
+  }
+  .prose-piscobot :where(strong) {
+    @apply font-semibold text-grafito-950;
+  }
+  .prose-piscobot :where(code) {
+    @apply rounded bg-grafito-100 px-1.5 py-0.5 font-mono text-[0.9em];
+  }
+  .prose-piscobot :where(table) {
+    @apply w-full border-collapse text-sm;
+  }
+  .prose-piscobot :where(th, td) {
+    @apply border-b border-grafito-200 px-3 py-2 text-left;
+  }
+  .prose-piscobot :where(th) {
+    @apply font-mono text-xs tracking-wide text-grafito-500 uppercase;
+  }
 }

@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  testimonios: CollectionEntry<'testimonios'>[];
+}
+const { testimonios } = Astro.props;
+---
+
+<ul class="grid gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
+  {testimonios.map(({ data: t }) => (
+    <li data-vertical={t.vertical} class="flex">
+      <figure class="flex flex-1 flex-col rounded-lg border border-grafito-200 bg-white p-6 shadow-tarjeta">
+        <span class="font-mono text-4xl leading-none text-acento" aria-hidden="true">
+          “
+        </span>
+        <blockquote class="mt-2 flex-1 leading-relaxed text-grafito-700">{t.texto}</blockquote>
+        <figcaption class="mt-6 border-t border-grafito-200 pt-4">
+          <p class="font-semibold text-grafito-950">{t.autor}</p>
+          <p class="text-sm text-grafito-500">{[t.cargo, t.empresa].filter(Boolean).join(' · ')}</p>
+        </figcaption>
+      </figure>
+    </li>
+  ))}
+</ul>

@@ -1,0 +1,31 @@
+---
+import { getEntry } from 'astro:content';
+import Section from '../ui/Section.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Accordion from '../ui/Accordion.astro';
+import JsonLd from '../seo/JsonLd.astro';
+
+interface Props {
+  tema: string;
+  fondo?: 'blanco' | 'gris';
+}
+const { tema, fondo = 'blanco' } = Astro.props;
+const faq = await getEntry('faq', tema);
+if (!faq) throw new Error(`No existe el grupo de FAQ "${tema}"`);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.data.preguntas.map((p) => ({
+    '@type': 'Question',
+    name: p.pregunta,
+    acceptedAnswer: { '@type': 'Answer', text: p.respuesta },
+  })),
+};
+---
+
+<Section id="preguntas" fondo={fondo} ancho="angosto">
+  <SectionHeader eyebrow="Preguntas frecuentes" titulo={faq.data.titulo} />
+  <Accordion items={faq.data.preguntas} grupo={`faq-${tema}`} />
+  <JsonLd data={schema} />
+</Section>

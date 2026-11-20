@@ -1,5 +1,9 @@
 ---
-import PlaceholderPage from '../../components/layout/PlaceholderPage.astro';
+import { getEntry } from 'astro:content';
+import ServicioLayout from '../../layouts/ServicioLayout.astro';
+
+const servicio = await getEntry('servicios', 'capacitaciones');
+if (!servicio) throw new Error('Falta el servicio capacitaciones');
 ---
 
-<PlaceholderPage title="Capacitación técnica en impresión 3D" vertical="industria" />
+<ServicioLayout servicio={servicio} />

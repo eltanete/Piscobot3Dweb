@@ -1,0 +1,33 @@
+---
+// Páginas de texto (Nosotros, Condiciones) con contenido desde src/content/paginas.
+import { getEntry, render } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Container from '../components/ui/Container.astro';
+
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+const pagina = await getEntry('paginas', slug);
+if (!pagina) throw new Error(`Falta la página ${slug}`);
+const d = pagina.data;
+const { Content } = await render(pagina);
+---
+
+<BaseLayout title={d.seo.titulo ?? d.titulo} description={d.seo.descripcion ?? d.bajada}>
+  <PageHero
+    eyebrow={d.eyebrow}
+    titulo={d.titulo}
+    bajada={d.bajada}
+    migas={[{ label: d.titulo }]}
+    compacto
+  />
+  <Container class="py-14 md:py-20">
+    <article class="prose-piscobot mx-auto [&_blockquote]:rounded-md [&_blockquote]:border-l-4 [&_blockquote]:border-azul-600 [&_blockquote]:bg-azul-50 [&_blockquote]:p-4">
+      <Content />
+    </article>
+    <slot />
+  </Container>
+  <slot name="despues" />
+</BaseLayout>

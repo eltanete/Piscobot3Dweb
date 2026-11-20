@@ -1,0 +1,60 @@
+---
+// Bloque clave de la Home: dos caminos de igual peso visual, uno por vertical.
+import Icon from '../ui/Icon.astro';
+import { NAV_VERTICALES } from '../../lib/nav';
+
+interface Textos {
+  titulo: string;
+  texto: string;
+  cta: string;
+}
+
+interface Props {
+  industria: Textos;
+  marcas: Textos;
+}
+
+const { industria, marcas } = Astro.props;
+const tarjetas = NAV_VERTICALES.map((g) => ({
+  ...g,
+  textos: g.vertical === 'industria' ? industria : marcas,
+}));
+---
+
+<div class="grid gap-4 md:grid-cols-2 md:gap-6">
+  {tarjetas.map((t) => (
+    <a
+      href={t.href}
+      data-vertical={t.vertical}
+      data-evento="vertical_elegida"
+      class="group relative flex flex-col overflow-hidden rounded-xl border-2 border-grafito-200 bg-white p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-acento hover:shadow-elevada md:p-10"
+    >
+      <span class="absolute inset-x-0 top-0 h-1.5 bg-acento" aria-hidden="true" />
+      <span
+        class="fondo-grilla-clara absolute -right-10 -bottom-10 size-56 rounded-full opacity-60 [mask-image:radial-gradient(black,transparent_70%)]"
+        aria-hidden="true"
+      />
+      <span class="eyebrow mb-4 text-acento-texto">
+        {t.vertical === 'industria' ? 'Para tu industria' : 'Para tu marca'}
+      </span>
+      <h3 class="text-titulo">{t.textos.titulo}</h3>
+      <p class="text-bajada mt-4 text-grafito-600">{t.textos.texto}</p>
+      <ul class="mt-6 space-y-2">
+        {t.items.map((i) => (
+          <li class="flex items-center gap-2 text-grafito-800">
+            <Icon name="check" size={18} class="text-acento-texto" />
+            {i.label}
+          </li>
+        ))}
+      </ul>
+      <span class="mt-8 inline-flex items-center gap-2 self-start rounded-md bg-acento px-5 py-3 font-semibold text-sobre-acento transition-colors group-hover:bg-acento-hover">
+        {t.textos.cta}
+        <Icon
+          name="arrow-right"
+          size={18}
+          class="transition-transform group-hover:translate-x-0.5"
+        />
+      </span>
+    </a>
+  ))}
+</div>

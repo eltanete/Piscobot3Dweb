@@ -1,0 +1,11 @@
+nombre: Maceta de escritorio
+categoria: hogar
+descripcion: Maceta pequeña con reserva de agua, ideal para suculentas, con la marca en relieve.
+materiales:
+  - PLA
+  - PETG
+personalizacion:
+  - Colores de marca
+  - Logo en relieve
+minimo: 50
+orden: 4

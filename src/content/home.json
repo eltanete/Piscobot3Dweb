@@ -1,0 +1,84 @@
+{
+  "hero": {
+    "eyebrow": "Especialistas técnicos en impresión 3D",
+    "titulo": "Conocemos la impresión 3D por dentro. Por eso tus piezas salen bien.",
+    "bajada": "Más de 10 años reparando, enseñando, imprimiendo y desarrollando con tecnología 3D. Esa autoridad técnica trabaja para tu industria o para tu marca.",
+    "ctaPrincipal": "Cotizar proyecto",
+    "ctaSecundario": "Hablar por WhatsApp"
+  },
+  "prueba": [
+    "Servicio técnico",
+    "Capacitaciones",
+    "Impresión 3D",
+    "Diseño e ingeniería inversa",
+    "Merchandising",
+    "Proyectos especiales"
+  ],
+  "bifurcacion": {
+    "titulo": "¿Qué te trae por acá?",
+    "bajada": "Elegí tu camino y te mostramos lo que hacemos para vos.",
+    "industria": {
+      "titulo": "Industria y Técnica",
+      "texto": "Tu impresora necesita un técnico, tu equipo necesita formación o tu proyecto necesita piezas que funcionen.",
+      "cta": "Ver soluciones técnicas"
+    },
+    "marcas": {
+      "titulo": "Marcas y Agencias",
+      "texto": "Buscás merchandising que la gente use o una pieza única para un lanzamiento, evento o activación.",
+      "cta": "Ver soluciones para marcas"
+    }
+  },
+  "contadores": [
+    { "valor": "+10", "etiqueta": "años en impresión 3D" },
+    { "valor": "5", "etiqueta": "servicios especializados" },
+    { "valor": "FDM · Resina", "etiqueta": "tecnologías que dominamos" },
+    { "valor": "1 equipo", "etiqueta": "del diagnóstico a la pieza final" }
+  ],
+  "autoridad": {
+    "eyebrow": "Por qué PISCOBOT 3D",
+    "titulo": "La autoridad técnica es lo que nos diferencia",
+    "bajada": "No vendemos piezas impresas: vendemos el conocimiento para que cada pieza, equipo o proyecto funcione.",
+    "items": [
+      {
+        "titulo": "Hardware",
+        "texto": "Reparamos impresoras todos los días: sabemos qué puede fallar y por qué.",
+        "icono": "cpu"
+      },
+      {
+        "titulo": "Diagnóstico",
+        "texto": "Un método ordenado para encontrar la causa, no sólo el síntoma.",
+        "icono": "scan"
+      },
+      {
+        "titulo": "Procesos",
+        "texto": "Materiales, parámetros y control de calidad pensados para producir.",
+        "icono": "settings"
+      },
+      {
+        "titulo": "Capacitación",
+        "texto": "Transferimos lo que sabemos para que tu equipo gane autonomía.",
+        "icono": "graduation-cap"
+      },
+      {
+        "titulo": "Diseño viable",
+        "texto": "Diseñamos piezas que se pueden fabricar bien desde el primer intento.",
+        "icono": "box"
+      }
+    ]
+  },
+  "queNecesitas": {
+    "titulo": "¿Qué necesitás hoy?",
+    "bajada": "Contanos en qué estás y te respondemos con el próximo paso concreto.",
+    "opciones": [
+      {
+        "label": "Reparar o mantener una impresora",
+        "tipo": "servicio-tecnico",
+        "icono": "wrench"
+      },
+      { "label": "Capacitar a mi equipo", "tipo": "capacitaciones", "icono": "graduation-cap" },
+      { "label": "Imprimir o desarrollar una pieza", "tipo": "impresion", "icono": "layers" },
+      { "label": "Merchandising para mi marca", "tipo": "merchandising", "icono": "gift" },
+      { "label": "Un proyecto especial o activación", "tipo": "proyectos", "icono": "sparkles" }
+    ]
+  }
+}

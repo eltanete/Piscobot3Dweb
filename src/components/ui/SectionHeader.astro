@@ -1,0 +1,39 @@
+---
+interface Props {
+  eyebrow?: string;
+  titulo: string;
+  bajada?: string;
+  alineacion?: 'izquierda' | 'centro';
+  id?: string;
+  oscuro?: boolean;
+  nivel?: 'h1' | 'h2';
+}
+
+const {
+  eyebrow,
+  titulo,
+  bajada,
+  alineacion = 'izquierda',
+  id,
+  oscuro = false,
+  nivel = 'h2',
+} = Astro.props;
+const Tag = nivel;
+---
+
+<header class:list={['mb-10 max-w-3xl md:mb-14', alineacion === 'centro' && 'mx-auto text-center']}>
+  {eyebrow && (
+    <p class:list={['eyebrow mb-3', oscuro ? 'text-grafito-400' : 'text-acento-texto']}>
+      {eyebrow}
+    </p>
+  )}
+  <Tag id={id} class="text-titulo">
+    {titulo}
+  </Tag>
+  {bajada && (
+    <p class:list={['text-bajada mt-4', oscuro ? 'text-grafito-300' : 'text-grafito-600']}>
+      {bajada}
+    </p>
+  )}
+  <slot />
+</header>
