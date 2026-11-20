@@ -16,9 +16,15 @@ export default defineConfig({
     mode: 'standalone',
   }),
   trailingSlash: 'never',
-  integrations: [react(), sitemap(), mdx()],
-  // Redirecciones 301 desde el WordPress actual (se completan en la Fase 7).
-  redirects: {},
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => !/\/(404|keystatic)/.test(page),
+      changefreq: 'monthly',
+    }),
+    mdx(),
+  ],
+  // Las redirecciones 301 del WordPress viven en src/lib/redirects.mjs y las aplica src/middleware.ts.
   vite: {
     plugins: [tailwindcss()],
   },

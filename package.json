@@ -16,6 +16,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "check:redirects": "node scripts/check-redirects.mjs",
+    "images:optimize": "node scripts/optimize-images.mjs",
+    "brand:generate": "node scripts/generate-brand-assets.mjs",
     "astro": "astro"
   },
   "dependencies": {
