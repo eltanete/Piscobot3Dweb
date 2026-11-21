@@ -9,6 +9,7 @@ import Badge from '../../components/ui/Badge.astro';
 import ModelViewer from '../../components/islands/ModelViewer.astro';
 import QueNecesitas from '../../components/sections/QueNecesitas.astro';
 import { VERTICALES, rutaServicio } from '../../lib/constants';
+import { nombreCliente } from '../../lib/casos';
 
 export async function getStaticPaths() {
   const casos = await getCollection('casos');
@@ -20,6 +21,7 @@ const d = caso.data;
 const { Content } = await render(caso);
 const servicio = await getEntry('servicios', d.servicio);
 const v = VERTICALES[d.vertical];
+const cliente = nombreCliente(caso);
 const tipo = servicio?.data.cta.tipo ?? 'impresion';
 ---
 
@@ -48,10 +50,10 @@ const tipo = servicio?.data.cta.tipo ?? 'impresion';
             <Badge tono={d.vertical}>{v.nombre}</Badge>
           </dd>
         </div>
-        {d.cliente && (
+        {cliente && (
           <div>
             <dt class="eyebrow text-grafito-500">Cliente</dt>
-            <dd class="mt-1 font-medium">{d.cliente}</dd>
+            <dd class="mt-1 font-medium">{cliente}</dd>
           </div>
         )}
         <div>

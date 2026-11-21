@@ -91,6 +91,8 @@ const servicios = defineCollection({
       beneficios: z.array(item).default([]),
       bloques: z.array(crearBloque(image)).default([]),
       faq: z.array(z.string()).default([]),
+      /** Caso insignia de esta línea (id de la colección casos). */
+      casoInsignia: z.string().nullish(),
       seo,
     }),
 });
@@ -103,10 +105,25 @@ const casos = defineCollection({
       vertical,
       servicio: z.string(),
       cliente: z.string().nullish(),
-      material: z.string(),
-      aplicacion: z.string(),
+      /** Si es false, se muestra descripcionGenerica en lugar del nombre del cliente. */
+      mostrarNombreCliente: z.boolean().default(false),
+      descripcionGenerica: z.string().nullish(),
+      /** Línea de negocio (id de la colección servicios). Por compatibilidad, igual a "servicio". */
+      nivel: z.enum(['insignia', 'ficha', 'galeria']).default('ficha'),
+      fecha: z.coerce.date().nullish(),
+      bajada: z.string().nullish(),
+      material: z.string().nullish(),
+      aplicacion: z.string().nullish(),
       resumen: z.string(),
+      desafio: z.string().nullish(),
+      solucion: z.string().nullish(),
+      resultado: z.string().nullish(),
+      /** Datos destacados (cifra + etiqueta), en tipografía monoespaciada. */
+      datos: z.array(z.object({ valor: z.coerce.string(), etiqueta: z.string() })).default([]),
       metricas: z.array(z.object({ valor: z.string(), etiqueta: z.string() })).default([]),
+      borrador: z.boolean().default(false),
+      /** Texto todavía provisorio (se reemplaza cuando llegue el definitivo). */
+      provisorio: z.boolean().default(false),
       imagen: image().nullish(),
       imagenAlt: z.string().nullish(),
       /** Fotos adicionales que se muestran en el detalle del caso. */

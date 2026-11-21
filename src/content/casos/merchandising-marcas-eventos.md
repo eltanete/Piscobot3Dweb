@@ -9,7 +9,7 @@ imagen: ../../assets/images/casos/merch-llavero.webp
 imagenAlt: Merchandising para marcas y eventos
 galeria:
   - ../../assets/images/casos/merch-llavero-02.webp
-destacado: true
+destacado: false
 orden: 6
 ---
 
