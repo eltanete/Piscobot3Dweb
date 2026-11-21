@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import MobileCtaBar from '../components/layout/MobileCtaBar.astro';
+import WhatsAppChat from '../components/layout/WhatsAppChat.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Analytics from '../components/seo/Analytics.astro';
 import { SITE, sitio, type Vertical } from '../lib/constants';
@@ -111,5 +112,6 @@ const organizacion = {
     {!minimal && (
       <MobileCtaBar ctaLabel={cta?.label} ctaHref={cta?.href} mensajeWhatsapp={mensajeWhatsapp} />
     )}
+    {!minimal && <WhatsAppChat />}
   </body>
 </html>
