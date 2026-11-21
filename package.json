@@ -20,7 +20,8 @@
     "images:optimize": "node scripts/optimize-images.mjs",
     "brand:generate": "node scripts/generate-brand-assets.mjs",
     "astro": "astro",
-    "prepare": "git config core.hooksPath .githooks || true"
+    "prepare": "git config core.hooksPath .githooks || true",
+    "auditar": "node scripts/auditar-sitio.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.4.10",

@@ -24,6 +24,8 @@ jobs:
         run: npm run build
         env:
           DEPLOY_TARGET: static
+      - name: Links, botones y SEO (sin destinos rotos, un H1, titles únicos)
+        run: npm run auditar
       - name: Build Node
         run: npm run build
         env:

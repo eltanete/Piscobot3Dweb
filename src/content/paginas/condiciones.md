@@ -3,7 +3,7 @@ titulo: Condiciones
 eyebrow: Garantías, ingreso de equipos y pagos
 bajada: Todo lo que necesitás saber antes de trabajar con nosotros, en un solo lugar.
 seo:
-  titulo: Condiciones — garantías, ingreso y egreso de equipos, formas de pago
+  titulo: 'Condiciones: garantías, equipos y formas de pago'
   descripcion: Condiciones de servicio de PISCOBOT 3D. Garantía de 30 días en reparaciones, ingreso y egreso de equipos al taller, formas de pago y entregas.
 ---
 

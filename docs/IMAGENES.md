@@ -1,5 +1,21 @@
 # Guía de imágenes — qué falta, cómo nombrarlas y dónde van
 
+## Sistema de imágenes (punto 8)
+
+| Formato  | Medida del original | Dónde se usa                                           |
+| -------- | ------------------- | ------------------------------------------------------ |
+| **16:9** | 2400 × 1350         | Heros de páginas y casos insignia                      |
+| **4:3**  | 1600 × 1200         | Tarjetas, fichas de casos y galerías                   |
+| **1:1**  | 1200 × 1200         | Detalles y catálogo de merchandising, kits             |
+| **4:5**  | 1080 × 1350         | Hero en mobile (cuando se cargue una versión vertical) |
+
+- **Nombre de archivo:** `caso-numero-formato.jpg`, p. ej. `carbone-01-16x9.jpg`, `carbone-02-4x3.jpg`. Cada foto con su **texto alternativo** (en Keystatic el campo es obligatorio).
+- Mientras falta una foto, el sitio muestra un **placeholder con la proporción exacta** y el nombre de archivo esperado.
+- **Fondos:** las fotos van sobre grafito (#1A1C21 a #2A2D34) o gris claro (#E6E7EA a #F4F4F6); las secciones del sitio usan esos mismos fondos para que la foto se funda.
+- **Optimización:** `astro:assets` genera AVIF/WebP con `srcset`, siempre con `width`/`height` (sin saltos de layout). Todas las imágenes cargan en diferido salvo la del hero (`fetchpriority="high"`, sin lazy).
+- **Imágenes generadas con IA:** sólo en catálogo y campaña de fin de año, nunca en casos; llevan la leyenda "Imagen ilustrativa" (campo `imagenIlustrativa` del catálogo).
+- **Open Graph:** cada página y caso con foto principal genera su imagen de 1200 × 630 automáticamente; el resto usa `public/og/default.jpg`.
+
 > **Actualización (branch `feature/imagenes-backup`):** se revisaron las 134 imágenes del backup del WordPress y se implementaron las útiles. Ya están resueltos:
 >
 > - Hero de Home, `/empresas`, `/marcas`, Servicio técnico, Merchandising y Proyectos especiales (`paginas/`, `servicios/`).

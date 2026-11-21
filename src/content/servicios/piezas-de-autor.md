@@ -53,6 +53,6 @@ bloques:
 faq:
   - piezas-de-autor
 seo:
-  titulo: Piezas de autor y props para cine impresos en 3D en Buenos Aires
+  titulo: Piezas de autor y props para cine en 3D, Buenos Aires
   descripcion: Props funcionales para cine, publicidad y contenido, diseñados y fabricados en impresión 3D en CABA. Pensados para usarse frente a cámara y guardarse como obra.
 ---

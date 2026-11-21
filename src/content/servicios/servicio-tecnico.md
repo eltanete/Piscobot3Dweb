@@ -113,6 +113,6 @@ bloques:
 faq:
   - servicio-tecnico
 seo:
-  titulo: Servicio técnico de impresoras 3D en CABA — reparación y mantenimiento
+  titulo: Servicio técnico de impresoras 3D en CABA
   descripcion: Servicio técnico de impresoras 3D para empresas y makers. Reparaciones, mantenimiento preventivo, suscripción anual y upgrades. Presupuestos en 24 h, garantía de 30 días.
 ---

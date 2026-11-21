@@ -33,6 +33,9 @@ jobs:
           PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
           PUBLIC_GTM_ID: ${{ vars.PUBLIC_GTM_ID }}
 
+      - name: Chequeo de links rotos y SEO antes de publicar
+        run: npm run auditar
+
       - name: Configuración de formularios (config.php)
         run: |
           {

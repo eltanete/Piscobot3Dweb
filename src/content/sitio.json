@@ -1,7 +1,7 @@
 {
   "nombre": "PISCOBOT 3D",
   "eslogan": "Expertos en impresión 3D",
-  "descripcion": "Servicio técnico de impresoras 3D, capacitación en planta, impresión 3D industrial y diseño para empresas; merchandising y proyectos especiales para marcas. Más de 10 años en manufactura aditiva.",
+  "descripcion": "Servicio técnico de impresoras 3D, capacitación, impresión y diseño para empresas; regalos, esculturas y merchandising 3D para marcas. Taller en CABA.",
   "telefono": "+54 9 11 6219 3012",
   "whatsapp": "5491162193012",
   "email": "piscobot@gmail.com",
@@ -17,5 +17,11 @@
     "linkedin": "",
     "youtube": "",
     "facebook": ""
+  },
+  "codigoPostal": "C1419",
+  "geo": {
+    "lat": -34.6005,
+    "lng": -58.5134,
+    "confirmar": "Coordenadas aproximadas: confirmar con Google Business Profile"
   }
 }

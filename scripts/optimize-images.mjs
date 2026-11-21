@@ -1,4 +1,4 @@
-// Optimiza las imágenes fuente de src/assets/images: máx. 1600 px de ancho, WebP calidad 82.
+// Optimiza las imágenes fuente de src/assets/images: máx. 2400 px de ancho, WebP calidad 82.
 // Los logos (marca/, clientes/) se mantienen en PNG para conservar la transparencia nítida.
 // Uso: node scripts/optimize-images.mjs [carpeta]
 import { readdir, stat, unlink, readFile, writeFile } from 'node:fs/promises';
@@ -9,7 +9,7 @@ import sharp from 'sharp';
 sharp.cache(false);
 
 const raiz = process.argv[2] ?? 'src/assets/images';
-const MAX = 1600;
+const MAX = 2400; // heros 16:9 (2400×1350); el resto se sirve más chico vía astro:assets
 const CONSERVAR_PNG = ['marca', 'clientes'];
 
 async function* archivos(dir) {

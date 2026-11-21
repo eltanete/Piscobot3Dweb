@@ -99,6 +99,6 @@ faq:
   - impresion
   - diseno
 seo:
-  titulo: Impresión 3D en grandes cantidades, diseño 3D e ingeniería inversa
+  titulo: Impresión 3D en cantidad, prototipos y diseño 3D
   descripcion: Impresión 3D industrial en serie, prototipos y piezas técnicas en materiales industriales. Diseño 3D, ingeniería inversa y escaneo. Presupuestos en 24 h.
 ---
