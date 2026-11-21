@@ -8,6 +8,7 @@ import WhatsAppChat from '../components/layout/WhatsAppChat.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Analytics from '../components/seo/Analytics.astro';
 import BannerCampana from '../components/campana/BannerCampana.astro';
+import BannerCookies from '../components/seo/BannerCookies.astro';
 import { SITE, sitio, type Vertical } from '../lib/constants';
 
 interface Props {
@@ -25,6 +26,8 @@ interface Props {
   minimal?: boolean;
   /** Muestra el banner de la campaña de fin de año (Home y /marcas). */
   bannerCampana?: boolean;
+  /** Línea de negocio de la página (para eventos del dataLayer). */
+  linea?: string;
   schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
@@ -39,6 +42,7 @@ const {
   mensajeWhatsapp,
   minimal = false,
   bannerCampana = false,
+  linea,
   schema,
 } = Astro.props;
 
@@ -107,7 +111,7 @@ const organizacion = {
     <slot name="head" />
     <Analytics />
   </head>
-  <body data-vertical={vertical} class="flex min-h-screen flex-col">
+  <body data-vertical={vertical} data-linea={linea} class="flex min-h-screen flex-col">
     {!minimal && bannerCampana && <BannerCampana />}
     {!minimal && <Header />}
     <main id="contenido" class="flex-1">
@@ -118,6 +122,7 @@ const organizacion = {
       <MobileCtaBar ctaLabel={cta?.label} ctaHref={cta?.href} mensajeWhatsapp={mensajeWhatsapp} />
     )}
     {!minimal && <WhatsAppChat />}
+    <BannerCookies />
     <script is:inline>
       /* eslint-disable no-var, @typescript-eslint/no-unused-vars -- ES5 inline a propósito */
       // Atribución: guarda gclid y utm_* de la visita (primer toque) y la última página vista,

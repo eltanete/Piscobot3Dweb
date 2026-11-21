@@ -9,6 +9,7 @@ import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import keystatic from '@keystatic/astro';
 import { REDIRECCIONES, PREFIJOS } from './src/lib/redirects.mjs';
+import { CABECERAS } from './src/lib/seguridad.mjs';
 
 /**
  * Destino de despliegue (variable DEPLOY_TARGET):
@@ -60,6 +61,9 @@ function htaccess() {
             ([viejo, nuevo]) => `RewriteRule ^${viejo.slice(1)}(/.*)?/?$ ${nuevo}$1 [R=301,L,NE]`,
           )
           .join('\n');
+        const cabeceras = Object.entries(CABECERAS)
+          .map(([k, v]) => `  Header always set ${k} "${v}"`)
+          .join('\n');
         const contenido = `# Generado automáticamente en el build (astro.config.mjs). No editar a mano.
 Options -MultiViews -Indexes
 DirectorySlash Off
@@ -93,8 +97,7 @@ RewriteRule ^(.+)$ /$1.html [L]
   <FilesMatch "\\.html$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
-  Header set X-Content-Type-Options "nosniff"
-  Header set Referrer-Policy "strict-origin-when-cross-origin"
+${cabeceras}
 </IfModule>
 
 <IfModule mod_deflate.c>

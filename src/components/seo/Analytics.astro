@@ -1,121 +1,95 @@
 ---
-// GA4 + Microsoft Clarity, cargados sólo si hay IDs configurados y el visitante aceptó cookies.
-// Eventos: cualquier elemento con data-evento="nombre" envía ese evento al hacer clic,
-// junto con la vertical de la página (data-vertical del <body>).
-const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
-const clarityId = import.meta.env.PUBLIC_CLARITY_ID ?? '';
-const activo = Boolean(gaId || clarityId);
+// Google Tag Manager + Consent Mode v2. Todo (GA4, Google Ads, remarketing, Clarity) se carga desde GTM:
+// no hay etiquetas sueltas en el código. Ver docs/GTM.md para las etiquetas y disparadores.
+// - Consentimiento por defecto DENEGADO; el banner lo actualiza (Aceptar / Rechazar).
+// - GTM se carga async (no bloquea el render). Sin PUBLIC_GTM_ID no se carga, pero el dataLayer funciona.
+// - Eventos: envio_formulario, clic_whatsapp, clic_telefono, clic_mail, armar_kit, clic_caso,
+//   inicio_formulario, cierre_banner_campana (+ clic_cta genérico), con vertical, línea y página.
+const gtmId = import.meta.env.PUBLIC_GTM_ID ?? '';
 ---
 
-{activo && (
-  <>
-    <div
-      id="consentimiento"
-      hidden
-      class="fixed inset-x-3 bottom-24 z-50 mx-auto max-w-xl rounded-lg border border-grafito-200 bg-white p-4 text-sm shadow-elevada md:bottom-6"
-      role="dialog"
-      aria-label="Preferencias de cookies"
-    >
-      <p class="text-grafito-700">
-        Usamos cookies de analítica para entender cómo se usa el sitio y mejorarlo. No las usamos
-        para publicidad.
-      </p>
-      <div class="mt-3 flex gap-2">
-        <button
-          type="button"
-          data-consent="si"
-          class="rounded-md bg-grafito-950 px-4 py-2 font-semibold text-white"
-        >
-          Aceptar
-        </button>
-        <button
-          type="button"
-          data-consent="no"
-          class="rounded-md border border-grafito-300 px-4 py-2 font-semibold"
-        >
-          Rechazar
-        </button>
-      </div>
-    </div>
-    <script is:inline define:vars={{ gaId, clarityId }}>
-      /* eslint-disable no-var, prefer-rest-params, no-empty, @typescript-eslint/no-unused-vars -- ES5 inline a propósito */
-      (function () {
-        var KEY = 'piscobot-consent';
-        var leer = function () {
-          try {
-            return localStorage.getItem(KEY);
-          } catch (e) {
-            return null;
-          }
-        };
-        var guardar = function (v) {
-          try {
-            localStorage.setItem(KEY, v);
-          } catch (e) {}
-        };
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () {
-          window.dataLayer.push(arguments);
-        };
-        var cargar = function () {
-          if (gaId) {
-            var s = document.createElement('script');
-            s.async = true;
-            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
-            document.head.appendChild(s);
-            window.gtag('js', new Date());
-            window.gtag('config', gaId, { anonymize_ip: true });
-          }
-          if (clarityId) {
-            (function (c, l, a, r, i, t, y) {
-              c[a] =
-                c[a] ||
-                function () {
-                  (c[a].q = c[a].q || []).push(arguments);
-                };
-              t = l.createElement(r);
-              t.async = 1;
-              t.src = 'https://www.clarity.ms/tag/' + i;
-              y = l.getElementsByTagName(r)[0];
-              y.parentNode.insertBefore(t, y);
-            })(window, document, 'clarity', 'script', clarityId);
-          }
-        };
-        var estado = leer();
-        if (estado === 'si') cargar();
-        document.addEventListener('DOMContentLoaded', function () {
-          var banner = document.getElementById('consentimiento');
-          if (!estado && banner) banner.hidden = false;
-          document.querySelectorAll('[data-consent]').forEach(function (b) {
-            b.addEventListener('click', function () {
-              var v = b.getAttribute('data-consent');
-              guardar(v);
-              if (banner) banner.hidden = true;
-              if (v === 'si') cargar();
-            });
-          });
-        });
-        document.addEventListener('click', function (e) {
-          var el = e.target.closest && e.target.closest('[data-evento]');
-          if (!el) return;
-          window.gtag('event', el.getAttribute('data-evento'), {
-            vertical: document.body.dataset.vertical || 'general',
-            pagina: location.pathname,
-          });
-        });
-        window.addEventListener('piscobot:evento', function (e) {
-          window.gtag(
-            'event',
-            e.detail.nombre,
-            Object.assign(
-              {
-                vertical: document.body.dataset.vertical || 'general',
-              },
-              e.detail.params || {},
-            ),
-          );
-        });
-      })();
-    </script>
-  </>
-)}
+<script is:inline define:vars={{ gtmId }}>
+  /* eslint-disable no-var, no-empty, prefer-rest-params, @typescript-eslint/no-unused-vars -- ES5 inline a propósito */
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () {
+    window.dataLayer.push(arguments);
+  };
+  var guardado = null;
+  try {
+    guardado = localStorage.getItem('piscobot-consent');
+  } catch (e) {}
+  window.gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500,
+  });
+  if (guardado === 'si') {
+    window.gtag('consent', 'update', {
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted',
+      analytics_storage: 'granted',
+    });
+  }
+  if (gtmId) {
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s);
+      j.async = true;
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', gtmId);
+  }
+</script>
+
+<script>
+  type DL = { push: (o: Record<string, unknown>) => void };
+  const dl = () => ((window as unknown as { dataLayer: DL }).dataLayer ??= [] as unknown as DL);
+  const contexto = () => ({
+    vertical: document.body.dataset.vertical || 'general',
+    linea: document.body.dataset.linea || '',
+    pagina: location.pathname,
+  });
+  const CONOCIDOS = new Set([
+    'envio_formulario',
+    'clic_whatsapp',
+    'clic_telefono',
+    'clic_mail',
+    'armar_kit',
+    'clic_caso',
+    'inicio_formulario',
+    'cierre_banner_campana',
+  ]);
+  const ALIAS: Record<string, string> = { whatsapp_click: 'clic_whatsapp' };
+  const enviar = (evento: string, params: Record<string, unknown> = {}) =>
+    dl().push({ event: evento, ...contexto(), ...params });
+
+  // Clics: WhatsApp / teléfono / mail se detectan por el destino; el resto por data-evento.
+  document.addEventListener('click', (e) => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>('a, button');
+    if (!el) return;
+    const href = el.getAttribute('href') ?? '';
+    if (/^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(href)) return enviar('clic_whatsapp');
+    if (href.startsWith('tel:')) return enviar('clic_telefono');
+    if (href.startsWith('mailto:')) return enviar('clic_mail');
+    const nombre = el.dataset.evento;
+    if (!nombre) return;
+    const normal = ALIAS[nombre] ?? nombre;
+    if (CONOCIDOS.has(normal)) enviar(normal, { texto: el.textContent?.trim().slice(0, 80) });
+    else enviar('clic_cta', { cta: normal, texto: el.textContent?.trim().slice(0, 80) });
+  });
+
+  // Eventos emitidos por los componentes (formularios, kit, banner, chat).
+  window.addEventListener('piscobot:evento', (e) => {
+    const { nombre, params } = (
+      e as CustomEvent<{ nombre: string; params?: Record<string, unknown> }>
+    ).detail;
+    enviar(ALIAS[nombre] ?? nombre, params ?? {});
+  });
+</script>

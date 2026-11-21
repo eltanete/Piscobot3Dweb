@@ -31,8 +31,7 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
           PUBLIC_NOINDEX: ${{ vars.PUBLIC_NOINDEX }}
           PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
-          PUBLIC_GA_ID: ${{ vars.PUBLIC_GA_ID }}
-          PUBLIC_CLARITY_ID: ${{ vars.PUBLIC_CLARITY_ID }}
+          PUBLIC_GTM_ID: ${{ vars.PUBLIC_GTM_ID }}
 
       - name: Configuración de formularios (config.php)
         run: |

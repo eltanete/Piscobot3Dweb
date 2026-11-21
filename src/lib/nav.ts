@@ -80,4 +80,5 @@ export const NAV_COMUNES: NavItem[] = [
 export const NAV_FOOTER_EXTRA: NavItem[] = [
   { label: 'Condiciones', href: '/condiciones' },
   { label: 'Cotizar', href: '/cotizar' },
+  { label: 'Privacidad', href: '/privacidad' },
 ];

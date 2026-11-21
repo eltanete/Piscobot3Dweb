@@ -62,6 +62,7 @@ const bloques = [
   title={`${d.titulo}${cliente ? ` — ${cliente}` : ''}`}
   description={d.bajada ?? d.resumen}
   vertical={d.vertical}
+  linea={d.servicio}
   ogType="article"
   cta={{ label: 'Quiero algo así', href: `/cotizar?vertical=${d.vertical}` }}
 >
