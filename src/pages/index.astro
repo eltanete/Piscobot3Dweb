@@ -33,7 +33,7 @@ const casos = (
 )
   .sort((a, b) => a.data.orden - b.data.orden)
   .slice(0, 3);
-const recursos = (await getCollection('recursos'))
+const recursos = (await getCollection('articulos', (a) => !a.data.borrador))
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
   .slice(0, 3);
 const testimonios = await getCollection('testimonios');

@@ -1,49 +1,77 @@
 ---
 import { rutaLimpia } from '../../lib/ruta';
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/sections/PageHero.astro';
 import Container from '../../components/ui/Container.astro';
 import Button from '../../components/ui/Button.astro';
+import Accordion from '../../components/ui/Accordion.astro';
 import RecursoCard from '../../components/sections/RecursoCard.astro';
+import CasoCard from '../../components/sections/CasoCard.astro';
 import Section from '../../components/ui/Section.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
-import { whatsappUrl, MENSAJES_WHATSAPP } from '../../lib/whatsapp';
+import { whatsappUrl } from '../../lib/whatsapp';
+import { rutaServicio } from '../../lib/constants';
+import { minutosLectura, publicado } from '../../lib/articulos';
 
 export async function getStaticPaths() {
-  const recursos = await getCollection('recursos');
-  return recursos.map((recurso) => ({ params: { slug: recurso.id }, props: { recurso } }));
+  const articulos = await getCollection('articulos', publicado);
+  return articulos.map((recurso) => ({ params: { slug: recurso.id }, props: { recurso } }));
 }
 
 const { recurso } = Astro.props;
 const d = recurso.data;
 const { Content, headings } = await render(recurso);
 const indice = headings.filter((h) => h.depth === 2);
-const otras = (await getCollection('recursos', (r) => r.id !== recurso.id)).slice(0, 3);
+const minutos = minutosLectura(recurso);
+const servicio = await getEntry('servicios', d.servicioRelacionado);
+const caso = d.casoRelacionado ? await getEntry('casos', d.casoRelacionado) : undefined;
+const otras = (await getCollection('articulos', (r) => publicado(r) && r.id !== recurso.id))
+  .sort((a, b) => Number(b.data.vertical === d.vertical) - Number(a.data.vertical === d.vertical))
+  .slice(0, 3);
 const fecha = (f: Date) =>
   f.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+const ctaHref = servicio ? rutaServicio(servicio.data.vertical, servicio.id) : '/cotizar';
+const ctaCotizar = `/cotizar?tipo=${servicio?.data.cta.tipo ?? 'servicio-tecnico'}`;
+const whatsapp =
+  servicio?.data.whatsapp ?? 'Hola PISCOBOT 3D, leí una guía y quiero hacer una consulta.';
 
-const schema = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: d.titulo,
-  description: d.descripcion,
-  datePublished: d.fecha.toISOString(),
-  dateModified: (d.actualizado ?? d.fecha).toISOString(),
-  author: { '@id': new URL('/#organizacion', Astro.site).href },
-  publisher: { '@id': new URL('/#organizacion', Astro.site).href },
-  mainEntityOfPage: new URL(rutaLimpia(Astro.url), Astro.site).href,
-};
+const schema: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: d.titulo,
+    description: d.descripcion,
+    datePublished: d.fecha.toISOString(),
+    dateModified: (d.actualizado ?? d.fecha).toISOString(),
+    author: { '@type': 'Organization', name: d.autor },
+    publisher: { '@id': new URL('/#organizacion', Astro.site).href },
+    mainEntityOfPage: new URL(rutaLimpia(Astro.url), Astro.site).href,
+    timeRequired: `PT${minutos}M`,
+  },
+];
+if (d.faq.length) {
+  schema.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: d.faq.map((p) => ({
+      '@type': 'Question',
+      name: p.pregunta,
+      acceptedAnswer: { '@type': 'Answer', text: p.respuesta },
+    })),
+  });
+}
 ---
 
 <BaseLayout
   title={d.titulo}
   description={d.descripcion}
-  vertical="industria"
+  vertical={d.vertical}
+  linea={d.servicioRelacionado}
   ogType="article"
   schema={schema}
-  cta={{ label: 'Agendar diagnóstico', href: '/cotizar?tipo=servicio-tecnico' }}
-  mensajeWhatsapp={MENSAJES_WHATSAPP.servicioTecnico}
+  cta={{ label: servicio?.data.cta.label ?? 'Cotizar', href: ctaCotizar }}
+  mensajeWhatsapp={whatsapp}
 >
   <PageHero
     eyebrow={`Guía técnica · ${d.categoria}`}
@@ -51,7 +79,7 @@ const schema = {
     bajada={d.descripcion}
     migas={[{ label: 'Recursos', href: '/recursos' }, { label: d.categoria }]}
     imagen={d.imagen ?? undefined}
-    imagenAlt={`Falla de ${d.categoria.toLowerCase()} en una impresora 3D`}
+    imagenAlt={d.imagenAlt ?? `Falla de ${d.categoria.toLowerCase()} en una impresora 3D`}
     compacto
   />
 
@@ -59,8 +87,8 @@ const schema = {
     <aside class="xl:order-2 xl:col-span-4">
       <div class="space-y-6 xl:sticky xl:top-24">
         {indice.length > 0 && (
-          <nav aria-label="Índice de la guía" class="rounded-lg border border-grafito-200 p-6">
-            <p class="eyebrow mb-3 text-grafito-500">En esta guía</p>
+          <nav aria-label="Índice del artículo" class="rounded-lg border border-grafito-200 p-6">
+            <p class="eyebrow mb-3 text-grafito-500">En este artículo</p>
             <ol class="space-y-2 text-sm">
               {indice.map((h) => (
                 <li>
@@ -72,53 +100,79 @@ const schema = {
             </ol>
           </nav>
         )}
-        <div class="rounded-lg bg-grafito-950 p-6 text-grafito-300">
-          <p class="text-lg font-semibold text-white">¿No se resuelve?</p>
-          <p class="mt-2 text-sm">
-            Hacemos un diagnóstico completo de tu impresora y te decimos qué tiene.
-          </p>
-          <div class="mt-4 flex flex-col gap-2">
-            <Button href="/cotizar?tipo=servicio-tecnico" bloque evento="cta_guia">
-              Agendar diagnóstico
-            </Button>
-            <Button
-              href={whatsappUrl(MENSAJES_WHATSAPP.servicioTecnico)}
-              variante="whatsapp"
-              icono="message"
-              bloque
-              evento="whatsapp_click"
-            >
-              WhatsApp
-            </Button>
-          </div>
-        </div>
       </div>
     </aside>
     <article class="xl:col-span-8">
-      <p class="mb-8 font-mono text-xs text-grafito-500">
-        Publicado el <time datetime={d.fecha.toISOString()}>{fecha(d.fecha)}</time>
+      <p class="mb-8 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-grafito-500">
+        <span>{d.autor}</span>
+        <span>
+          Publicado el <time datetime={d.fecha.toISOString()}>{fecha(d.fecha)}</time>
+        </span>
         {d.actualizado && (
-          <>
-            {' '}
-            · Actualizado el{' '}
+          <span>
+            Actualizado el{' '}
             <time datetime={d.actualizado.toISOString()}>{fecha(d.actualizado)}</time>
-          </>
+          </span>
         )}
+        <span>{minutos} min de lectura</span>
       </p>
       <div class="prose-piscobot [&_blockquote]:my-6 [&_blockquote]:rounded-md [&_blockquote]:border-l-4 [&_blockquote]:border-naranja-500 [&_blockquote]:bg-naranja-50 [&_blockquote]:p-4">
         <Content />
       </div>
+
+      {d.faq.length > 0 && (
+        <section class="mt-12" aria-labelledby="faq-articulo">
+          <h2 id="faq-articulo" class="mb-4 text-2xl">
+            Preguntas frecuentes
+          </h2>
+          <Accordion items={d.faq} grupo={`faq-${recurso.id}`} />
+        </section>
+      )}
+
+      <!-- CTA al servicio relacionado -->
+      <div class="mt-12 rounded-xl bg-grafito-950 p-7 text-grafito-300">
+        <p class="text-xl font-semibold text-white">
+          {servicio
+            ? `¿Necesitás ayuda con esto? Conocé ${servicio.data.titulo.toLowerCase()}.`
+            : '¿Necesitás ayuda con esto?'}
+        </p>
+        {servicio && <p class="mt-2">{servicio.data.resumen}</p>}
+        <div class="mt-5 flex flex-wrap gap-3">
+          <Button href={ctaHref} variante="claro" iconoFinal="arrow-right">
+            {servicio ? 'Ver el servicio' : 'Cotizar'}
+          </Button>
+          <Button
+            href={whatsappUrl(whatsapp)}
+            variante="whatsapp"
+            icono="message"
+            evento="clic_whatsapp"
+          >
+            WhatsApp
+          </Button>
+        </div>
+      </div>
     </article>
   </Container>
 
-  <Section fondo="gris">
-    <SectionHeader titulo="Otras guías" />
-    <ul class="grid gap-6 md:grid-cols-3">
-      {otras.map((r) => (
-        <li>
-          <RecursoCard recurso={r} />
-        </li>
-      ))}
-    </ul>
-  </Section>
+  {caso && !caso.data.borrador && (
+    <Section espaciado="compacto">
+      <SectionHeader titulo="Un caso relacionado" />
+      <div class="max-w-md">
+        <CasoCard caso={caso} />
+      </div>
+    </Section>
+  )}
+
+  {otras.length > 0 && (
+    <Section fondo="gris">
+      <SectionHeader titulo="Artículos relacionados" />
+      <ul class="grid gap-6 md:grid-cols-3">
+        {otras.map((r) => (
+          <li>
+            <RecursoCard recurso={r} />
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )}
 </BaseLayout>

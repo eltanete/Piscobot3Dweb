@@ -174,8 +174,8 @@ const merch = defineCollection({
     }),
 });
 
-const recursos = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/recursos' }),
+const articulos = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/articulos' }),
   schema: ({ image }) =>
     z.object({
       titulo: z.string(),
@@ -184,10 +184,20 @@ const recursos = defineCollection({
       categoria: z.string(),
       icono: icono.default('book'),
       imagen: image().nullish(),
+      imagenAlt: z.string().nullish(),
       fecha: z.coerce.date(),
       actualizado: z.coerce.date().nullish(),
+      autor: z.string().default('Equipo PISCOBOT 3D'),
+      /** Minutos de lectura; si falta se calcula del texto. */
+      tiempoLectura: z.number().nullish(),
+      faq: z.array(z.object({ pregunta: z.string(), respuesta: z.string() })).default([]),
+      /** Id de la colección servicios para el CTA final. */
+      servicioRelacionado: z.string().default('servicio-tecnico'),
+      /** Id de la colección casos (opcional). */
+      casoRelacionado: z.string().nullish(),
       /** Slug en el WordPress actual, para redirecciones 301. */
       wpSlug: z.string().nullish(),
+      borrador: z.boolean().default(false),
       provisorio: z.boolean().default(false),
     }),
 });
@@ -236,7 +246,7 @@ export const collections = {
   servicios,
   casos,
   merch,
-  recursos,
+  articulos,
   testimonios,
   faq,
   clientes,

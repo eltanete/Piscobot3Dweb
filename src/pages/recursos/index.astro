@@ -5,28 +5,46 @@ import PageHero from '../../components/sections/PageHero.astro';
 import Section from '../../components/ui/Section.astro';
 import RecursoCard from '../../components/sections/RecursoCard.astro';
 import QueNecesitas from '../../components/sections/QueNecesitas.astro';
+import { VERTICALES } from '../../lib/constants';
+import { porFecha, publicado } from '../../lib/articulos';
 
-const recursos = (await getCollection('recursos')).sort((a, b) =>
-  a.data.titulo.localeCompare(b.data.titulo, 'es'),
-);
+const articulos = (await getCollection('articulos', publicado)).sort(porFecha);
+const filtros = [
+  { valor: 'todos', label: 'Todos' },
+  { valor: 'industria', label: VERTICALES.industria.nombre },
+  { valor: 'marcas', label: VERTICALES.marcas.nombre },
+].filter((f) => f.valor === 'todos' || articulos.some((a) => a.data.vertical === f.valor));
 ---
 
 <BaseLayout
-  title="Recursos: guías técnicas de impresión 3D"
-  description="Guías técnicas para diagnosticar y resolver fallas de impresoras 3D: extrusión, mecánica, adhesión, electrónica, problemas térmicos y fallas recurrentes."
-  vertical="industria"
+  title="Blog: guías de impresión 3D y fallas de impresoras"
+  description="Guías técnicas para diagnosticar y resolver fallas de impresoras 3D (extrusión, mecánica, adhesión, electrónica, térmica) y artículos para empresas y marcas, desde nuestro taller en CABA."
 >
   <PageHero
     eyebrow="Recursos"
-    titulo="Guías técnicas para resolver fallas de impresoras 3D"
-    bajada="Lo que aprendemos reparando impresoras todos los días, ordenado por tipo de falla."
+    titulo="Lo que aprendemos en el taller, para que tu impresión 3D funcione"
+    bajada="Guías técnicas, fallas frecuentes y cómo resolverlas. Filtrá por tipo de lector."
     migas={[{ label: 'Recursos' }]}
     compacto
   />
   <Section>
+    {filtros.length > 2 && (
+      <div role="group" aria-label="Filtrar por vertical" class="mb-8 flex flex-wrap gap-2">
+        {filtros.map((f) => (
+          <button
+            type="button"
+            data-filtro={f.valor}
+            aria-pressed={f.valor === 'todos' ? 'true' : 'false'}
+            class="rounded-full border border-grafito-300 bg-white px-4 py-2 text-sm font-medium text-grafito-700 hover:border-grafito-900 aria-pressed:border-grafito-950 aria-pressed:bg-grafito-950 aria-pressed:text-white"
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+    )}
     <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      {recursos.map((r) => (
-        <li>
+      {articulos.map((r) => (
+        <li data-vertical-articulo={r.data.vertical}>
           <RecursoCard recurso={r} />
         </li>
       ))}
@@ -34,3 +52,15 @@ const recursos = (await getCollection('recursos')).sort((a, b) =>
   </Section>
   <QueNecesitas soloTipos={['servicio-tecnico', 'capacitaciones', 'impresion']} />
 </BaseLayout>
+
+<script>
+  const botones = document.querySelectorAll<HTMLButtonElement>('[data-filtro]');
+  const items = document.querySelectorAll<HTMLElement>('[data-vertical-articulo]');
+  botones.forEach((b) =>
+    b.addEventListener('click', () => {
+      const v = b.dataset.filtro;
+      botones.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      items.forEach((i) => (i.hidden = v !== 'todos' && i.dataset.verticalArticulo !== v));
+    }),
+  );
+</script>

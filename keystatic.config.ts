@@ -30,7 +30,7 @@ export default config({
   ui: {
     brand: { name: 'PISCOBOT 3D' },
     navigation: {
-      Contenido: ['casos', 'recursos', 'merch'],
+      Contenido: ['casos', 'articulos', 'merch'],
       Páginas: ['paginas', 'sitio', 'campana'],
     },
   },
@@ -178,9 +178,9 @@ export default config({
         contenido: fields.markdoc({ label: 'Descripción del caso', extension: 'md' }),
       },
     }),
-    recursos: collection({
+    articulos: collection({
       label: 'Guías técnicas',
-      path: 'src/content/recursos/*',
+      path: 'src/content/articulos/*',
       slugField: 'titulo',
       format: { contentField: 'contenido' },
       entryLayout: 'content',
@@ -210,6 +210,40 @@ export default config({
         }),
         fecha: fields.date({ label: 'Fecha de publicación', validation: { isRequired: true } }),
         actualizado: fields.date({ label: 'Última actualización' }),
+        vertical: fields.select({
+          label: 'Vertical',
+          options: [
+            { label: 'Empresas e Industrias', value: 'industria' },
+            { label: 'Marcas y Agencias', value: 'marcas' },
+          ],
+          defaultValue: 'industria',
+        }),
+        autor: fields.text({ label: 'Autor', defaultValue: 'Equipo PISCOBOT 3D' }),
+        imagenAlt: fields.text({ label: 'Texto alternativo de la imagen' }),
+        tiempoLectura: fields.integer({ label: 'Minutos de lectura (vacío = automático)' }),
+        servicioRelacionado: fields.select({
+          label: 'Servicio relacionado (CTA final)',
+          options: [
+            { label: 'Servicio técnico', value: 'servicio-tecnico' },
+            { label: 'Capacitaciones', value: 'capacitaciones' },
+            { label: 'Impresión y desarrollo', value: 'impresion-y-desarrollo' },
+            { label: 'Regalos corporativos', value: 'regalos-corporativos' },
+            { label: 'Esculturas de marca', value: 'esculturas-de-marca' },
+            { label: 'Activaciones', value: 'activaciones' },
+            { label: 'Piezas de autor', value: 'piezas-de-autor' },
+            { label: 'Merchandising', value: 'merchandising' },
+          ],
+          defaultValue: 'servicio-tecnico',
+        }),
+        casoRelacionado: fields.text({ label: 'Caso relacionado (slug, opcional)' }),
+        faq: fields.array(
+          fields.object({
+            pregunta: fields.text({ label: 'Pregunta' }),
+            respuesta: fields.text({ label: 'Respuesta', multiline: true }),
+          }),
+          { label: 'FAQ (opcional)', itemLabel: (p) => p.fields.pregunta.value },
+        ),
+        borrador: fields.checkbox({ label: 'Borrador (no se publica)', defaultValue: false }),
         wpSlug: fields.text({ label: 'Slug en el WordPress viejo (no tocar)' }),
         contenido: fields.markdoc({ label: 'Contenido', extension: 'md' }),
       },
