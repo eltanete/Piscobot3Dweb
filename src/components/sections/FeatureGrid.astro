@@ -71,7 +71,12 @@ const cols = {
               </span>
             )}
             {item.meta && (
-              <span class="font-mono text-xs font-semibold tracking-wide text-grafito-500 uppercase">
+              <span
+                class:list={[
+                  'font-mono text-xs font-semibold tracking-wide uppercase',
+                  oscuro ? 'text-grafito-400' : 'text-grafito-500',
+                ]}
+              >
                 {item.meta}
               </span>
             )}

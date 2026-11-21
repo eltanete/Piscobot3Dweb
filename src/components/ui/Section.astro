@@ -28,7 +28,17 @@ const fondos = {
 const espacios = { normal: 'py-16 md:py-24', compacto: 'py-10 md:py-14' };
 ---
 
-<section id={id} class:list={[fondos[fondo], espacios[espaciado], className]} {...rest}>
+<!-- content-visibility: el navegador no calcula estilos/layout de secciones fuera de pantalla -->
+<section
+  id={id}
+  class:list={[
+    fondos[fondo],
+    espacios[espaciado],
+    '[contain-intrinsic-size:auto_900px] [content-visibility:auto]',
+    className,
+  ]}
+  {...rest}
+>
   <Container ancho={ancho}>
     <slot />
   </Container>

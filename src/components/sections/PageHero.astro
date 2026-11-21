@@ -31,7 +31,7 @@ const {
 <section class="relative isolate overflow-hidden bg-grafito-950 text-white">
   <div class="fondo-grilla absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black,transparent)]"></div>
   <div
-    class="absolute -top-40 -right-40 -z-10 size-[32rem] rounded-full bg-acento opacity-25 blur-[120px]"
+    class="absolute -top-40 -right-40 -z-10 size-[40rem] rounded-full bg-[radial-gradient(closest-side,var(--acento),transparent)] opacity-30"
     aria-hidden="true"
   ></div>
   <Container class:list={[compacto ? 'py-14 md:py-20' : 'py-16 md:py-24']}>
@@ -60,9 +60,11 @@ const {
           />
           <Picture
             formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            quality={62}
             src={imagen}
             alt={imagenAlt}
-            widths={[480, 720, 960]}
+            widths={[400, 640, 960]}
             sizes="(min-width: 1280px) 480px, 100vw"
             loading="eager"
             fetchpriority="high"
@@ -72,11 +74,11 @@ const {
       )}
     </div>
     {pruebas.length > 0 && (
-      <dl class="mt-14 grid grid-cols-2 gap-6 border-t border-grafito-800 pt-8 md:grid-cols-3">
+      <div class="mt-14 grid grid-cols-2 gap-6 border-t border-grafito-800 pt-8 md:grid-cols-3">
         {pruebas.map((p) => (
           <Stat valor={p.valor} etiqueta={p.etiqueta} oscuro />
         ))}
-      </dl>
+      </div>
     )}
   </Container>
 </section>

@@ -132,7 +132,7 @@ export default function MerchGallery({ items }: Props) {
                     className="aspect-square w-full object-cover"
                   />
                 ) : (
-                  <div className="flex aspect-square items-center justify-center bg-[#eceef1] fondo-grilla-clara text-center font-mono text-[0.6875rem] tracking-wide text-grafito-400 uppercase">
+                  <div className="flex aspect-square items-center justify-center bg-[#eceef1] fondo-grilla-clara text-center font-mono text-[0.6875rem] tracking-wide text-grafito-700 uppercase">
                     <span>
                       Foto pendiente · 1:1
                       <span className="mt-1 block normal-case">{item.id}-01-1x1.jpg</span>
@@ -161,7 +161,7 @@ export default function MerchGallery({ items }: Props) {
                         'rounded-full border px-2.5 py-0.5 text-xs font-medium ' +
                         (item.niveles.includes(n)
                           ? 'border-naranja-500 bg-naranja-50 text-naranja-700'
-                          : 'border-grafito-200 text-grafito-400 line-through')
+                          : 'border-grafito-200 text-grafito-500 line-through')
                       }
                     >
                       {n} {NIVELES[n]}

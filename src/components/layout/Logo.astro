@@ -22,11 +22,20 @@ const { oscuro = false, class: className } = Astro.props;
   />
 ) : (
   <span class:list={['inline-flex items-center gap-2.5 leading-none', className]}>
-    <Image src={isotipo} alt="" width={36} height={36} class="size-9 rounded-md" loading="eager" />
+    <Image
+      src={isotipo}
+      alt=""
+      width={36}
+      height={36}
+      densities={[1, 2, 3]}
+      class="size-9 rounded-md"
+      loading="eager"
+    />
     <Image
       src={wordmarkOscuro}
       alt="PISCOBOT 3D"
       height={22}
+      densities={[1, 2, 3]}
       class="h-[1.35rem] w-auto"
       loading="eager"
     />
