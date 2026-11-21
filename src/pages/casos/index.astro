@@ -9,7 +9,7 @@ import QueNecesitas from '../../components/sections/QueNecesitas.astro';
 const casos = (await getCollection('casos')).sort((a, b) => a.data.orden - b.data.orden);
 const filtros = [
   { valor: 'todos', label: 'Todos' },
-  { valor: 'industria', label: 'Industria y Técnica' },
+  { valor: 'industria', label: 'Empresas e Industrias' },
   { valor: 'marcas', label: 'Marcas y Agencias' },
 ];
 ---

@@ -9,7 +9,7 @@ const enProduccion = import.meta.env.PROD && import.meta.env.PUBLIC_KEYSTATIC_GI
 const vertical = fields.select({
   label: 'Vertical',
   options: [
-    { label: 'Industria y Técnica', value: 'industria' },
+    { label: 'Empresas e Industrias', value: 'industria' },
     { label: 'Marcas y Agencias', value: 'marcas' },
   ],
   defaultValue: 'industria',
@@ -83,7 +83,7 @@ export default config({
             { label: 'Capacitaciones', value: 'capacitaciones' },
             { label: 'Impresión y desarrollo', value: 'impresion-y-desarrollo' },
             { label: 'Merchandising', value: 'merchandising' },
-            { label: 'Proyectos especiales', value: 'proyectos-especiales' },
+            { label: 'Piezas de autor', value: 'piezas-de-autor' },
           ],
           defaultValue: 'impresion-y-desarrollo',
         }),

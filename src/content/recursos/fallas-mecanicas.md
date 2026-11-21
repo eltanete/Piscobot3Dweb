@@ -38,4 +38,4 @@ Son problemas en los componentes físicos de la impresora que afectan su funcion
 
 ## ¿Por qué elegir PISCOBOT 3D?
 
-Si los fallos persisten, es momento de recurrir a profesionales. Tenemos más de 10 años reparando y manteniendo impresoras 3D para empresas como UBA y Globant. Conocé el [servicio técnico](/industria/servicio-tecnico) y el [mantenimiento preventivo](/industria/servicio-tecnico#servicios).
+Si los fallos persisten, es momento de recurrir a profesionales. Tenemos más de 10 años reparando y manteniendo impresoras 3D para empresas como UBA y Globant. Conocé el [servicio técnico](/empresas/servicio-tecnico) y el [mantenimiento preventivo](/empresas/servicio-tecnico#servicios).

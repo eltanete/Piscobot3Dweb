@@ -39,4 +39,4 @@ Son errores que se repiten durante la impresión: piezas que se detienen inesper
 
 ## ¿Por qué elegir PISCOBOT 3D?
 
-Diagnosticamos y solucionamos fallas recurrentes para clientes como Conuar. Conocé el [servicio técnico](/industria/servicio-tecnico) y nuestras [capacitaciones](/industria/capacitaciones).
+Diagnosticamos y solucionamos fallas recurrentes para clientes como Conuar. Conocé el [servicio técnico](/empresas/servicio-tecnico) y nuestras [capacitaciones](/empresas/capacitaciones).

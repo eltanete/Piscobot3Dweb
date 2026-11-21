@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { REDIRECCIONES } from '../lib/redirects.mjs';
+import { destinoRedireccion } from '../lib/redirects.mjs';
 
 // Ruta comodín del servidor (menor prioridad que cualquier página real):
 // responde 301 a las URLs del sitio WordPress y 404 a todo lo demás.
@@ -9,7 +9,7 @@ const PAGINA_404 = '/404.html';
 
 export const ALL: APIRoute = async (context) => {
   const path = context.url.pathname.replace(/\/+$/, '') || '/';
-  const destino = REDIRECCIONES[path];
+  const destino = destinoRedireccion(path);
   if (destino) return context.redirect(destino, 301);
 
   // Devuelve la página 404 pre-renderizada con el código correcto.

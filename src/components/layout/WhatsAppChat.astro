@@ -12,11 +12,11 @@ import { whatsappUrl, MENSAJES_WHATSAPP } from '../../lib/whatsapp';
 
 const ruta = rutaLimpia(Astro.url);
 const TIPO_POR_RUTA: [RegExp, TipoConsulta][] = [
-  [/^\/industria\/servicio-tecnico|^\/recursos/, 'servicio-tecnico'],
-  [/^\/industria\/capacitaciones/, 'capacitaciones'],
-  [/^\/industria\/impresion-y-desarrollo|^\/industria$/, 'impresion'],
+  [/^\/empresas\/servicio-tecnico|^\/recursos/, 'servicio-tecnico'],
+  [/^\/empresas\/capacitaciones/, 'capacitaciones'],
+  [/^\/empresas\/impresion-y-desarrollo|^\/empresas$/, 'impresion'],
   [/^\/marcas\/merchandising|^\/marcas$/, 'merchandising'],
-  [/^\/marcas\/proyectos-especiales/, 'proyectos'],
+  [/^\/marcas\/piezas-de-autor/, 'proyectos'],
 ];
 const tipoInicial = TIPO_POR_RUTA.find(([re]) => re.test(ruta))?.[1] ?? 'otro';
 

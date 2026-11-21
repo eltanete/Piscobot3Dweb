@@ -15,5 +15,5 @@ export const MENSAJES_WHATSAPP = {
   capacitaciones: 'Hola, quiero información sobre las capacitaciones técnicas en impresión 3D.',
   impresion: 'Hola, quiero cotizar una impresión / desarrollo de pieza en 3D.',
   merchandising: 'Hola, quiero recibir el catálogo de merchandising impreso en 3D.',
-  proyectos: 'Hola, quiero contarles sobre un proyecto especial / activación de marca.',
+  proyectos: 'Hola, quiero contarles sobre una pieza de autor / prop para una producción.',
 } as const;

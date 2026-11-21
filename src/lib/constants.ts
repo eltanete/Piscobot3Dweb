@@ -15,15 +15,20 @@ export const VERTICALES: Record<
   { nombre: string; corto: string; href: string; bajada: string }
 > = {
   industria: {
-    nombre: 'Industria y Técnica',
-    corto: 'Industria',
-    href: '/industria',
+    nombre: 'Empresas e Industrias',
+    corto: 'Empresas',
+    href: '/empresas',
     bajada: 'Servicio técnico, capacitaciones, impresión y desarrollo de productos.',
   },
   marcas: {
     nombre: 'Marcas y Agencias',
     corto: 'Marcas',
     href: '/marcas',
-    bajada: 'Merchandising curado y personalizable, proyectos especiales y activaciones.',
+    bajada:
+      'Regalos corporativos, esculturas, activaciones, piezas de autor y merchandising curado.',
   },
 };
+
+/** URL pública de un servicio según su vertical (p. ej. /empresas/servicio-tecnico). */
+export const rutaServicio = (vertical: Vertical, id: string) =>
+  `${VERTICALES[vertical].href}/${id}`;

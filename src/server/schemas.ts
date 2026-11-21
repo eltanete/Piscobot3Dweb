@@ -6,7 +6,7 @@ export const TIPOS_CONSULTA = {
   capacitaciones: { label: 'Capacitaciones', vertical: 'industria' },
   impresion: { label: 'Impresión 3D / diseño', vertical: 'industria' },
   merchandising: { label: 'Merchandising', vertical: 'marcas' },
-  proyectos: { label: 'Proyecto especial / activación', vertical: 'marcas' },
+  proyectos: { label: 'Pieza de autor', vertical: 'marcas' },
   otro: { label: 'Otra consulta', vertical: 'general' },
 } as const;
 

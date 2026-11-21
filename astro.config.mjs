@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import keystatic from '@keystatic/astro';
-import { REDIRECCIONES } from './src/lib/redirects.mjs';
+import { REDIRECCIONES, PREFIJOS } from './src/lib/redirects.mjs';
 
 /**
  * Destino de despliegue (variable DEPLOY_TARGET):
@@ -55,6 +55,11 @@ function htaccess() {
               `RewriteRule ^${viejo.slice(1)}/?$ ${nuevo.replace('#', '\\#')} [R=301,L,NE]`,
           )
           .join('\n');
+        const reglasPrefijo = Object.entries(PREFIJOS)
+          .map(
+            ([viejo, nuevo]) => `RewriteRule ^${viejo.slice(1)}(/.*)?/?$ ${nuevo}$1 [R=301,L,NE]`,
+          )
+          .join('\n');
         const contenido = `# Generado automáticamente en el build (astro.config.mjs). No editar a mano.
 Options -MultiViews -Indexes
 DirectorySlash Off
@@ -71,11 +76,12 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # Redirecciones 301 desde el sitio WordPress (src/lib/redirects.mjs)
 ${reglas301}
+${reglasPrefijo}
 
-# Quitar la barra final (/industria/ -> /industria)
+# Quitar la barra final (/empresas/ -> /empresas)
 RewriteRule ^(.+)/$ /$1 [R=301,L]
 
-# URLs limpias: /industria -> industria.html
+# URLs limpias: /empresas -> empresas.html
 RewriteCond %{DOCUMENT_ROOT}/$1.html -f
 RewriteRule ^(.+)$ /$1.html [L]
 </IfModule>
@@ -107,7 +113,7 @@ export default defineConfig({
   output: 'static',
   ...(esNode ? { adapter: node({ mode: 'standalone' }) } : {}),
   trailingSlash: 'never',
-  // En estático, /industria se genera como industria.html (Apache lo sirve con la regla del .htaccess).
+  // En estático, /empresas se genera como empresas.html (Apache lo sirve con la regla del .htaccess).
   build: { format: esNode ? 'directory' : 'file' },
   integrations: [
     react(),
