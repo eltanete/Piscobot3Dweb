@@ -1,7 +1,13 @@
-// Formulario de cotización por pasos: ¿qué necesitás? → proyecto → archivos → contacto.
+// Cotizador en 3 pasos, alineado con el cotizador interno:
+// 1) ¿Qué necesitás? + ¿ya sabés qué querés?  2) Proyecto y adjuntos  3) Contacto.
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import {
+  ALIAS_TIPOS,
   ARCHIVOS,
+  ATRIBUCION,
+  CLARIDAD,
+  PRESUPUESTOS,
+  ROLES,
   TIPOS_CONSULTA,
   cotizacionSchema,
   erroresPorCampo,
@@ -11,51 +17,68 @@ import {
 import { Campo, Honeypot, emitirEvento } from './campos';
 import Turnstile from './Turnstile';
 
-const PASOS = ['Qué necesitás', 'Tu proyecto', 'Archivos', 'Contacto'] as const;
+const PASOS = ['Qué necesitás', 'Tu proyecto', 'Contacto'] as const;
 const CAMPOS_POR_PASO: string[][] = [
-  ['tipo'],
-  ['descripcion', 'cantidad', 'plazo', 'material', 'equipo'],
-  ['linkArchivos'],
-  ['nombre', 'email', 'telefono', 'empresa'],
+  ['tipo', 'claridad'],
+  ['destinatarios', 'cantidad', 'fechaEntrega', 'presupuesto', 'descripcion', 'linkArchivos'],
+  ['nombre', 'empresa', 'rol', 'email', 'telefono'],
 ];
 const CLAVE_BORRADOR = 'piscobot-cotizacion';
-
-const AYUDA_DESCRIPCION: Record<TipoConsulta, string> = {
-  'servicio-tecnico': 'Marca y modelo de la impresora, qué falla notás y desde cuándo.',
-  capacitaciones: 'Cuántas personas, qué equipos usan y qué les gustaría aprender.',
-  impresion: 'Qué pieza necesitás, para qué se usa, medidas aproximadas y si tenés el archivo.',
-  merchandising: 'Qué objeto te interesa, para qué acción o evento y con qué identidad de marca.',
-  proyectos: 'Contanos la idea, el evento o lanzamiento y la fecha clave.',
-  otro: 'Contanos en qué te podemos ayudar.',
-};
+const TIPOS = Object.keys(TIPOS_CONSULTA) as TipoConsulta[];
 
 type Datos = Record<string, string>;
+
+const leerSesion = (clave: string) => {
+  try {
+    return sessionStorage.getItem(clave);
+  } catch {
+    return null;
+  }
+};
 
 export default function QuoteForm() {
   const [paso, setPaso] = useState(0);
   const [datos, setDatos] = useState<Datos>({ tipo: '' });
+  const [soloMarcas, setSoloMarcas] = useState(false);
   const [archivos, setArchivos] = useState<File[]>([]);
   const [errores, setErrores] = useState<Record<string, string>>({});
   const [estado, setEstado] = useState<'editando' | 'enviando' | 'ok' | 'error'>('editando');
   const [mensaje, setMensaje] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
   const tituloRef = useRef<HTMLHeadingElement>(null);
+  const iniciado = useRef(false);
 
-  // Prellenado desde la URL (?tipo=...&objeto=...) y borrador guardado.
+  // Prellenado: borrador, parámetros de la URL (tipo, vertical, kit, rol, origen) y atribución.
   useEffect(() => {
     let inicial: Datos = { tipo: '' };
     try {
-      inicial = { ...inicial, ...JSON.parse(sessionStorage.getItem(CLAVE_BORRADOR) ?? '{}') };
+      inicial = { ...inicial, ...JSON.parse(leerSesion(CLAVE_BORRADOR) ?? '{}') };
     } catch {
       /* sin borrador */
     }
     const q = new URLSearchParams(location.search);
-    const tipo = q.get('tipo');
-    if (tipo && tipo in TIPOS_CONSULTA) inicial.tipo = tipo;
-    const objeto = q.get('objeto');
-    if (objeto && !inicial.descripcion) inicial.descripcion = `Me interesa: ${objeto}. `;
+    const tipo = q.get('tipo') ?? '';
+    const tipoValido = (ALIAS_TIPOS[tipo] ?? tipo) as TipoConsulta;
+    if (tipoValido in TIPOS_CONSULTA) inicial.tipo = tipoValido;
+    if (q.get('vertical') === 'marcas') setSoloMarcas(true);
+    const kit = q.get('kit');
+    if (kit) {
+      inicial.kit = kit.slice(0, 1000);
+      inicial.tipo ||= 'merchandising';
+    }
+    if (q.get('rol') && q.get('rol')! in ROLES) inicial.rol = q.get('rol')!;
+    inicial.origen = (
+      q.get('origen') ??
+      leerSesion('piscobot-origen') ??
+      document.referrer ??
+      ''
+    ).slice(0, 200);
+    try {
+      Object.assign(inicial, JSON.parse(leerSesion('piscobot-atribucion') ?? '{}'));
+    } catch {
+      /* sin atribución */
+    }
     setDatos(inicial);
-    if (inicial.tipo && tipo) setPaso(1);
   }, []);
 
   useEffect(() => {
@@ -67,10 +90,14 @@ export default function QuoteForm() {
   }, [datos]);
 
   useEffect(() => {
-    tituloRef.current?.focus();
+    if (iniciado.current) tituloRef.current?.focus();
   }, [paso]);
 
   const set = (k: string) => (e: { target: { value: string } }) => {
+    if (!iniciado.current) {
+      iniciado.current = true;
+      emitirEvento('inicio_formulario', { tipo: datos.tipo });
+    }
     setDatos((d) => ({ ...d, [k]: e.target.value }));
     setErrores((er) => ({ ...er, [k]: '' }));
   };
@@ -81,11 +108,15 @@ export default function QuoteForm() {
     const delPaso = Object.fromEntries(
       Object.entries(todos).filter(([k]) => CAMPOS_POR_PASO[n].includes(k)),
     );
-    if (n === 2) {
+    if (n === 1) {
+      let total = 0;
       for (const f of archivos) {
         const err = validarArchivo(f.name, f.size);
         if (err) delPaso.archivos = err;
+        total += f.size;
       }
+      if (total > ARCHIVOS.maxTotal)
+        delPaso.archivos = 'Los archivos superan 50 MB en total. Usá un link de descarga.';
       if (archivos.length > ARCHIVOS.maxCantidad)
         delPaso.archivos = `Máximo ${ARCHIVOS.maxCantidad} archivos`;
     }
@@ -95,7 +126,6 @@ export default function QuoteForm() {
 
   const siguiente = () => {
     if (!validarPaso(paso)) return;
-    if (paso === 0) emitirEvento('cotizacion_inicio', { tipo: datos.tipo });
     setPaso((p) => Math.min(p + 1, PASOS.length - 1));
   };
 
@@ -107,7 +137,7 @@ export default function QuoteForm() {
     }
     setEstado('enviando');
     const fd = new FormData(formRef.current!);
-    Object.entries(datos).forEach(([k, v]) => fd.set(k, v));
+    Object.entries(datos).forEach(([k, v]) => fd.set(k, v ?? ''));
     fd.delete('archivos');
     archivos.forEach((f) => fd.append('archivos', f));
     try {
@@ -123,9 +153,17 @@ export default function QuoteForm() {
       if (body.ok) {
         setEstado('ok');
         setMensaje(body.mensaje);
-        emitirEvento('cotizacion_enviada', {
+        const t = TIPOS_CONSULTA[datos.tipo as TipoConsulta];
+        emitirEvento('envio_formulario', {
           tipo: datos.tipo,
-          vertical: TIPOS_CONSULTA[datos.tipo as TipoConsulta]?.vertical,
+          vertical: t?.vertical,
+          linea: datos.linea || t?.linea,
+          rol: datos.rol,
+          kit: Boolean(datos.kit),
+        });
+        // Conversiones mejoradas de Google Ads: GTM toma estos datos (GTM los hashea antes de enviarlos).
+        (window as unknown as { dataLayer?: unknown[] }).dataLayer?.push({
+          user_data: { email: datos.email, phone_number: datos.telefono },
         });
         sessionStorage.removeItem(CLAVE_BORRADOR);
       } else {
@@ -133,9 +171,11 @@ export default function QuoteForm() {
         setMensaje(body.mensaje);
         if (body.errores) {
           setErrores(body.errores);
-          const pasoConError = CAMPOS_POR_PASO.findIndex((c) => c.some((k) => body.errores![k]));
-          if (body.errores.archivos) setPaso(2);
-          else if (pasoConError >= 0) setPaso(pasoConError);
+          if (body.errores.archivos) setPaso(1);
+          else {
+            const p = CAMPOS_POR_PASO.findIndex((c) => c.some((k) => body.errores![k]));
+            if (p >= 0) setPaso(p);
+          }
         }
       }
     } catch {
@@ -167,7 +207,13 @@ export default function QuoteForm() {
     );
   }
 
-  const tipo = (datos.tipo || 'otro') as TipoConsulta;
+  const tiposVisibles = soloMarcas
+    ? TIPOS.filter((t) => TIPOS_CONSULTA[t].vertical !== 'industria')
+    : TIPOS;
+  const chip = (activo: boolean) =>
+    `flex cursor-pointer items-center gap-3 rounded-lg border-2 p-4 transition-colors ${
+      activo ? 'border-azul-600 bg-azul-50' : 'border-grafito-200 hover:border-grafito-400'
+    }`;
 
   return (
     <form
@@ -176,14 +222,14 @@ export default function QuoteForm() {
       noValidate
       className="relative rounded-xl border border-grafito-200 bg-white p-6 shadow-tarjeta md:p-8"
     >
-      <ol className="mb-8 grid grid-cols-4 gap-2" aria-label="Pasos">
+      <ol className="mb-8 grid grid-cols-3 gap-2" aria-label="Pasos">
         {PASOS.map((p, i) => (
           <li key={p} aria-current={i === paso ? 'step' : undefined}>
             <span
               className={`block h-1.5 rounded-full ${i <= paso ? 'bg-azul-600' : 'bg-grafito-200'}`}
             />
             <span
-              className={`mt-2 hidden text-xs font-medium sm:block ${i === paso ? 'text-grafito-950' : 'text-grafito-500'}`}
+              className={`mt-2 block text-xs font-medium ${i === paso ? 'text-grafito-950' : 'text-grafito-500'}`}
             >
               {i + 1}. {p}
             </span>
@@ -197,142 +243,157 @@ export default function QuoteForm() {
         </span>
         {paso === 0 && '¿Qué necesitás?'}
         {paso === 1 && 'Contanos sobre tu proyecto'}
-        {paso === 2 && '¿Tenés archivos, planos o fotos?'}
-        {paso === 3 && '¿Cómo te contactamos?'}
+        {paso === 2 && '¿Cómo te contactamos?'}
       </h2>
 
+      {datos.kit && (
+        <p className="mb-6 rounded-md bg-naranja-50 px-4 py-3 text-sm text-grafito-800">
+          <b>Tu kit:</b> {datos.kit}
+        </p>
+      )}
+
       {paso === 0 && (
-        <fieldset>
-          <legend className="sr-only">Tipo de consulta</legend>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {(Object.keys(TIPOS_CONSULTA) as TipoConsulta[]).map((t) => (
-              <label
-                key={t}
-                className={`flex cursor-pointer items-center gap-3 rounded-lg border-2 p-4 transition-colors ${
-                  datos.tipo === t
-                    ? 'border-azul-600 bg-azul-50'
-                    : 'border-grafito-200 hover:border-grafito-400'
-                }`}
+        <div className="space-y-8">
+          <fieldset>
+            <legend className="sr-only">Qué necesitás</legend>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {tiposVisibles.map((t) => (
+                <label key={t} className={chip(datos.tipo === t)}>
+                  <input
+                    type="radio"
+                    name="tipo"
+                    value={t}
+                    checked={datos.tipo === t}
+                    onChange={set('tipo')}
+                    className="size-4 accent-azul-600"
+                  />
+                  <span className="font-medium text-grafito-950">{TIPOS_CONSULTA[t].label}</span>
+                </label>
+              ))}
+            </div>
+            {soloMarcas && (
+              <button
+                type="button"
+                onClick={() => setSoloMarcas(false)}
+                className="mt-3 text-sm font-semibold text-azul-600 hover:underline"
               >
-                <input
-                  type="radio"
-                  name="tipo"
-                  value={t}
-                  checked={datos.tipo === t}
-                  onChange={set('tipo')}
-                  className="size-4 accent-azul-600"
-                />
-                <span>
-                  <span className="block font-medium text-grafito-950">
-                    {TIPOS_CONSULTA[t].label}
-                  </span>
-                  <span className="block font-mono text-[0.6875rem] tracking-wide text-grafito-500 uppercase">
-                    {TIPOS_CONSULTA[t].vertical === 'general'
-                      ? 'General'
-                      : TIPOS_CONSULTA[t].vertical === 'industria'
-                        ? 'Industria'
-                        : 'Marcas'}
-                  </span>
-                </span>
-              </label>
-            ))}
-          </div>
-          {errores.tipo && (
-            <p className="mt-3 text-sm text-error" role="alert">
-              {errores.tipo}
-            </p>
-          )}
-        </fieldset>
+                Ver opciones para empresas (servicio técnico, capacitación, impresión)
+              </button>
+            )}
+            {errores.tipo && (
+              <p className="mt-3 text-sm text-error" role="alert">
+                {errores.tipo}
+              </p>
+            )}
+          </fieldset>
+          <fieldset>
+            <legend className="mb-3 font-medium text-grafito-900">¿Ya sabés qué querés?</legend>
+            <div className="flex flex-wrap gap-2">
+              {(Object.keys(CLARIDAD) as (keyof typeof CLARIDAD)[]).map((c) => (
+                <label
+                  key={c}
+                  className={`cursor-pointer rounded-full border-2 px-4 py-2 text-sm font-medium ${datos.claridad === c ? 'border-azul-600 bg-azul-50' : 'border-grafito-200 hover:border-grafito-400'}`}
+                >
+                  <input
+                    type="radio"
+                    name="claridad"
+                    value={c}
+                    checked={datos.claridad === c}
+                    onChange={set('claridad')}
+                    className="sr-only"
+                  />
+                  {CLARIDAD[c]}
+                </label>
+              ))}
+            </div>
+            {errores.claridad && (
+              <p className="mt-3 text-sm text-error" role="alert">
+                {errores.claridad}
+              </p>
+            )}
+          </fieldset>
+        </div>
       )}
 
       {paso === 1 && (
         <div className="grid gap-5">
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Campo
+              id="destinatarios"
+              label="¿Para quién es?"
+              opcional
+              error={errores.destinatarios}
+              ayuda="Clientes, equipo, asistentes a un evento…"
+            >
+              {(p) => (
+                <input {...p} value={datos.destinatarios ?? ''} onChange={set('destinatarios')} />
+              )}
+            </Campo>
+            <Campo id="cantidad" label="Cantidad" opcional error={errores.cantidad}>
+              {(p) => (
+                <input
+                  {...p}
+                  inputMode="numeric"
+                  value={datos.cantidad ?? ''}
+                  onChange={set('cantidad')}
+                  placeholder="Ej.: 150"
+                />
+              )}
+            </Campo>
+            <Campo id="fechaEntrega" label="Fecha de entrega" opcional error={errores.fechaEntrega}>
+              {(p) => (
+                <input
+                  {...p}
+                  type="date"
+                  value={datos.fechaEntrega ?? ''}
+                  onChange={set('fechaEntrega')}
+                />
+              )}
+            </Campo>
+            <Campo
+              id="presupuesto"
+              label="Presupuesto de referencia"
+              opcional
+              error={errores.presupuesto}
+            >
+              {(p) => (
+                <select {...p} value={datos.presupuesto ?? ''} onChange={set('presupuesto')}>
+                  <option value="">Elegí un rango</option>
+                  {Object.entries(PRESUPUESTOS).map(([k, v]) => (
+                    <option key={k} value={k}>
+                      {v}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </Campo>
+          </div>
           <Campo
             id="descripcion"
-            label="Descripción"
+            label="Detalles"
+            opcional
             error={errores.descripcion}
-            ayuda={AYUDA_DESCRIPCION[tipo]}
+            ayuda="Todo lo que nos ayude: idea, colores, medidas, equipo a reparar…"
           >
             {(p) => (
               <textarea
                 {...p}
-                rows={5}
+                rows={4}
                 value={datos.descripcion ?? ''}
                 onChange={set('descripcion')}
               />
             )}
           </Campo>
-          <div className="grid gap-5 sm:grid-cols-2">
-            {tipo === 'servicio-tecnico' ? (
-              <Campo id="equipo" label="Marca y modelo del equipo" opcional error={errores.equipo}>
-                {(p) => (
-                  <input
-                    {...p}
-                    value={datos.equipo ?? ''}
-                    onChange={set('equipo')}
-                    placeholder="Ej.: Prusa MK4, Ender 3 V2"
-                  />
-                )}
-              </Campo>
-            ) : (
-              <Campo
-                id="cantidad"
-                label={tipo === 'capacitaciones' ? 'Cantidad de personas' : 'Cantidad'}
-                opcional
-                error={errores.cantidad}
-              >
-                {(p) => (
-                  <input
-                    {...p}
-                    value={datos.cantidad ?? ''}
-                    onChange={set('cantidad')}
-                    placeholder="Ej.: 50 unidades"
-                  />
-                )}
-              </Campo>
-            )}
-            <Campo id="plazo" label="¿Para cuándo lo necesitás?" opcional error={errores.plazo}>
-              {(p) => (
-                <input
-                  {...p}
-                  value={datos.plazo ?? ''}
-                  onChange={set('plazo')}
-                  placeholder="Ej.: fin de mes"
-                />
-              )}
-            </Campo>
-          </div>
-          {(tipo === 'impresion' || tipo === 'merchandising' || tipo === 'proyectos') && (
-            <Campo
-              id="material"
-              label="Material o terminación preferida"
-              opcional
-              error={errores.material}
-            >
-              {(p) => (
-                <input
-                  {...p}
-                  value={datos.material ?? ''}
-                  onChange={set('material')}
-                  placeholder="Ej.: PETG negro, no sé / asesoramiento"
-                />
-              )}
-            </Campo>
-          )}
-        </div>
-      )}
-
-      {paso === 2 && (
-        <div className="grid gap-5">
           <div>
             <label
               htmlFor="archivos"
-              className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-grafito-300 bg-grafito-50 px-6 py-10 text-center hover:border-azul-600"
+              className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-grafito-300 bg-grafito-50 px-6 py-8 text-center hover:border-azul-600"
             >
-              <span className="font-medium text-grafito-950">Elegí archivos o arrastralos acá</span>
+              <span className="font-medium text-grafito-950">
+                Adjuntá logo, fotos o archivos 3D
+              </span>
               <span className="mt-1 text-sm text-grafito-500">
-                STL, STEP, OBJ, 3MF, PDF, imágenes o ZIP · hasta {ARCHIVOS.maxCantidad} archivos de
-                20 MB
+                STL, STEP, 3MF, PDF, JPG o PNG · hasta 50 MB en total
               </span>
               <input
                 id="archivos"
@@ -369,10 +430,9 @@ export default function QuoteForm() {
           </div>
           <Campo
             id="linkArchivos"
-            label="¿Archivos más pesados? Pegá un link de descarga"
+            label="¿Archivos más pesados? Pegá un link"
             opcional
             error={errores.linkArchivos}
-            ayuda="Google Drive, WeTransfer, Dropbox, etc."
           >
             {(p) => (
               <input
@@ -384,13 +444,10 @@ export default function QuoteForm() {
               />
             )}
           </Campo>
-          <p className="text-sm text-grafito-500">
-            Si no tenés archivos, no hay problema: podés seguir y te asesoramos.
-          </p>
         </div>
       )}
 
-      {paso === 3 && (
+      {paso === 2 && (
         <div className="grid gap-5 sm:grid-cols-2">
           <Campo id="nombre" label="Nombre" error={errores.nombre}>
             {(p) => (
@@ -412,7 +469,33 @@ export default function QuoteForm() {
               />
             )}
           </Campo>
-          <Campo id="email" label="Email" error={errores.email}>
+          <fieldset className="sm:col-span-2">
+            <legend className="text-sm font-medium text-grafito-900">Tu rol</legend>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {(Object.keys(ROLES) as (keyof typeof ROLES)[]).map((r) => (
+                <label
+                  key={r}
+                  className={`cursor-pointer rounded-full border-2 px-4 py-2 text-sm font-medium ${datos.rol === r ? 'border-azul-600 bg-azul-50' : 'border-grafito-200 hover:border-grafito-400'}`}
+                >
+                  <input
+                    type="radio"
+                    name="rol"
+                    value={r}
+                    checked={datos.rol === r}
+                    onChange={set('rol')}
+                    className="sr-only"
+                  />
+                  {ROLES[r]}
+                </label>
+              ))}
+            </div>
+            {errores.rol && (
+              <p className="mt-2 text-sm text-error" role="alert">
+                {errores.rol}
+              </p>
+            )}
+          </fieldset>
+          <Campo id="email" label="Mail" error={errores.email}>
             {(p) => (
               <input
                 {...p}
@@ -423,7 +506,7 @@ export default function QuoteForm() {
               />
             )}
           </Campo>
-          <Campo id="telefono" label="WhatsApp / teléfono" opcional error={errores.telefono}>
+          <Campo id="telefono" label="WhatsApp" opcional error={errores.telefono}>
             {(p) => (
               <input
                 {...p}
@@ -440,6 +523,10 @@ export default function QuoteForm() {
         </div>
       )}
 
+      {/* Campos ocultos: vertical/línea se derivan del tipo; origen, kit y atribución vienen de la sesión. */}
+      {['linea', 'origen', 'kit', ...ATRIBUCION].map((k) => (
+        <input key={k} type="hidden" name={k} value={datos[k] ?? ''} />
+      ))}
       <Honeypot />
 
       {estado === 'error' && mensaje && (

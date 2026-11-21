@@ -13,6 +13,8 @@ const deps = (over: Partial<Deps> = {}): Deps => ({
 const cotizacionValida = () => {
   const fd = new FormData();
   fd.set('tipo', 'impresion');
+  fd.set('claridad', 'si');
+  fd.set('rol', 'decide');
   fd.set('descripcion', 'Necesito 100 tapas en PETG negro');
   fd.set('nombre', 'Ana');
   fd.set('email', 'ana@example.com');
@@ -29,18 +31,18 @@ describe('procesarCotizacion', () => {
     expect(d.enviar).toHaveBeenCalledTimes(2);
     const [equipo] = (d.enviar as ReturnType<typeof vi.fn>).mock.calls[0];
     expect(equipo.to).toBe('leads@test.local');
-    expect(equipo.subject).toContain('Impresión 3D');
-    expect(equipo.attachments[0].filename).toBe('pieza.stl');
+    expect(equipo.subject).toContain('Impresión o desarrollo');
+    expect(equipo.attachments[0].filename).toBe('adjunto-1.stl');
   });
 
   it('rechaza campos inválidos con errores por campo', async () => {
     const fd = cotizacionValida();
     fd.set('email', 'no-es-email');
-    fd.set('descripcion', 'corto');
+    fd.delete('claridad');
     const r = await procesarCotizacion(fd, '1.1.1.1', deps());
     expect(r.status).toBe(422);
     expect(r.body.errores).toHaveProperty('email');
-    expect(r.body.errores).toHaveProperty('descripcion');
+    expect(r.body.errores).toHaveProperty('claridad');
   });
 
   it('rechaza extensiones no permitidas', async () => {
@@ -76,6 +78,27 @@ describe('procesarCotizacion', () => {
       deps({ enviar: async () => Promise.reject(new Error('smtp')) }),
     );
     expect(r.status).toBe(502);
+  });
+
+  it('rechaza archivos cuyo contenido no coincide con la extensión', async () => {
+    const fd = cotizacionValida();
+    fd.append('archivos', new File(['no soy un pdf'], 'plano.pdf'));
+    const r = await procesarCotizacion(fd, '1.1.1.1', deps());
+    expect(r.status).toBe(422);
+    expect(r.body.errores?.archivos).toContain('no parece');
+  });
+
+  it('etiqueta a las agencias y acepta tipos viejos por alias', async () => {
+    const d = deps();
+    const fd = cotizacionValida();
+    fd.set('rol', 'agencia');
+    fd.set('tipo', 'proyectos');
+    const r = await procesarCotizacion(fd, '1.1.1.1', d);
+    expect(r.status).toBe(200);
+    const [equipo] = (d.enviar as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(equipo.subject).toContain('AGENCIA');
+    expect(equipo.subject).toContain('Pieza de autor');
+    expect(r.body.mensaje).toContain('48 horas hábiles');
   });
 });
 

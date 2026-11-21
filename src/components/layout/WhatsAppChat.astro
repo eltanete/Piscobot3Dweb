@@ -15,18 +15,25 @@ const TIPO_POR_RUTA: [RegExp, TipoConsulta][] = [
   [/^\/empresas\/servicio-tecnico|^\/recursos/, 'servicio-tecnico'],
   [/^\/empresas\/capacitaciones/, 'capacitaciones'],
   [/^\/empresas\/impresion-y-desarrollo|^\/empresas$/, 'impresion'],
+  [/^\/marcas\/regalos-corporativos|^\/fin-de-ano/, 'regalos'],
+  [/^\/marcas\/esculturas-de-marca/, 'evento'],
+  [/^\/marcas\/activaciones/, 'evento'],
+  [/^\/marcas\/piezas-de-autor/, 'pieza-de-autor'],
   [/^\/marcas\/merchandising|^\/marcas$/, 'merchandising'],
-  [/^\/marcas\/piezas-de-autor/, 'proyectos'],
 ];
-const tipoInicial = TIPO_POR_RUTA.find(([re]) => re.test(ruta))?.[1] ?? 'otro';
+const tipoInicial = TIPO_POR_RUTA.find(([re]) => re.test(ruta))?.[1] ?? 'no-se';
 
 const AYUDA: Record<TipoConsulta, string> = {
+  regalos: 'Ej.: Buscamos 200 regalos para clientes, para entregar antes de fin de año…',
+  trofeos: 'Ej.: Necesitamos 20 trofeos con la forma de nuestro ícono…',
+  fiesta: 'Ej.: Queremos centros de mesa y souvenirs para la fiesta de fin de año…',
+  evento: 'Ej.: Queremos una escultura de la marca para el stand de una feria…',
+  'pieza-de-autor': 'Ej.: Necesitamos un prop funcional para un rodaje…',
+  merchandising: 'Ej.: Nos interesan 100 soportes de celular con nuestro logo…',
   'servicio-tecnico': 'Ej.: Tengo una Ender 3 V2 que no extruye bien desde hace una semana…',
-  capacitaciones: 'Ej.: Somos 5 personas con 3 impresoras Prusa y queremos capacitarnos en…',
+  capacitaciones: 'Ej.: Somos 5 personas con 3 impresoras Prusa y queremos capacitarnos…',
   impresion: 'Ej.: Necesito 100 piezas en PETG, tengo el archivo STL, para fin de mes…',
-  merchandising: 'Ej.: Buscamos 200 regalos para un evento corporativo en diciembre…',
-  proyectos: 'Ej.: Queremos un exhibidor para el lanzamiento de un producto…',
-  otro: 'Contanos en qué te podemos ayudar…',
+  'no-se': 'Contanos en qué te podemos ayudar…',
 };
 
 const WA_PATH =
@@ -257,7 +264,7 @@ const WA_PATH =
         return;
       }
       const tipo =
-        form.querySelector<HTMLInputElement>('input[name="wa-tipo"]:checked')?.value ?? 'otro';
+        form.querySelector<HTMLInputElement>('input[name="wa-tipo"]:checked')?.value ?? 'no-se';
       const lineas = [
         'Hola PISCOBOT 3D 👋',
         nombre.value.trim() ? `Soy ${nombre.value.trim()}.` : '',

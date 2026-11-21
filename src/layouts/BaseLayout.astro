@@ -119,6 +119,33 @@ const organizacion = {
     )}
     {!minimal && <WhatsAppChat />}
     <script is:inline>
+      /* eslint-disable no-var, @typescript-eslint/no-unused-vars -- ES5 inline a propósito */
+      // Atribución: guarda gclid y utm_* de la visita (primer toque) y la última página vista,
+      // para adjuntarlos al formulario de cotización. Nada de datos personales en la URL.
+      (function () {
+        try {
+          var q = new URLSearchParams(location.search);
+          var claves = [
+            'gclid',
+            'utm_source',
+            'utm_medium',
+            'utm_campaign',
+            'utm_term',
+            'utm_content',
+          ];
+          var actual = JSON.parse(sessionStorage.getItem('piscobot-atribucion') || '{}');
+          claves.forEach(function (k) {
+            if (q.get(k) && !actual[k]) actual[k] = q.get(k).slice(0, 200);
+          });
+          sessionStorage.setItem('piscobot-atribucion', JSON.stringify(actual));
+          if (location.pathname.indexOf('/cotizar') !== 0)
+            sessionStorage.setItem('piscobot-origen', location.pathname);
+        } catch (e) {
+          /* sin almacenamiento */
+        }
+      })();
+    </script>
+    <script is:inline>
       // Apaga todo lo marcado con data-campana-cierre (banner, ítem de menú, cuenta regresiva)
       // cuando pasa la fecha de cierre de la campaña, aunque el sitio no se haya vuelto a publicar.
       document.querySelectorAll('[data-campana-cierre]').forEach(function (el) {

@@ -76,7 +76,7 @@ export default function ContactForm() {
       </Campo>
       <Campo id="c-asunto" label="Asunto" error={errores.asunto}>
         {(p) => (
-          <select {...p} name="asunto" defaultValue="otro">
+          <select {...p} name="asunto" defaultValue="no-se">
             {(Object.keys(TIPOS_CONSULTA) as TipoConsulta[]).map((t) => (
               <option key={t} value={t}>
                 {TIPOS_CONSULTA[t].label}

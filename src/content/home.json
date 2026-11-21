@@ -104,7 +104,7 @@
       },
       {
         "label": "Un proyecto especial o activación",
-        "tipo": "proyectos",
+        "tipo": "pieza-de-autor",
         "icono": "sparkles"
       }
     ]
