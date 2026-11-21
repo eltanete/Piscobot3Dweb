@@ -31,10 +31,30 @@ export default config({
     brand: { name: 'PISCOBOT 3D' },
     navigation: {
       Contenido: ['casos', 'recursos', 'merch'],
-      Páginas: ['paginas', 'sitio'],
+      Páginas: ['paginas', 'sitio', 'campana'],
     },
   },
   singletons: {
+    campana: singleton({
+      label: 'Campaña de fin de año',
+      path: 'src/content/campana',
+      format: { data: 'json' },
+      schema: {
+        nombre: fields.text({ label: 'Nombre interno' }),
+        fechaCierre: fields.text({
+          label: 'Fecha y hora de cierre (FECHA_CIERRE_CAMPANA)',
+          description:
+            'Formato 2026-12-05T23:59:00-03:00. Después de esta fecha se apagan banner, menú y cuenta regresiva.',
+        }),
+        fechaEntrega: fields.text({ label: 'Fecha de entrega (AAAA-MM-DD)' }),
+        textoBanner: fields.text({ label: 'Texto del banner' }),
+        mostrarPrecio: fields.checkbox({
+          label: 'Mostrar precio orientativo',
+          defaultValue: false,
+        }),
+        precioOrientativo: fields.text({ label: 'Precio orientativo' }),
+      },
+    }),
     sitio: singleton({
       label: 'Datos de contacto',
       path: 'src/content/sitio',

@@ -4,6 +4,8 @@ import Logo from './Logo.astro';
 import Icon from '../ui/Icon.astro';
 import Button from '../ui/Button.astro';
 import { NAV_VERTICALES, NAV_COMUNES } from '../../lib/nav';
+import { campana, campanaVigente } from '../../lib/campana';
+const campanaActiva = campanaVigente();
 
 const path = rutaLimpia(Astro.url);
 const activo = (href: string) => path === href || path.startsWith(`${href}/`);
@@ -60,6 +62,17 @@ const activo = (href: string) => path === href || path.startsWith(`${href}/`);
             </div>
           </li>
         ))}
+        {campanaActiva && (
+          <li data-campana-cierre={campana.fechaCierre}>
+            <a
+              href="/fin-de-ano"
+              class="rounded-md px-3 py-2 text-[0.9375rem] font-semibold text-naranja-700 hover:bg-naranja-50"
+              aria-current={activo('/fin-de-ano') ? 'page' : undefined}
+            >
+              Fin de año
+            </a>
+          </li>
+        )}
         {NAV_COMUNES.map((item) => (
           <li>
             <a
@@ -124,6 +137,13 @@ const activo = (href: string) => path === href || path.startsWith(`${href}/`);
         </div>
       ))}
       <ul class="py-4">
+        {campanaActiva && (
+          <li data-campana-cierre={campana.fechaCierre}>
+            <a href="/fin-de-ano" class="block py-2.5 text-lg font-semibold text-naranja-700">
+              Fin de año
+            </a>
+          </li>
+        )}
         {NAV_COMUNES.map((item) => (
           <li>
             <a href={item.href} class="block py-2.5 text-lg font-medium">
