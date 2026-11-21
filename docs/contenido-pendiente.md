@@ -13,6 +13,8 @@ Todo lo que hoy está provisorio o falta producir. Al completarlo, borrar la lí
 
 ## Contenido a producir
 
+> Para las imágenes (nombres, medidas y carpetas), ver [`IMAGENES.md`](IMAGENES.md).
+
 - [ ] **Catálogo de merchandising**: definir los 6–12 objetos base reales, con foto, mínimo y si tienen precio por volumen. Hoy hay 6 objetos propuestos sin foto (`src/content/merch/`).
 - [ ] **Proyectos especiales**: 3–4 casos (hoy sólo el mostrador de rodillera).
 - [ ] **Fotos propias** del taller y del equipo (Nosotros, Home).
