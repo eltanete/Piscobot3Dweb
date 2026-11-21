@@ -40,6 +40,7 @@ const vigente = campanaVigente();
       </button>
     </div>
     <script is:inline>
+      /* eslint-disable no-var, @typescript-eslint/no-unused-vars -- ES5 inline a propósito (corre antes de pintar) */
       (function () {
         var b = document.getElementById('banner-campana');
         var clave = 'piscobot-banner-' + b.dataset.campanaCierre;
