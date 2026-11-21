@@ -1,71 +1,310 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/sections/PageHero.astro';
 import Section from '../../components/ui/Section.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import Button from '../../components/ui/Button.astro';
 import CasoCard from '../../components/sections/CasoCard.astro';
+import CasoInsignia from '../../components/sections/CasoInsignia.astro';
+import LogoWall from '../../components/sections/LogoWall.astro';
 import QueNecesitas from '../../components/sections/QueNecesitas.astro';
+import ImagePlaceholder from '../../components/ui/ImagePlaceholder.astro';
+import { VERTICALES } from '../../lib/constants';
+import { ctaCaso, fotosDe, nombreCliente, ordenarFichas, publicable } from '../../lib/casos';
 
-const casos = (await getCollection('casos')).sort((a, b) => a.data.orden - b.data.orden);
-const filtros = [
+const casos = await getCollection('casos', publicable);
+const servicios = await getCollection('servicios');
+const nombreLinea = Object.fromEntries(servicios.map((s) => [s.id, s.data.titulo]));
+
+const insignias = casos
+  .filter((c) => c.data.nivel === 'insignia')
+  .sort((a, b) => a.data.orden - b.data.orden);
+const fichas = casos.filter((c) => c.data.nivel === 'ficha').sort(ordenarFichas);
+const galeria = casos
+  .filter((c) => c.data.nivel === 'galeria')
+  .flatMap((c) =>
+    fotosDe(c)
+      .slice(0, 1)
+      .map((f) => ({ ...f, caso: c })),
+  );
+
+const lineasUsadas = [
+  ...new Set(casos.filter((c) => c.data.nivel !== 'galeria').map((c) => c.data.servicio)),
+];
+const verticales = [
   { valor: 'todos', label: 'Todos' },
-  { valor: 'industria', label: 'Empresas e Industrias' },
-  { valor: 'marcas', label: 'Marcas y Agencias' },
+  { valor: 'industria', label: VERTICALES.industria.nombre },
+  { valor: 'marcas', label: VERTICALES.marcas.nombre },
 ];
 ---
 
 <BaseLayout
-  title="Casos de éxito en impresión 3D"
-  description="Casos reales de servicio técnico, impresión 3D, desarrollo de productos, merchandising y proyectos especiales, con material, aplicación y resultado."
+  title="Casos de impresión 3D para empresas y marcas en Buenos Aires"
+  description="Casos reales de PISCOBOT 3D: regalos corporativos, esculturas, activaciones y piezas de autor para marcas; servicio técnico, impresión en serie y desarrollo para empresas."
 >
   <PageHero
     eyebrow="Casos"
-    titulo="Trabajos reales, con material, aplicación y resultado"
-    bajada="Así resolvemos problemas técnicos y proyectos de marca. Filtrá por el tipo de cliente."
+    titulo="Trabajos reales, con datos y resultado"
+    bajada="Filtrá por tipo de cliente o por línea de servicio. Los casos insignia tienen su historia completa; las fichas se abren acá mismo."
     migas={[{ label: 'Casos' }]}
     compacto
   />
+
   <Section>
-    <div role="group" aria-label="Filtrar casos" class="mb-8 flex flex-wrap gap-2">
-      {filtros.map((f) => (
-        <button
-          type="button"
-          data-filtro={f.valor}
-          aria-pressed={f.valor === 'todos' ? 'true' : 'false'}
-          class="rounded-full border border-grafito-300 bg-white px-4 py-2 text-sm font-medium text-grafito-700 hover:border-grafito-900 aria-pressed:border-grafito-950 aria-pressed:bg-grafito-950 aria-pressed:text-white"
+    <!-- Filtros -->
+    <div class="mb-10 space-y-4">
+      <div role="group" aria-label="Filtrar por vertical" class="flex flex-wrap gap-2">
+        {verticales.map((f) => (
+          <button
+            type="button"
+            data-filtro-vertical={f.valor}
+            aria-pressed={f.valor === 'todos' ? 'true' : 'false'}
+            class="rounded-full border border-grafito-300 bg-white px-4 py-2 text-sm font-medium text-grafito-700 hover:border-grafito-900 aria-pressed:border-grafito-950 aria-pressed:bg-grafito-950 aria-pressed:text-white"
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+      <div class="flex items-center gap-3">
+        <label for="filtro-linea" class="text-sm font-medium text-grafito-700">
+          Línea
+        </label>
+        <select
+          id="filtro-linea"
+          class="rounded-md border border-grafito-300 bg-white px-3 py-2 text-sm"
         >
-          {f.label}
-        </button>
-      ))}
+          <option value="todas">Todas las líneas</option>
+          {lineasUsadas.map((l) => (
+            <option value={l}>{nombreLinea[l] ?? l}</option>
+          ))}
+        </select>
+      </div>
     </div>
-    <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3" data-lista-casos>
-      {casos.map((c) => (
-        <li data-caso-vertical={c.data.vertical}>
-          <CasoCard caso={c} />
-        </li>
-      ))}
-    </ul>
+
+    <!-- Insignia -->
+    {insignias.length > 0 && (
+      <div class="mb-16">
+        <h2 class="mb-6 text-2xl">Casos insignia</h2>
+        <ul class="grid gap-6 lg:grid-cols-2">
+          {insignias.map((c) => (
+            <li
+              class="flex"
+              data-caso
+              data-vertical-caso={c.data.vertical}
+              data-linea={c.data.servicio}
+            >
+              <CasoInsignia caso={c} compacto />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <!-- Fichas -->
+    {fichas.length > 0 && (
+      <div>
+        <h2 class="mb-6 text-2xl">Más trabajos</h2>
+        <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {fichas.map((c) => (
+            <li data-caso data-vertical-caso={c.data.vertical} data-linea={c.data.servicio}>
+              <CasoCard caso={c} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    <p
+      data-sin-resultados
+      hidden
+      class="mt-6 rounded-lg bg-grafito-50 p-6 text-center text-grafito-600"
+    >
+      No hay casos con ese filtro todavía. Probá con otra línea.
+    </p>
   </Section>
+
+  <!-- Galería (nivel 3) -->
+  {galeria.length > 0 && (
+    <Section fondo="gris" aria-labelledby="titulo-galeria">
+      <SectionHeader
+        id="titulo-galeria"
+        eyebrow="Galería"
+        titulo="Más piezas que salieron del taller"
+      />
+      <ul class="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {galeria.map((f) => (
+          <li class="overflow-hidden rounded-lg">
+            <Image
+              src={f.src}
+              alt={f.alt}
+              widths={[300, 600]}
+              sizes="(min-width: 768px) 25vw, 50vw"
+              class="aspect-square w-full object-cover"
+            />
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )}
+
+  <Section espaciado="compacto">
+    <LogoWall />
+  </Section>
+
   <QueNecesitas />
+
+  <!-- Modales de fichas (se abren con #slug, compartibles) -->
+  {fichas.map((c) => {
+    const d = c.data;
+    const fotos = fotosDe(c).slice(0, 5);
+    const cta = ctaCaso(c);
+    const cliente = nombreCliente(c);
+    return (
+      <dialog
+        id={`ficha-${c.id}`}
+        data-ficha={c.id}
+        data-vertical={d.vertical}
+        aria-labelledby={`ficha-titulo-${c.id}`}
+        class="m-auto w-[min(100%-1.5rem,56rem)] max-h-[90dvh] overflow-y-auto rounded-2xl bg-white p-0 shadow-elevada backdrop:bg-grafito-950/70"
+      >
+        <div class="relative">
+          <form method="dialog" class="absolute top-3 right-3 z-10">
+            <button
+              class="inline-flex size-10 items-center justify-center rounded-full bg-white/90 text-grafito-900 shadow hover:bg-white"
+              aria-label="Cerrar ficha"
+            >
+              ✕
+            </button>
+          </form>
+          {fotos.length > 0 ? (
+            <div class="grid snap-x snap-mandatory auto-cols-[100%] grid-flow-col overflow-x-auto">
+              {fotos.map((f) => (
+                <Image
+                  src={f.src}
+                  alt={f.alt}
+                  widths={[600, 900]}
+                  sizes="56rem"
+                  loading="lazy"
+                  class="aspect-[4/3] w-full snap-center object-cover"
+                />
+              ))}
+            </div>
+          ) : (
+            <ImagePlaceholder formato="4x3" archivo={`${c.id}-01-4x3.jpg`} />
+          )}
+        </div>
+        <div class="p-6 md:p-8">
+          <p class="eyebrow text-acento-texto">
+            {VERTICALES[d.vertical].nombre}
+            {nombreLinea[d.servicio] ? ` · ${nombreLinea[d.servicio]}` : ''}
+          </p>
+          <h2 id={`ficha-titulo-${c.id}`} class="mt-2 text-2xl">
+            {d.titulo}
+          </h2>
+          {cliente && <p class="mt-1 text-grafito-500">{cliente}</p>}
+          <dl class="mt-6 grid gap-5 md:grid-cols-3">
+            <div>
+              <dt class="eyebrow text-grafito-500">Qué</dt>
+              <dd class="mt-1 text-grafito-800">{d.desafio ?? d.resumen}</dd>
+            </div>
+            <div>
+              <dt class="eyebrow text-grafito-500">Cómo</dt>
+              <dd class="mt-1 text-grafito-800">
+                {d.solucion ?? [d.material, d.aplicacion].filter(Boolean).join(' · ')}
+              </dd>
+            </div>
+            <div>
+              <dt class="eyebrow text-grafito-500">Resultado</dt>
+              <dd class="mt-1 text-grafito-800">{d.resultado ?? d.bajada ?? d.resumen}</dd>
+            </div>
+          </dl>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <Button href={cta.href} iconoFinal="arrow-right">
+              {cta.label}
+            </Button>
+            <Button
+              href={`/cotizar?tipo=${d.vertical === 'marcas' ? 'merchandising' : 'impresion'}`}
+              variante="secundario"
+              evento="inicio_formulario"
+            >
+              Quiero algo así
+            </Button>
+          </div>
+        </div>
+      </dialog>
+    );
+  })}
 </BaseLayout>
 
 <script>
-  const botones = document.querySelectorAll<HTMLButtonElement>('[data-filtro]');
-  const items = document.querySelectorAll<HTMLElement>('[data-caso-vertical]');
-  const aplicar = (valor: string) => {
-    botones.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filtro === valor)));
-    items.forEach((i) => (i.hidden = valor !== 'todos' && i.dataset.casoVertical !== valor));
+  // Filtros por vertical y línea
+  const botones = document.querySelectorAll<HTMLButtonElement>('[data-filtro-vertical]');
+  const selector = document.getElementById('filtro-linea') as HTMLSelectElement | null;
+  const items = document.querySelectorAll<HTMLElement>('[data-caso]');
+  const vacio = document.querySelector<HTMLElement>('[data-sin-resultados]');
+  let vertical = 'todos';
+
+  const aplicar = () => {
+    const linea = selector?.value ?? 'todas';
+    let visibles = 0;
+    items.forEach((i) => {
+      const ok =
+        (vertical === 'todos' || i.dataset.verticalCaso === vertical) &&
+        (linea === 'todas' || i.dataset.linea === linea);
+      i.hidden = !ok;
+      if (ok) visibles++;
+    });
+    botones.forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.dataset.filtroVertical === vertical)),
+    );
+    if (vacio) vacio.hidden = visibles > 0;
+    const url = new URL(location.href);
+    if (vertical === 'todos') url.searchParams.delete('vertical');
+    else url.searchParams.set('vertical', vertical);
+    if (linea === 'todas') url.searchParams.delete('linea');
+    else url.searchParams.set('linea', linea);
+    history.replaceState(null, '', url);
   };
   botones.forEach((b) =>
     b.addEventListener('click', () => {
-      const valor = b.dataset.filtro ?? 'todos';
-      aplicar(valor);
-      const url = new URL(location.href);
-      if (valor === 'todos') url.searchParams.delete('vertical');
-      else url.searchParams.set('vertical', valor);
-      history.replaceState(null, '', url);
+      vertical = b.dataset.filtroVertical ?? 'todos';
+      aplicar();
     }),
   );
-  const inicial = new URL(location.href).searchParams.get('vertical');
-  if (inicial === 'industria' || inicial === 'marcas') aplicar(inicial);
+  selector?.addEventListener('change', aplicar);
+  const params = new URL(location.href).searchParams;
+  if (params.get('vertical') === 'industria' || params.get('vertical') === 'marcas')
+    vertical = params.get('vertical')!;
+  if (selector && params.get('linea')) selector.value = params.get('linea')!;
+  aplicar();
+
+  // Modales de fichas con hash compartible (/casos#slug)
+  const abrir = (id: string) => {
+    const d = document.querySelector<HTMLDialogElement>(`[data-ficha="${CSS.escape(id)}"]`);
+    if (d && !d.open) d.showModal();
+  };
+  document.querySelectorAll<HTMLElement>('[data-abrir-ficha]').forEach((a) =>
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = a.dataset.abrirFicha!;
+      history.pushState(null, '', `#${id}`);
+      abrir(id);
+    }),
+  );
+  document.querySelectorAll<HTMLDialogElement>('[data-ficha]').forEach((d) => {
+    d.addEventListener('close', () => {
+      if (location.hash === `#${d.dataset.ficha}`)
+        history.replaceState(null, '', location.pathname + location.search);
+    });
+    d.addEventListener('click', (e) => {
+      if (e.target === d) d.close();
+    });
+  });
+  const desdeHash = () => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (id) abrir(id);
+  };
+  window.addEventListener('hashchange', desdeHash);
+  desdeHash();
 </script>

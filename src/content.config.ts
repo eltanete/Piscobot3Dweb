@@ -128,6 +128,10 @@ const casos = defineCollection({
       imagenAlt: z.string().nullish(),
       /** Fotos adicionales que se muestran en el detalle del caso. */
       galeria: z.array(image()).default([]),
+      /** Fotos con texto alternativo obligatorio (formato nuevo; se suman a imagen/galeria). */
+      fotos: z.array(z.object({ src: image(), alt: z.string().min(1) })).default([]),
+      /** CTA del caso; por defecto lleva a la línea (servicio). */
+      cta: z.object({ label: z.string(), href: z.string() }).nullish(),
       modelo3d: z.string().nullish(),
       destacado: z.boolean().default(false),
       orden: z.number().default(0),

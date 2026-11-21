@@ -25,7 +25,12 @@ import { whatsappUrl, MENSAJES_WHATSAPP } from '../lib/whatsapp';
 const servicios = (await getCollection('servicios')).sort((a, b) => a.data.orden - b.data.orden);
 const industria = servicios.filter((s) => s.data.vertical === 'industria');
 const marcas = servicios.filter((s) => s.data.vertical === 'marcas');
-const casos = (await getCollection('casos', (c) => c.data.destacado))
+const casos = (
+  await getCollection(
+    'casos',
+    (c) => c.data.destacado && !c.data.borrador && c.data.nivel === 'ficha',
+  )
+)
   .sort((a, b) => a.data.orden - b.data.orden)
   .slice(0, 3);
 const recursos = (await getCollection('recursos'))
