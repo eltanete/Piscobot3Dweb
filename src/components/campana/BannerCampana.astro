@@ -1,0 +1,67 @@
+---
+// Banner cerrable de la campaña de fin de año (Home y /marcas). Se apaga solo después de la fecha
+// de cierre: en el build (no se genera) y en el navegador (data-campana-cierre + script en BaseLayout).
+import { campana, campanaVigente } from '../../lib/campana';
+const vigente = campanaVigente();
+---
+
+{vigente && (
+  <div
+    id="banner-campana"
+    data-campana-cierre={campana.fechaCierre}
+    class="relative z-40 bg-naranja-500 text-grafito-950"
+  >
+    <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2.5 md:px-8">
+      <a
+        href="/fin-de-ano"
+        class="flex-1 text-center text-sm font-semibold hover:underline"
+        data-evento="clic_banner_campana"
+      >
+        {campana.textoBanner} <span aria-hidden="true">→</span>
+      </a>
+      <button
+        type="button"
+        data-cerrar-banner
+        class="inline-flex size-7 shrink-0 items-center justify-center rounded-full hover:bg-black/10"
+        aria-label="Cerrar aviso de fin de año"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <script is:inline>
+      (function () {
+        var b = document.getElementById('banner-campana');
+        var clave = 'piscobot-banner-' + b.dataset.campanaCierre;
+        try {
+          if (localStorage.getItem(clave) === '1') b.remove();
+        } catch (e) {
+          /* sin almacenamiento */
+        }
+        var cerrar = b && b.querySelector('[data-cerrar-banner]');
+        if (cerrar)
+          cerrar.addEventListener('click', function () {
+            try {
+              localStorage.setItem(clave, '1');
+            } catch (e) {
+              /* sin almacenamiento */
+            }
+            window.dispatchEvent(
+              new CustomEvent('piscobot:evento', { detail: { nombre: 'cierre_banner_campana' } }),
+            );
+            b.remove();
+          });
+      })();
+    </script>
+  </div>
+)}

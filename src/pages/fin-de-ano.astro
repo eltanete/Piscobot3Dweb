@@ -1,0 +1,338 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import ImagePlaceholder from '../components/ui/ImagePlaceholder.astro';
+import FaqSection from '../components/sections/FaqSection.astro';
+import { campana, campanaVigente, diaMes, fechaLarga } from '../lib/campana';
+import { whatsappUrl } from '../lib/whatsapp';
+
+const vigente = campanaVigente();
+const WHATSAPP = 'Hola PISCOBOT 3D, quiero una propuesta de regalos / trofeos de fin de año.';
+const CTA = '/cotizar?vertical=marcas&tipo=regalos&origen=fin-de-ano';
+const carbone = await getEntry('casos', 'carbone-autoelevadores');
+
+const tarjetas = [
+  {
+    icono: 'gift' as const,
+    titulo: 'Regalos para clientes',
+    texto: 'Miniaturas de tu producto y objetos con tu marca que se quedan en el escritorio.',
+    meta: '50 a 500 u.',
+  },
+  {
+    icono: 'target' as const,
+    titulo: 'Trofeos y reconocimientos',
+    texto: 'Premios con la forma de tu ícono para reconocer al equipo.',
+    meta: '5 a 50 u.',
+  },
+  {
+    icono: 'sparkles' as const,
+    titulo: 'Fiestas empresariales',
+    texto: 'Centros de mesa, souvenirs y piezas para la fiesta de fin de año.',
+    meta: 'A medida',
+  },
+  {
+    icono: 'users' as const,
+    titulo: 'Eventos de cierre y convenciones',
+    texto: 'Piezas para stands, escenarios y kits para los asistentes.',
+    meta: 'A medida',
+  },
+];
+
+const kits = [
+  {
+    id: 'kit-escritorio',
+    nombre: 'Kit Escritorio',
+    items: ['Soporte de celular', 'Clip organizador de cables', 'Placa con nombre'],
+    caja: 'En caja con tu logo',
+  },
+  {
+    id: 'kit-mate',
+    nombre: 'Kit Mate',
+    items: ['Soporte de mate y termo', 'Set de posavasos'],
+    caja: 'En caja',
+  },
+  {
+    id: 'kit-reconocimiento',
+    nombre: 'Kit Reconocimiento',
+    items: ['Trofeo con forma de ícono', 'Pin para el equipo'],
+    caja: 'Para premiar al equipo',
+  },
+];
+---
+
+<BaseLayout
+  title="Regalos empresariales y trofeos personalizados 3D para fin de año"
+  description={`Regalos para clientes, trofeos personalizados y piezas para tu fiesta de fin de año, diseñados y fabricados en 3D en Buenos Aires con entrega antes del ${diaMes(campana.fechaEntrega)}.`}
+  vertical="marcas"
+  cta={{ label: 'Quiero mi propuesta', href: CTA }}
+  mensajeWhatsapp={WHATSAPP}
+>
+  <!-- Hero -->
+  <section class="relative isolate overflow-hidden bg-grafito-950 text-white">
+    <div class="fondo-grilla absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black,transparent)]"></div>
+    <div
+      class="absolute -top-40 right-0 -z-10 size-[36rem] rounded-full bg-naranja-500 opacity-25 blur-[140px]"
+      aria-hidden="true"
+    ></div>
+    <Container class="py-16 md:py-24">
+      <Breadcrumbs
+        items={[{ label: 'Marcas y Agencias', href: '/marcas' }, { label: 'Fin de año' }]}
+        oscuro
+      />
+      <div class="grid items-center gap-12 xl:grid-cols-12">
+        <div class="xl:col-span-7">
+          <p class="eyebrow mb-4 flex items-center gap-2 text-naranja-400">
+            <span class="size-2 rounded-full bg-naranja-500" aria-hidden="true"></span>
+            Fin de año 2026
+          </p>
+          <h1 class="text-display text-white">
+            El regalo que tus clientes no van a encontrar en ningún catálogo.
+          </h1>
+          <p class="text-bajada mt-6 max-w-2xl text-grafito-300">
+            Miniaturas de tu producto, trofeos y piezas para tu fiesta o evento de fin de año.
+            Diseñadas y fabricadas en Buenos Aires, con entrega antes del{' '}
+            {diaMes(campana.fechaEntrega)}.
+          </p>
+          <div class="mt-9 flex flex-wrap gap-3" data-vertical="marcas">
+            <Button href={CTA} tamano="lg" iconoFinal="arrow-right" evento="inicio_formulario">
+              Quiero mi propuesta en 48 h
+            </Button>
+            <Button
+              href={whatsappUrl(WHATSAPP)}
+              variante="whatsapp"
+              tamano="lg"
+              icono="message"
+              evento="clic_whatsapp"
+            >
+              WhatsApp
+            </Button>
+          </div>
+        </div>
+        <div class="xl:col-span-5">
+          {vigente ? (
+            <div
+              data-campana-cierre={campana.fechaCierre}
+              class="rounded-2xl border border-grafito-800 bg-grafito-900 p-6"
+            >
+              <p class="eyebrow mb-4 text-grafito-400">
+                Cierre de pedidos: {fechaLarga(campana.fechaCierre)}
+              </p>
+              <div
+                class="grid grid-cols-4 gap-3 text-center"
+                data-cuenta-regresiva={campana.fechaCierre}
+                aria-live="off"
+              >
+                {['dias', 'horas', 'minutos', 'segundos'].map((u) => (
+                  <div class="rounded-lg bg-grafito-950 px-2 py-4">
+                    <p
+                      class="font-mono text-3xl font-semibold text-white md:text-4xl"
+                      data-unidad={u}
+                    >
+                      --
+                    </p>
+                    <p class="mt-1 text-[0.6875rem] tracking-wide text-grafito-400 uppercase">
+                      {u === 'dias' ? 'días' : u}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <p class="mt-4 text-sm text-grafito-400">
+                Entrega garantizada antes del {fechaLarga(campana.fechaEntrega)} para pedidos
+                confirmados a tiempo.
+              </p>
+            </div>
+          ) : (
+            <div class="rounded-2xl border border-grafito-800 bg-grafito-900 p-6 text-grafito-300">
+              La campaña de fin de año ya cerró. Escribinos igual: vemos qué podemos hacer con tu
+              fecha.
+            </div>
+          )}
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Cuatro tarjetas -->
+  <Section aria-labelledby="titulo-ocasiones">
+    <div data-vertical="marcas">
+      <SectionHeader
+        id="titulo-ocasiones"
+        eyebrow="Para cada ocasión"
+        titulo="Regalos, trofeos y piezas para cerrar el año"
+      />
+      <ul class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {tarjetas.map((t) => (
+          <li class="flex flex-col rounded-lg border-2 border-grafito-200 bg-white p-6">
+            <div class="mb-4 flex items-center justify-between">
+              <span class="inline-flex size-11 items-center justify-center rounded-md border border-acento text-acento-texto">
+                <Icon name={t.icono} size={22} />
+              </span>
+              <span class="font-mono text-xs font-semibold text-grafito-500 uppercase">
+                {t.meta}
+              </span>
+            </div>
+            <h3 class="text-lg">{t.titulo}</h3>
+            <p class="mt-2 text-grafito-600">{t.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </Section>
+
+  <!-- Kits -->
+  <Section fondo="gris" aria-labelledby="titulo-kits">
+    <div data-vertical="marcas">
+      <SectionHeader
+        id="titulo-kits"
+        eyebrow="Kits listos para personalizar"
+        titulo="Tres kits para no empezar de cero"
+        bajada="Cada kit se personaliza con tu marca. También armamos el tuyo con objetos del catálogo."
+      />
+      <ul class="grid gap-6 md:grid-cols-3">
+        {kits.map((k) => (
+          <li class="flex flex-col overflow-hidden rounded-lg border border-grafito-200 bg-white shadow-tarjeta">
+            <ImagePlaceholder formato="1x1" archivo={`${k.id}-01-1x1.jpg`} oscuro={false} />
+            <div class="flex flex-1 flex-col p-6">
+              <h3 class="text-xl">{k.nombre}</h3>
+              <ul class="mt-3 flex-1 space-y-1.5 text-grafito-700">
+                {k.items.map((i) => (
+                  <li class="flex items-center gap-2">
+                    <Icon name="check" size={16} class="text-acento-texto" />
+                    {i}
+                  </li>
+                ))}
+              </ul>
+              <p class="mt-3 font-mono text-xs text-grafito-500 uppercase">{k.caja}</p>
+              <a
+                href={`${CTA}&kit=${encodeURIComponent(k.nombre)}`}
+                class="mt-5 inline-flex h-10 items-center justify-center rounded-md border border-grafito-300 text-sm font-semibold hover:border-grafito-900 hover:bg-grafito-50"
+                data-evento="armar_kit"
+              >
+                Quiero este kit
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
+      {campana.mostrarPrecio && (
+        <p class="mt-6 text-center font-mono text-sm text-grafito-700">
+          {campana.precioOrientativo}
+        </p>
+      )}
+    </div>
+  </Section>
+
+  <!-- Caso Carbone -->
+  {carbone && !carbone.data.borrador && (
+    <Section fondo="oscuro" aria-labelledby="titulo-carbone">
+      <div class="grid items-center gap-8 xl:grid-cols-12" data-vertical="marcas">
+        <div class="xl:col-span-8">
+          <p class="eyebrow mb-3 text-naranja-400">Caso real</p>
+          <h2 id="titulo-carbone" class="text-titulo">
+            300 autoelevadores en 11 días
+          </h2>
+          <p class="text-bajada mt-4 text-grafito-300">{carbone.data.bajada}</p>
+        </div>
+        <div class="xl:col-span-4 xl:text-right">
+          <Button
+            href={`/casos/${carbone.id}`}
+            variante="claro"
+            tamano="lg"
+            iconoFinal="arrow-right"
+            evento="clic_caso"
+          >
+            Ver el caso
+          </Button>
+        </div>
+      </div>
+    </Section>
+  )}
+
+  <!-- Calendario -->
+  <Section aria-labelledby="titulo-calendario">
+    <SectionHeader id="titulo-calendario" eyebrow="Calendario" titulo="Las fechas que importan" />
+    <ol class="relative grid gap-6 md:grid-cols-3">
+      <li class="rounded-lg border border-grafito-200 p-6">
+        <p class="eyebrow text-grafito-500">Hoy</p>
+        <p class="mt-2 font-mono text-3xl font-semibold" data-hoy>
+          —
+        </p>
+        <p class="mt-1 text-sm text-grafito-600">
+          Pedí tu propuesta: te respondemos en 48 h hábiles.
+        </p>
+      </li>
+      <li class="rounded-lg border-2 border-naranja-500 p-6">
+        <p class="eyebrow text-naranja-700">Cierre de pedidos</p>
+        <p class="mt-2 font-mono text-3xl font-semibold text-naranja-700">
+          {diaMes(campana.fechaCierre)}
+        </p>
+        <p class="mt-1 text-sm text-grafito-600">
+          Último día para confirmar y asegurar la entrega.
+        </p>
+      </li>
+      <li class="rounded-lg border-2 border-naranja-500 bg-naranja-50 p-6">
+        <p class="eyebrow text-naranja-700">Entrega</p>
+        <p class="mt-2 font-mono text-3xl font-semibold text-naranja-700">
+          {diaMes(campana.fechaEntrega)}
+        </p>
+        <p class="mt-1 text-sm text-grafito-600">Tus regalos listos antes de las fiestas.</p>
+      </li>
+    </ol>
+  </Section>
+
+  <FaqSection tema="fin-de-ano" fondo="gris" />
+
+  <!-- Cierre -->
+  <Section aria-labelledby="titulo-cierre-fda">
+    <div class="text-center" data-vertical="marcas">
+      <h2 id="titulo-cierre-fda" class="text-titulo">
+        ¿Tenés una fecha? Empecemos por ahí.
+      </h2>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <Button href={CTA} tamano="lg" iconoFinal="arrow-right" evento="inicio_formulario">
+          Quiero mi propuesta en 48 h
+        </Button>
+        <Button
+          href={whatsappUrl(WHATSAPP)}
+          variante="whatsapp"
+          tamano="lg"
+          icono="message"
+          evento="clic_whatsapp"
+        >
+          WhatsApp
+        </Button>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<script>
+  // Cuenta regresiva y fecha de hoy (calculadas en el navegador: el sitio es estático).
+  const hoy = document.querySelector<HTMLElement>('[data-hoy]');
+  if (hoy) {
+    const d = new Date();
+    hoy.textContent = `${d.getDate()}/${d.getMonth() + 1}`;
+  }
+  const caja = document.querySelector<HTMLElement>('[data-cuenta-regresiva]');
+  if (caja) {
+    const fin = Date.parse(caja.dataset.cuentaRegresiva ?? '');
+    const campo = (u: string) => caja.querySelector<HTMLElement>(`[data-unidad="${u}"]`)!;
+    const pintar = () => {
+      const resto = Math.max(0, fin - Date.now());
+      const s = Math.floor(resto / 1000);
+      campo('dias').textContent = String(Math.floor(s / 86400));
+      campo('horas').textContent = String(Math.floor((s % 86400) / 3600)).padStart(2, '0');
+      campo('minutos').textContent = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+      campo('segundos').textContent = String(s % 60).padStart(2, '0');
+      if (resto === 0) clearInterval(intervalo);
+    };
+    const intervalo = setInterval(pintar, 1000);
+    pintar();
+  }
+</script>

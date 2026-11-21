@@ -7,6 +7,7 @@ import MobileCtaBar from '../components/layout/MobileCtaBar.astro';
 import WhatsAppChat from '../components/layout/WhatsAppChat.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Analytics from '../components/seo/Analytics.astro';
+import BannerCampana from '../components/campana/BannerCampana.astro';
 import { SITE, sitio, type Vertical } from '../lib/constants';
 
 interface Props {
@@ -22,6 +23,8 @@ interface Props {
   mensajeWhatsapp?: string;
   /** Oculta header/footer (p. ej. styleguide). */
   minimal?: boolean;
+  /** Muestra el banner de la campaña de fin de año (Home y /marcas). */
+  bannerCampana?: boolean;
   schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
@@ -35,6 +38,7 @@ const {
   cta,
   mensajeWhatsapp,
   minimal = false,
+  bannerCampana = false,
   schema,
 } = Astro.props;
 
@@ -104,6 +108,7 @@ const organizacion = {
     <Analytics />
   </head>
   <body data-vertical={vertical} class="flex min-h-screen flex-col">
+    {!minimal && bannerCampana && <BannerCampana />}
     {!minimal && <Header />}
     <main id="contenido" class="flex-1">
       <slot />
@@ -113,5 +118,12 @@ const organizacion = {
       <MobileCtaBar ctaLabel={cta?.label} ctaHref={cta?.href} mensajeWhatsapp={mensajeWhatsapp} />
     )}
     {!minimal && <WhatsAppChat />}
+    <script is:inline>
+      // Apaga todo lo marcado con data-campana-cierre (banner, ítem de menú, cuenta regresiva)
+      // cuando pasa la fecha de cierre de la campaña, aunque el sitio no se haya vuelto a publicar.
+      document.querySelectorAll('[data-campana-cierre]').forEach(function (el) {
+        if (Date.now() > Date.parse(el.getAttribute('data-campana-cierre'))) el.remove();
+      });
+    </script>
   </body>
 </html>
