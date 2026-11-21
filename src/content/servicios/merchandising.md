@@ -1,8 +1,8 @@
 ---
 titulo: Merchandising impreso en 3D
 vertical: marcas
-orden: 4
-icono: gift
+orden: 5
+icono: layers
 resumen: Objetos promocionales curados y personalizables con tu marca, desde prototipos hasta cientos de unidades, sin mínimos elevados.
 imagen: ../../assets/images/servicios/merchandising-hero.webp
 imagenAlt: Llaveros con forma de lata impresos en 3D para una marca de bebidas

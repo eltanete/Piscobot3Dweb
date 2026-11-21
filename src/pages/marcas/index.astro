@@ -1,42 +1,241 @@
 ---
-import VerticalLayout from '../../layouts/VerticalLayout.astro';
-import { MENSAJES_WHATSAPP } from '../../lib/whatsapp';
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import Button from '../../components/ui/Button.astro';
+import Icon from '../../components/ui/Icon.astro';
+import FeatureGrid from '../../components/sections/FeatureGrid.astro';
+import { rutaServicio } from '../../lib/constants';
+import { whatsappUrl } from '../../lib/whatsapp';
 import imagenHero from '../../assets/images/paginas/marcas-hero.webp';
+
+const WHATSAPP = 'Hola PISCOBOT 3D, quiero contarles sobre un evento / regalo para mi marca.';
+
+const lineas = (await getCollection('servicios', (s) => s.data.vertical === 'marcas')).sort(
+  (a, b) => a.data.orden - b.data.orden,
+);
+const tarjetas = await Promise.all(
+  lineas.map(async (l) => {
+    const caso = l.data.casoInsignia ? await getEntry('casos', l.data.casoInsignia) : undefined;
+    return { linea: l, caso: caso && !caso.data.borrador ? caso : undefined };
+  }),
+);
+
+const porQue = [
+  {
+    titulo: 'Sin molde, sin mínimos absurdos',
+    texto:
+      'Producimos de 50 a 500 unidades sin invertir en matrices: la cantidad justa para tu acción.',
+    icono: 'layers' as const,
+  },
+  {
+    titulo: 'Plazos con fecha',
+    texto: 'Importar tarda 60 a 90 días. Planificamos hacia atrás desde el día de tu evento.',
+    icono: 'calendar' as const,
+  },
+  {
+    titulo: 'Diseño con criterio de fabricación',
+    texto: 'Cada idea se piensa para que se pueda fabricar bien, resistir el uso y lucir.',
+    icono: 'settings' as const,
+  },
+  {
+    titulo: 'Un precio por unidad, todo incluido',
+    texto: 'Diseño, muestra, producción y terminación en un solo número, sin sorpresas.',
+    icono: 'target' as const,
+  },
+];
+
+const pasos = [
+  { titulo: 'Nos contás el objetivo', texto: 'Qué querés comunicar, para quién y para cuándo.' },
+  {
+    titulo: 'Ideas o presupuesto en 48 h',
+    texto: 'Te proponemos objetos y te pasamos un precio por unidad.',
+  },
+  {
+    titulo: 'Muestra antes de producir',
+    texto: 'Validás forma, color y terminación con una pieza física.',
+  },
+  {
+    titulo: 'Producción y entrega en fecha',
+    texto: 'Fabricamos, controlamos cada lote y entregamos a tiempo.',
+  },
+];
 ---
 
-<VerticalLayout
+<BaseLayout
+  title="Regalos, esculturas y activaciones de marca impresos en 3D"
+  description="Diseñamos y fabricamos en 3D regalos corporativos, esculturas de marca, activaciones, piezas de autor y merchandising curado en Buenos Aires, con plazos que la importación no puede cumplir."
   vertical="marcas"
-  hero={{
-    imagen: imagenHero,
-    imagenAlt: 'Llaveros personalizados impresos en 3D para una marca',
-    eyebrow: 'Marcas y Agencias',
-    titulo: 'Objetos con tu marca que la gente quiere conservar',
-    bajada:
-      'Merchandising curado y personalizable, y proyectos especiales para lanzamientos, eventos y activaciones. Diseño y fabricación 3D en un solo equipo.',
-  }}
-  seo={{
-    titulo: 'Merchandising y activaciones de marca impresos en 3D',
-    descripcion:
-      'Merchandising corporativo impreso en 3D, displays, trofeos y activaciones para marcas, agencias y eventos. Diseño y fabricación local.',
-  }}
-  cta={{ label: 'Pedir catálogo', tipo: 'merchandising' }}
-  whatsapp={MENSAJES_WHATSAPP.merchandising}
-  paraQuien={[
-    {
-      titulo: 'Equipos de marketing',
-      texto: 'Que buscan regalos y kits con identidad y uso real.',
-      icono: 'target',
-    },
-    {
-      titulo: 'Agencias',
-      texto: 'Que necesitan un proveedor técnico para materializar ideas creativas.',
-      icono: 'sparkles',
-    },
-    {
-      titulo: 'Eventos y RR. HH.',
-      texto: 'Premios, kits de bienvenida y piezas para encuentros y lanzamientos.',
-      icono: 'calendar',
-    },
-  ]}
-  tipos={['merchandising', 'proyectos']}
-/>
+  cta={{ label: 'Contanos tu evento', href: '/cotizar?vertical=marcas' }}
+  mensajeWhatsapp={WHATSAPP}
+>
+  <PageHero
+    eyebrow="Marcas y Agencias"
+    titulo="Piezas que solo tu marca puede tener."
+    bajada="Diseñamos y fabricamos en 3D regalos, esculturas y activaciones a medida, con plazos que la inyección y la importación no pueden cumplir. Del boceto a la entrega, con el mismo criterio técnico que aplicamos en la industria."
+    migas={[{ label: 'Marcas y Agencias' }]}
+    imagen={imagenHero}
+    imagenAlt="Llaveros con forma de lata impresos en 3D para una marca de bebidas"
+  >
+    <Button
+      href="/cotizar?vertical=marcas"
+      tamano="lg"
+      iconoFinal="arrow-right"
+      evento="inicio_formulario"
+    >
+      Contanos tu evento
+    </Button>
+    <Button href="/casos?vertical=marcas" variante="claro" tamano="lg" evento="clic_caso">
+      Ver casos
+    </Button>
+  </PageHero>
+  <div class="border-b border-grafito-800 bg-grafito-950">
+    <p class="mx-auto max-w-7xl px-4 py-4 font-mono text-xs tracking-wide text-grafito-400 uppercase md:px-8">
+      300 réplicas en 11 días · +30.000 piezas impresas · +11 impresoras en producción
+    </p>
+  </div>
+
+  <!-- Cinco líneas por objetivo del cliente -->
+  <Section aria-labelledby="titulo-lineas">
+    <SectionHeader
+      id="titulo-lineas"
+      eyebrow="Qué hacemos"
+      titulo="Cinco formas de que tu marca se vuelva objeto"
+    />
+    <ul class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {tarjetas.map(({ linea, caso }) => (
+        <li class="flex flex-col rounded-lg border-2 border-grafito-200 bg-white p-6 transition-colors hover:border-acento">
+          <span class="mb-5 inline-flex size-12 items-center justify-center rounded-md border border-acento text-acento-texto">
+            <Icon name={linea.data.icono} size={24} />
+          </span>
+          <h3 class="text-xl">
+            <a href={rutaServicio('marcas', linea.id)} class="hover:text-acento-texto">
+              {linea.data.titulo}
+            </a>
+          </h3>
+          <p class="mt-2 line-clamp-2 flex-1 leading-relaxed text-grafito-600">
+            {linea.data.resumen}
+          </p>
+          <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
+            <a
+              href={rutaServicio('marcas', linea.id)}
+              class="inline-flex items-center gap-1 text-acento-texto hover:underline"
+            >
+              Ver la línea <Icon name="arrow-right" size={16} />
+            </a>
+            {caso ? (
+              <a
+                href={`/casos/${caso.id}`}
+                class="text-grafito-700 hover:underline"
+                data-evento="clic_caso"
+              >
+                Caso: {caso.data.titulo}
+              </a>
+            ) : (
+              <a
+                href={`${rutaServicio('marcas', linea.id)}#catalogo`}
+                class="text-grafito-700 hover:underline"
+              >
+                Ver catálogo
+              </a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <!-- Por qué en 3D y por qué con nosotros -->
+  <Section fondo="gris" aria-labelledby="titulo-porque">
+    <SectionHeader
+      id="titulo-porque"
+      eyebrow="Por qué en 3D y por qué con nosotros"
+      titulo="Lo que la inyección y la importación no te dan"
+    />
+    <FeatureGrid items={porQue} columnas={4} variante="simple" />
+  </Section>
+
+  <!-- Cómo trabajamos: horizontal en desktop, vertical en mobile -->
+  <Section aria-labelledby="titulo-como">
+    <SectionHeader
+      id="titulo-como"
+      eyebrow="Cómo trabajamos"
+      titulo="De la idea a la entrega en cuatro pasos"
+    />
+    <ol class="grid gap-0 md:grid-cols-4 md:gap-6">
+      {pasos.map((p, i) => (
+        <li class="relative flex gap-4 pb-8 last:pb-0 md:flex-col md:pb-0">
+          <span class="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full bg-acento font-mono font-semibold text-sobre-acento">
+            {i + 1}
+          </span>
+          {i < pasos.length - 1 && (
+            <span
+              class="absolute top-10 left-5 h-[calc(100%-2.5rem)] w-px bg-grafito-300 md:top-5 md:left-10 md:h-px md:w-[calc(100%-2.5rem)]"
+              aria-hidden="true"
+            />
+          )}
+          <div>
+            <h3 class="text-lg">{p.titulo}</h3>
+            <p class="mt-1 text-grafito-600">{p.texto}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <!-- Para agencias -->
+  <Section fondo="oscuro" aria-labelledby="titulo-agencias">
+    <div class="grid items-center gap-8 xl:grid-cols-12">
+      <div class="xl:col-span-8">
+        <p class="eyebrow mb-3 text-grafito-400">Para agencias</p>
+        <h2 id="titulo-agencias" class="text-titulo">
+          Tu proveedor técnico, invisible para tu cliente
+        </h2>
+        <p class="text-bajada mt-4 text-grafito-300">
+          Precio de reventa para agencias y confidencialidad total sobre el cliente final. Bajamos
+          tu idea creativa a una pieza fabricable y la entregamos en fecha.
+        </p>
+      </div>
+      <div class="xl:col-span-4 xl:text-right">
+        <Button
+          href="/cotizar?vertical=marcas&rol=agencia"
+          variante="claro"
+          tamano="lg"
+          evento="inicio_formulario"
+        >
+          Pedir condiciones para agencias
+        </Button>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Cierre -->
+  <Section aria-labelledby="titulo-cierre">
+    <div class="text-center">
+      <h2 id="titulo-cierre" class="text-titulo">
+        ¿Tenés una fecha? Empecemos por ahí.
+      </h2>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <Button
+          href="/cotizar?vertical=marcas"
+          tamano="lg"
+          iconoFinal="arrow-right"
+          evento="inicio_formulario"
+        >
+          Cotizar proyecto
+        </Button>
+        <Button
+          href={whatsappUrl(WHATSAPP)}
+          variante="whatsapp"
+          tamano="lg"
+          icono="message"
+          evento="clic_whatsapp"
+        >
+          WhatsApp
+        </Button>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

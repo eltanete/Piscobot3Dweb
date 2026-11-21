@@ -1,0 +1,9 @@
+---
+import { getEntry } from 'astro:content';
+import ServicioLayout from '../../layouts/ServicioLayout.astro';
+
+const servicio = await getEntry('servicios', 'activaciones');
+if (!servicio) throw new Error('Falta el servicio activaciones');
+---
+
+<ServicioLayout servicio={servicio} />

@@ -1,6 +1,6 @@
 ---
 // Plantilla común para las 5 páginas de servicio. El contenido viene de src/content/servicios.
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import Section from '../components/ui/Section.astro';
@@ -8,6 +8,7 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import FeatureGrid from '../components/sections/FeatureGrid.astro';
 import FaqSection from '../components/sections/FaqSection.astro';
 import CasoCard from '../components/sections/CasoCard.astro';
+import CasoInsignia from '../components/sections/CasoInsignia.astro';
 import Testimonios from '../components/sections/Testimonios.astro';
 import QueNecesitas from '../components/sections/QueNecesitas.astro';
 import Button from '../components/ui/Button.astro';
@@ -26,9 +27,13 @@ const { Content } = await render(servicio);
 const vertical = VERTICALES[s.vertical];
 const ctaHref = `/cotizar?tipo=${s.cta.tipo}`;
 
-const casos = (await getCollection('casos', (c) => c.data.servicio === servicio.id)).sort(
-  (a, b) => a.data.orden - b.data.orden,
-);
+const insignia = s.casoInsignia ? await getEntry('casos', s.casoInsignia) : undefined;
+const casos = (
+  await getCollection(
+    'casos',
+    (c) => c.data.servicio === servicio.id && !c.data.borrador && c.id !== insignia?.id,
+  )
+).sort((a, b) => a.data.orden - b.data.orden);
 const testimonios = await getCollection('testimonios', (t) => t.data.vertical === s.vertical);
 const tiposVertical =
   s.vertical === 'industria'
@@ -76,6 +81,12 @@ const schema = {
       WhatsApp
     </Button>
   </PageHero>
+
+  {insignia && !insignia.data.borrador && (
+    <Section espaciado="compacto">
+      <CasoInsignia caso={insignia} />
+    </Section>
+  )}
 
   {s.beneficios.length > 0 && (
     <Section>

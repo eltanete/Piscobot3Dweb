@@ -42,14 +42,29 @@ export const NAV_VERTICALES: NavGroup[] = [
     vertical: 'marcas',
     items: [
       {
-        label: 'Merchandising',
-        href: '/marcas/merchandising',
-        descripcion: 'Objetos curados y personalizables con tu marca',
+        label: 'Regalos corporativos',
+        href: '/marcas/regalos-corporativos',
+        descripcion: 'Regalos a medida para clientes y equipos',
+      },
+      {
+        label: 'Esculturas de marca',
+        href: '/marcas/esculturas-de-marca',
+        descripcion: 'Piezas de presencia para stands y espacios',
+      },
+      {
+        label: 'Activaciones',
+        href: '/marcas/activaciones',
+        descripcion: 'Objetos para eventos y puntos de venta',
       },
       {
         label: 'Piezas de autor',
         href: '/marcas/piezas-de-autor',
         descripcion: 'Props funcionales para cine y contenido',
+      },
+      {
+        label: 'Merchandising curado',
+        href: '/marcas/merchandising',
+        descripcion: 'Catálogo de objetos personalizables',
       },
     ],
   },

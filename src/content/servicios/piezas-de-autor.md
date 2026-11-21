@@ -1,8 +1,9 @@
 ---
 titulo: Piezas de autor
 vertical: marcas
-orden: 5
+orden: 4
 icono: sparkles
+casoInsignia: ofer-katz-props
 resumen: Props funcionales para cine y contenido, pensados para usarse frente a cámara y guardarse como obra.
 imagen: ../../assets/images/servicios/proyectos-hero.webp
 imagenAlt: Serie de exhibidores impresos en 3D para una marca de productos ortopédicos

@@ -1,7 +1,8 @@
 ---
 titulo: Mostrador para rodillera ortopédica
 vertical: marcas
-servicio: piezas-de-autor
+servicio: esculturas-de-marca
+descripcionGenerica: una ortopedia
 material: PLA industrial
 aplicacion: Retail y exhibición comercial
 resumen: Sistema de exhibición diseñado para destacar productos ortopédicos en locales comerciales, combinando resistencia, estética y branding.
@@ -10,7 +11,7 @@ imagenAlt: Mostrador para rodillera ortopédica
 galeria:
   - ../../assets/images/casos/mostrador-rodillera-02.webp
   - ../../assets/images/casos/mostrador-rodillera-03.webp
-destacado: true
+destacado: false
 orden: 5
 ---
 

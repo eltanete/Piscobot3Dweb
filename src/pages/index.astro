@@ -16,6 +16,7 @@ import CasoCard from '../components/sections/CasoCard.astro';
 import RecursoCard from '../components/sections/RecursoCard.astro';
 import Testimonios from '../components/sections/Testimonios.astro';
 import LogoWall from '../components/sections/LogoWall.astro';
+import CasoInsignia from '../components/sections/CasoInsignia.astro';
 import QueNecesitas from '../components/sections/QueNecesitas.astro';
 import home from '../content/home.json';
 import { SITE, rutaServicio } from '../lib/constants';
@@ -31,6 +32,12 @@ const recursos = (await getCollection('recursos'))
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
   .slice(0, 3);
 const testimonios = await getCollection('testimonios');
+const insignias = (
+  await getCollection(
+    'casos',
+    (c) => c.data.vertical === 'marcas' && c.data.nivel === 'insignia' && !c.data.borrador,
+  )
+).sort((a, b) => a.data.orden - b.data.orden);
 const rutaDe = (s: (typeof servicios)[number]) => rutaServicio(s.data.vertical, s.id);
 ---
 
@@ -181,7 +188,7 @@ const rutaDe = (s: (typeof servicios)[number]) => rutaServicio(s.data.vertical, 
         titulo="Objetos y experiencias que hacen que tu marca se recuerde"
         bajada="Para equipos de marketing, agencias y organizadores de eventos."
       />
-      <ul class="grid gap-6 md:grid-cols-2">
+      <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {marcas.map((s) => (
           <li>
             <ServiceCard
@@ -196,6 +203,26 @@ const rutaDe = (s: (typeof servicios)[number]) => rutaServicio(s.data.vertical, 
       </ul>
     </div>
   </Section>
+
+  <!-- 7b · Marcas en foco -->
+  {insignias.length > 0 && (
+    <Section fondo="gris" aria-labelledby="titulo-foco">
+      <div data-vertical="marcas">
+        <SectionHeader
+          id="titulo-foco"
+          eyebrow="Marcas en foco"
+          titulo="Piezas que hicimos para marcas"
+        />
+        <ul class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {insignias.map((c) => (
+            <li class="flex">
+              <CasoInsignia caso={c} compacto />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Section>
+  )}
 
   <!-- 8 · Logos -->
   <Section fondo="gris" espaciado="compacto">
