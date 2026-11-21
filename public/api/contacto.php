@@ -6,7 +6,7 @@ require __DIR__ . '/_lib.php';
 controles_comunes();
 
 $e = validar_contacto();
-$asunto = campo('asunto') ?: 'otro';
+$asunto = campo('asunto') ?: 'no-se';
 if (!isset(TIPOS[$asunto])) {
     $e['asunto'] = 'Elegí un asunto';
 }

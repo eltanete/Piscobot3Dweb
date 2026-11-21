@@ -13,7 +13,7 @@ hero:
   bajada: Props funcionales para cine y contenido, pensados para usarse frente a cámara y guardarse como obra. Diseño, fabricación y terminación en un solo equipo.
 cta:
   label: Contanos tu proyecto
-  tipo: proyectos
+  tipo: pieza-de-autor
 whatsapp: Hola PISCOBOT 3D, quiero contarles sobre una pieza de autor / prop para una producción.
 pruebas:
   - valor: A medida

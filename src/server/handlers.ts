@@ -1,10 +1,17 @@
 // Lógica de los formularios, independiente de Astro para poder testearla con dependencias simuladas.
 import {
+  ALIAS_TIPOS,
   ARCHIVOS,
+  ATRIBUCION,
+  CLARIDAD,
+  MENSAJE_CONFIRMACION,
+  PRESUPUESTOS,
+  ROLES,
   TIPOS_CONSULTA,
   contactoSchema,
   cotizacionSchema,
   erroresPorCampo,
+  tipoReal,
   validarArchivo,
 } from './schemas';
 import { destinoLeads, enviarEmail, escapar, type Adjunto, type Enviar } from './mailer';
@@ -78,7 +85,9 @@ export async function procesarCotizacion(
   const bloqueo = await controlesComunes(fd, ip, deps);
   if (bloqueo) return bloqueo;
 
-  const parsed = cotizacionSchema.safeParse(camposTexto(fd));
+  const campos = camposTexto(fd);
+  if (campos.tipo && ALIAS_TIPOS[campos.tipo]) campos.tipo = ALIAS_TIPOS[campos.tipo];
+  const parsed = cotizacionSchema.safeParse(campos);
   if (!parsed.success) {
     return json(422, {
       ok: false,
@@ -88,55 +97,64 @@ export async function procesarCotizacion(
   }
   const d = parsed.data;
 
-  // Adjuntos
+  // Adjuntos: lista blanca de extensiones + tipo real por contenido, máximo 50 MB en total.
   const archivos = fd.getAll('archivos').filter((f): f is File => f instanceof File && f.size > 0);
-  if (archivos.length > ARCHIVOS.maxCantidad) {
-    return json(422, {
-      ok: false,
-      mensaje: 'Revisá los archivos.',
-      errores: { archivos: `Máximo ${ARCHIVOS.maxCantidad} archivos` },
-    });
-  }
+  const errorArchivos = (msg: string) =>
+    json(422, { ok: false, mensaje: 'Revisá los archivos.', errores: { archivos: msg } });
+  if (archivos.length > ARCHIVOS.maxCantidad)
+    return errorArchivos(`Máximo ${ARCHIVOS.maxCantidad} archivos`);
   let total = 0;
-  for (const f of archivos) {
+  const adjuntos: Adjunto[] = [];
+  for (const [i, f] of archivos.entries()) {
     const err = validarArchivo(f.name, f.size);
-    if (err)
-      return json(422, { ok: false, mensaje: 'Revisá los archivos.', errores: { archivos: err } });
+    if (err) return errorArchivos(err);
     total += f.size;
+    if (total > ARCHIVOS.maxTotal)
+      return errorArchivos('Los archivos superan 50 MB en total. Usá un link de descarga.');
+    const bytes = new Uint8Array(await f.arrayBuffer());
+    const ext = tipoReal(f.name, bytes);
+    if (!ext) return errorArchivos(`"${f.name}" no parece ser un archivo válido de ese tipo.`);
+    // Renombrado: nunca se usa el nombre que manda el cliente para guardar o adjuntar.
+    adjuntos.push({ filename: `adjunto-${i + 1}.${ext}`, content: Buffer.from(bytes) });
   }
-  if (total > ARCHIVOS.maxTotal) {
-    return json(422, {
-      ok: false,
-      mensaje: 'Revisá los archivos.',
-      errores: { archivos: 'Los archivos superan 25 MB en total. Usá un link de descarga.' },
-    });
-  }
-  const adjuntos: Adjunto[] = await Promise.all(
-    archivos.map(async (f) => ({ filename: f.name, content: Buffer.from(await f.arrayBuffer()) })),
-  );
 
   const tipo = TIPOS_CONSULTA[d.tipo];
+  const vertical = tipo.vertical;
+  const linea = d.linea || tipo.linea;
+  const esAgencia = d.rol === 'agencia';
   const detalle = tabla([
-    ['Tipo', tipo.label],
-    ['Vertical', tipo.vertical],
-    ['Descripción', d.descripcion],
+    ['Qué necesita', tipo.label],
+    ['¿Sabe qué quiere?', CLARIDAD[d.claridad]],
+    ['Vertical', vertical],
+    ['Línea', linea],
+    ['Destinatarios', d.destinatarios],
     ['Cantidad', d.cantidad],
-    ['Plazo', d.plazo],
-    ['Material', d.material],
-    ['Equipo', d.equipo],
+    ['Fecha de entrega', d.fechaEntrega],
+    [
+      'Presupuesto de referencia',
+      d.presupuesto ? PRESUPUESTOS[d.presupuesto as keyof typeof PRESUPUESTOS] : '',
+    ],
+    ['Kit armado', d.kit],
+    ['Detalles', d.descripcion],
     ['Link de archivos', d.linkArchivos],
     ['Nombre', d.nombre],
     ['Empresa', d.empresa],
+    ['Rol', ROLES[d.rol] + (esAgencia ? ' — PRECIO DE REVENTA' : '')],
     ['Email', d.email],
-    ['Teléfono', d.telefono],
-    ['Adjuntos', adjuntos.map((a) => a.filename).join(', ')],
+    ['WhatsApp', d.telefono],
+    ['Página de origen', d.origen],
+    ...ATRIBUCION.map((k) => [k, d[k]] as [string, string | undefined]),
+    [
+      'Adjuntos',
+      adjuntos.map((a, i) => `${a.filename} (original: ${archivos[i].name})`).join(', '),
+    ],
   ]);
 
   try {
     await deps.enviar({
       to: deps.destino(),
       replyTo: d.email,
-      subject: `[Cotización · ${tipo.label}] ${d.nombre}${d.empresa ? ` — ${d.empresa}` : ''}`,
+      subject: `[Cotización${esAgencia ? ' · AGENCIA' : ''} · ${tipo.label}] ${d.nombre}${d.empresa ? ` — ${d.empresa}` : ''}`,
       text: detalle.text,
       html: `<h2 style="font-family:Arial,sans-serif">Nueva solicitud de cotización</h2>${detalle.html}`,
       attachments: adjuntos,
@@ -144,8 +162,8 @@ export async function procesarCotizacion(
     await deps.enviar({
       to: d.email,
       subject: 'Recibimos tu consulta — PISCOBOT 3D',
-      text: `Hola ${d.nombre}, recibimos tu consulta sobre "${tipo.label}". Te respondemos con un presupuesto en menos de 24 horas hábiles.\n\n${detalle.text}\n\nPISCOBOT 3D`,
-      html: `<p style="font-family:Arial,sans-serif">Hola ${escapar(d.nombre)}, recibimos tu consulta sobre <b>${escapar(tipo.label)}</b>. Te respondemos con un presupuesto en menos de 24 horas hábiles.</p>${detalle.html}<p style="font-family:Arial,sans-serif">PISCOBOT 3D</p>`,
+      text: `Hola ${d.nombre}. ${MENSAJE_CONFIRMACION}\n\n${detalle.text}\n\nPISCOBOT 3D`,
+      html: `<p style="font-family:Arial,sans-serif">Hola ${escapar(d.nombre)}. ${escapar(MENSAJE_CONFIRMACION)}</p>${detalle.html}<p style="font-family:Arial,sans-serif">PISCOBOT 3D</p>`,
     });
   } catch (e) {
     console.error('[cotizacion] error al enviar email', e);
@@ -154,10 +172,7 @@ export async function procesarCotizacion(
       mensaje: 'No pudimos enviar tu consulta. Escribinos por WhatsApp y te respondemos enseguida.',
     });
   }
-  return json(200, {
-    ok: true,
-    mensaje: '¡Listo! Recibimos tu consulta y te respondemos en menos de 24 horas hábiles.',
-  });
+  return json(200, { ok: true, mensaje: MENSAJE_CONFIRMACION });
 }
 
 export async function procesarContacto(
