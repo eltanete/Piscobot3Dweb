@@ -1,7 +1,9 @@
 ---
-// Isotipo oficial (hexágono con cubo) + wordmark en texto.
+// Logo oficial: isotipo + wordmark (fondo claro) o versión blanca con hexágono (fondo oscuro).
 import { Image } from 'astro:assets';
 import isotipo from '../../assets/images/marca/isotipo.png';
+import wordmarkOscuro from '../../assets/images/marca/logo-oscuro.png';
+import logoBlanco from '../../assets/images/marca/logo-blanco.png';
 
 interface Props {
   oscuro?: boolean;
@@ -10,14 +12,23 @@ interface Props {
 const { oscuro = false, class: className } = Astro.props;
 ---
 
-<span class:list={['inline-flex items-center gap-2.5 leading-none', className]}>
-  <Image src={isotipo} alt="" width={36} height={36} class="size-9 rounded-md" loading="eager" />
-  <span
-    class:list={[
-      'text-[1.125rem] font-extrabold tracking-[-0.03em]',
-      oscuro ? 'text-white' : 'text-grafito-950',
-    ]}
-  >
-    PISCOBOT <span class="text-azul-600">3D</span>
+{oscuro ? (
+  <Image
+    src={logoBlanco}
+    alt="PISCOBOT 3D"
+    height={36}
+    class:list={['h-9 w-auto', className]}
+    loading="lazy"
+  />
+) : (
+  <span class:list={['inline-flex items-center gap-2.5 leading-none', className]}>
+    <Image src={isotipo} alt="" width={36} height={36} class="size-9 rounded-md" loading="eager" />
+    <Image
+      src={wordmarkOscuro}
+      alt="PISCOBOT 3D"
+      height={22}
+      class="h-[1.35rem] w-auto"
+      loading="eager"
+    />
   </span>
-</span>
+)}

@@ -3,6 +3,7 @@ titulo: Cómo abordar fallas recurrentes en impresoras 3D
 descripcion: Errores que se repiten, paradas frecuentes y problemas que vuelven. Causas, prevención y un método para cortar el ciclo.
 categoria: Diagnóstico
 icono: alert
+imagen: ../../assets/images/recursos/fallas-recurrentes.webp
 fecha: 2025-05-15
 actualizado: 2026-11-20
 wpSlug: fallas-recurrentes

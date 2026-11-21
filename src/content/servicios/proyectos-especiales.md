@@ -4,8 +4,8 @@ vertical: marcas
 orden: 5
 icono: sparkles
 resumen: Exhibidores, props, piezas únicas y activaciones de marca diseñadas y fabricadas en 3D, del concepto a la entrega.
-imagen: ../../assets/images/casos/mostrador-rodillera.webp
-imagenAlt: Exhibidor impreso en 3D para un producto ortopédico
+imagen: ../../assets/images/servicios/proyectos-hero.webp
+imagenAlt: Serie de exhibidores impresos en 3D para una marca de productos ortopédicos
 hero:
   eyebrow: Proyectos especiales · Activaciones
   titulo: Piezas que hacen que tu marca se recuerde
@@ -35,6 +35,7 @@ bloques:
   - id: que-hacemos
     eyebrow: Qué hacemos
     titulo: Algunas cosas que podemos fabricar para tu marca
+    ilustracion: ../../assets/images/ilustraciones/engranajes.webp
     items:
       - titulo: Exhibidores y mostradores
         texto: Sistemas de exhibición para punto de venta que destacan tu producto con resistencia, estética y branding.

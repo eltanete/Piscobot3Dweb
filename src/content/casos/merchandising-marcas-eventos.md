@@ -7,6 +7,8 @@ aplicacion: Marketing y eventos
 resumen: Objetos promocionales personalizados para acciones de marketing, eventos corporativos y activaciones, desde prototipos hasta cientos de unidades.
 imagen: ../../assets/images/casos/merch-llavero.webp
 imagenAlt: Merchandising para marcas y eventos
+galeria:
+  - ../../assets/images/casos/merch-llavero-02.webp
 destacado: true
 orden: 6
 ---

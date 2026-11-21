@@ -46,4 +46,3 @@ npm run dev            # http://localhost:4321
 ## Flujo de ramas
 
 `main` = producción · `develop` = integración · una rama `feature/*` por tarea, creada desde `develop` y mergeada a `develop` al terminar. Detalle obligatorio en [CLAUDE.md](CLAUDE.md). Los commits directos en `main`/`develop` están bloqueados por `.githooks/pre-commit`.
-

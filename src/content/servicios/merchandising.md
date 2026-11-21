@@ -4,8 +4,8 @@ vertical: marcas
 orden: 4
 icono: gift
 resumen: Objetos promocionales curados y personalizables con tu marca, desde prototipos hasta cientos de unidades, sin mínimos elevados.
-imagen: ../../assets/images/casos/merch-llavero.webp
-imagenAlt: Llaveros personalizados impresos en 3D para una marca
+imagen: ../../assets/images/servicios/merchandising-hero.webp
+imagenAlt: Llaveros con forma de lata impresos en 3D para una marca de bebidas
 hero:
   eyebrow: Merchandising · Marcas y agencias
   titulo: Merchandising que la gente usa, con tu marca bien hecha
@@ -35,6 +35,7 @@ bloques:
   - id: proceso
     eyebrow: Cómo trabajamos
     titulo: De la idea a la caja en cuatro pasos
+    ilustracion: ../../assets/images/ilustraciones/merch-lata.webp
     fondo: gris
     items:
       - titulo: Elegís el objeto

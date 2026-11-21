@@ -50,6 +50,8 @@ const schema = {
     titulo={d.titulo}
     bajada={d.descripcion}
     migas={[{ label: 'Recursos', href: '/recursos' }, { label: d.categoria }]}
+    imagen={d.imagen ?? undefined}
+    imagenAlt={`Falla de ${d.categoria.toLowerCase()} en una impresora 3D`}
     compacto
   />
 

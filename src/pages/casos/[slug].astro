@@ -100,6 +100,31 @@ const tipo = servicio?.data.cta.tipo ?? 'impresion';
       <article class="prose-piscobot">
         <Content />
       </article>
+      {d.galeria.length > 0 && (
+        <section aria-label="Galería de fotos" class="mt-12">
+          <h2 class="mb-4 text-xl">Más fotos del trabajo</h2>
+          <ul class="grid grid-cols-2 gap-3 md:gap-4">
+            {d.galeria.map((foto, i) => (
+              <li class:list={[d.galeria.length % 2 === 1 && i === 0 && 'col-span-2']}>
+                <a
+                  href={foto.src}
+                  target="_blank"
+                  rel="noopener"
+                  class="block overflow-hidden rounded-lg"
+                >
+                  <Image
+                    src={foto}
+                    alt={`${d.titulo} — foto ${i + 2}`}
+                    widths={[400, 800]}
+                    sizes="(min-width: 1280px) 400px, 50vw"
+                    class="aspect-[4/3] w-full object-cover transition-transform duration-300 hover:scale-[1.03]"
+                  />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   </Container>
 

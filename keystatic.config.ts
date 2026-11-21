@@ -97,6 +97,14 @@ export default config({
           publicPath: '../../assets/images/casos/',
         }),
         imagenAlt: fields.text({ label: 'Texto alternativo de la imagen' }),
+        galeria: fields.array(
+          fields.image({
+            label: 'Foto',
+            directory: 'src/assets/images/casos',
+            publicPath: '../../assets/images/casos/',
+          }),
+          { label: 'Galería (fotos adicionales)' },
+        ),
         modelo3d: fields.text({ label: 'Modelo 3D (ruta .glb en /models, opcional)' }),
         destacado: fields.checkbox({ label: 'Destacar en la Home' }),
         orden: fields.integer({ label: 'Orden', defaultValue: 10 }),
@@ -127,6 +135,11 @@ export default config({
             'wrench',
           ].map((v) => ({ label: v, value: v })),
           defaultValue: 'book',
+        }),
+        imagen: fields.image({
+          label: 'Imagen de la guía',
+          directory: 'src/assets/images/recursos',
+          publicPath: '../../assets/images/recursos/',
         }),
         fecha: fields.date({ label: 'Fecha de publicación', validation: { isRequired: true } }),
         actualizado: fields.date({ label: 'Última actualización' }),

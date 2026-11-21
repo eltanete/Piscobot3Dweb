@@ -1,12 +1,27 @@
 [
-  { "id": "cliente-01", "nombre": "Cliente 1", "logo": "../assets/images/clientes/cliente-01.png" },
-  { "id": "cliente-02", "nombre": "Cliente 2", "logo": "../assets/images/clientes/cliente-02.png" },
-  { "id": "cliente-03", "nombre": "Cliente 3", "logo": "../assets/images/clientes/cliente-03.png" },
-  { "id": "cliente-04", "nombre": "Cliente 4", "logo": "../assets/images/clientes/cliente-04.png" },
-  { "id": "cliente-05", "nombre": "Cliente 5", "logo": "../assets/images/clientes/cliente-05.png" },
-  { "id": "cliente-06", "nombre": "Cliente 6", "logo": "../assets/images/clientes/cliente-06.png" },
-  { "id": "cliente-07", "nombre": "Cliente 7", "logo": "../assets/images/clientes/cliente-07.png" },
-  { "id": "cliente-08", "nombre": "Cliente 8", "logo": "../assets/images/clientes/cliente-08.png" },
-  { "id": "cliente-09", "nombre": "Cliente 9", "logo": "../assets/images/clientes/cliente-09.png" },
-  { "id": "cliente-10", "nombre": "Cliente 10", "logo": "../assets/images/clientes/cliente-10.png" }
+  {
+    "id": "colcar-mercedes-benz",
+    "nombre": "Colcar Mercedes-Benz",
+    "logo": "../assets/images/clientes/colcar-mercedes-benz.png"
+  },
+  { "id": "globant", "nombre": "Globant", "logo": "../assets/images/clientes/globant.png" },
+  {
+    "id": "uba",
+    "nombre": "Universidad de Buenos Aires",
+    "logo": "../assets/images/clientes/uba.png"
+  },
+  { "id": "conuar", "nombre": "Conuar", "logo": "../assets/images/clientes/conuar.png" },
+  { "id": "cambre", "nombre": "Cambre", "logo": "../assets/images/clientes/cambre.png" },
+  {
+    "id": "ferrosider",
+    "nombre": "Ferrosider",
+    "logo": "../assets/images/clientes/ferrosider.png"
+  },
+  { "id": "flamia", "nombre": "Flamia", "logo": "../assets/images/clientes/flamia.png" },
+  { "id": "eqa", "nombre": "EQA", "logo": "../assets/images/clientes/eqa.png" },
+  { "id": "ptm", "nombre": "PTM", "logo": "../assets/images/clientes/ptm.png" },
+  { "id": "ventalum", "nombre": "Ventalum", "logo": "../assets/images/clientes/ventalum.png" },
+  { "id": "wega", "nombre": "WEGA", "logo": "../assets/images/clientes/wega.png" },
+  { "id": "imeco", "nombre": "Imeco", "logo": "../assets/images/clientes/imeco.png" },
+  { "id": "molaike", "nombre": "Molaike", "logo": "../assets/images/clientes/molaike.png" }
 ]

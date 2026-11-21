@@ -3,6 +3,7 @@ titulo: Cómo corregir fallos mecánicos en impresoras 3D
 descripcion: Correas flojas, ejes desalineados, piezas desgastadas y falta de lubricación. Causas y soluciones de los fallos mecánicos más comunes.
 categoria: Mecánica
 icono: settings
+imagen: ../../assets/images/recursos/fallas-mecanicas.webp
 fecha: 2025-05-15
 actualizado: 2026-11-20
 wpSlug: fallas-mecanicas

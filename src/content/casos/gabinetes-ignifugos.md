@@ -7,6 +7,8 @@ aplicacion: Equipamiento eléctrico
 resumen: Gabinetes funcionales en ABS con propiedades retardantes de llama para alojar componentes eléctricos y electrónicos en entornos exigentes.
 imagen: ../../assets/images/casos/gabinetes-ignifugos.webp
 imagenAlt: Gabinetes ignífugos para uso eléctrico
+galeria:
+  - ../../assets/images/casos/gabinetes-ignifugos-02.webp
 destacado: true
 orden: 2
 ---

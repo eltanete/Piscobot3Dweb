@@ -3,6 +3,7 @@ titulo: Cómo reparar problemas electrónicos en impresoras 3D
 descripcion: Placas dañadas, conexiones sueltas, fuentes defectuosas y firmware corrupto. Qué revisar con seguridad y cuándo recurrir a un técnico.
 categoria: Electrónica
 icono: cpu
+imagen: ../../assets/images/recursos/problemas-electronicos.webp
 fecha: 2025-05-15
 actualizado: 2026-11-20
 wpSlug: problemas-electronicos

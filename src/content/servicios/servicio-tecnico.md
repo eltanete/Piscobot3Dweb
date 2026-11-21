@@ -4,8 +4,8 @@ vertical: industria
 orden: 1
 icono: wrench
 resumen: Reparaciones, mantenimiento preventivo y correctivo, suscripción anual y upgrades. Presupuestos en 24 h y diagnósticos en 72 h.
-imagen: ../../assets/images/servicios/tecnico-reparaciones.webp
-imagenAlt: Técnico revisando el hotend de una impresora 3D
+imagen: ../../assets/images/servicios/tecnico-hero.webp
+imagenAlt: Extrusor de una impresora Prusa en el taller de PISCOBOT 3D
 hero:
   eyebrow: Servicio técnico para empresas e industrias
   titulo: Tus máquinas se desgastan. No esperes a que fallen.
@@ -57,26 +57,32 @@ bloques:
       - titulo: Problemas de extrusión
         texto: Limpieza y reemplazo de componentes críticos para evitar atascos. Mantenimiento de hotend y ventiladores.
         icono: layers
+        imagen: ../../assets/images/recursos/problemas-de-extrusion.webp
         enlace: /recursos/problemas-de-extrusion
       - titulo: Fallos mecánicos
         texto: Ajustes mecánicos, lubricación de ejes, cambio de correas y rodamientos, revisión estructural.
         icono: settings
+        imagen: ../../assets/images/recursos/fallas-mecanicas.webp
         enlace: /recursos/fallas-mecanicas
       - titulo: Problemas de adhesión
         texto: Calibración y mantenimiento de la plataforma. Alineación del eje Z en búsqueda de paralelismo.
         icono: target
+        imagen: ../../assets/images/recursos/problemas-de-adhesion.webp
         enlace: /recursos/problemas-de-adhesion
       - titulo: Fallas recurrentes
         texto: La mayoría se dan por fallas de diseño en los sistemas de extrusión. Upgrade del sistema de extrusión.
         icono: alert
+        imagen: ../../assets/images/recursos/fallas-recurrentes.webp
         enlace: /recursos/fallas-recurrentes
       - titulo: Problemas electrónicos
         texto: Upgrade de placas, instalación y calibración de drivers, firmware personalizado.
         icono: cpu
+        imagen: ../../assets/images/recursos/problemas-electronicos.webp
         enlace: /recursos/problemas-electronicos
       - titulo: Fallas térmicas
         texto: Cambio de ventiladores, resistencias calefactoras, termistores y cableado. Calibración PID.
         icono: thermometer
+        imagen: ../../assets/images/recursos/fallas-termicas.webp
         enlace: /recursos/fallas-termicas
   - id: beneficios-exclusivos
     eyebrow: Beneficios exclusivos
@@ -95,6 +101,7 @@ bloques:
     eyebrow: Makers y emprendedores
     titulo: ¿Sos particular? También arreglamos tu máquina
     bajada: Servicio técnico en nuestro taller de Villa Devoto, con cita previa.
+    ilustracion: ../../assets/images/ilustraciones/impresora-linea.webp
     fondo: gris
     lista:
       - Limpieza y lubricación

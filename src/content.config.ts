@@ -52,6 +52,10 @@ const crearBloque = (image: ImageFn) =>
     fondo: z.enum(['blanco', 'gris', 'oscuro']).default('blanco'),
     /** Lista de viñetas opcional (p. ej. "qué incluye"). */
     lista: z.array(z.string()).default([]),
+    /** Ilustración decorativa junto al título del bloque. */
+    ilustracion: image().nullish(),
+    /** Proporción de las imágenes de los ítems. */
+    formatoImagen: z.enum(['horizontal', 'vertical']).default('horizontal'),
   });
 
 const seo = z
@@ -105,6 +109,8 @@ const casos = defineCollection({
       metricas: z.array(z.object({ valor: z.string(), etiqueta: z.string() })).default([]),
       imagen: image().nullish(),
       imagenAlt: z.string().nullish(),
+      /** Fotos adicionales que se muestran en el detalle del caso. */
+      galeria: z.array(image()).default([]),
       modelo3d: z.string().nullish(),
       destacado: z.boolean().default(false),
       orden: z.number().default(0),
@@ -130,18 +136,20 @@ const merch = defineCollection({
 
 const recursos = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/recursos' }),
-  schema: z.object({
-    titulo: z.string(),
-    descripcion: z.string(),
-    vertical: vertical.default('industria'),
-    categoria: z.string(),
-    icono: icono.default('book'),
-    fecha: z.coerce.date(),
-    actualizado: z.coerce.date().nullish(),
-    /** Slug en el WordPress actual, para redirecciones 301. */
-    wpSlug: z.string().nullish(),
-    provisorio: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      titulo: z.string(),
+      descripcion: z.string(),
+      vertical: vertical.default('industria'),
+      categoria: z.string(),
+      icono: icono.default('book'),
+      imagen: image().nullish(),
+      fecha: z.coerce.date(),
+      actualizado: z.coerce.date().nullish(),
+      /** Slug en el WordPress actual, para redirecciones 301. */
+      wpSlug: z.string().nullish(),
+      provisorio: z.boolean().default(false),
+    }),
 });
 
 const testimonios = defineCollection({

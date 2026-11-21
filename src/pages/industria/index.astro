@@ -1,11 +1,14 @@
 ---
 import VerticalLayout from '../../layouts/VerticalLayout.astro';
 import { MENSAJES_WHATSAPP } from '../../lib/whatsapp';
+import imagenHero from '../../assets/images/paginas/industria-hero.webp';
 ---
 
 <VerticalLayout
   vertical="industria"
   hero={{
+    imagen: imagenHero,
+    imagenAlt: 'Técnico frente a impresoras 3D industriales Ultimaker',
     eyebrow: 'Industria y Técnica',
     titulo: 'Impresión 3D que funciona en producción, no sólo en la vidriera',
     bajada:

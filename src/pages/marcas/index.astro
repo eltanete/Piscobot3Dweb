@@ -1,11 +1,14 @@
 ---
 import VerticalLayout from '../../layouts/VerticalLayout.astro';
 import { MENSAJES_WHATSAPP } from '../../lib/whatsapp';
+import imagenHero from '../../assets/images/paginas/marcas-hero.webp';
 ---
 
 <VerticalLayout
   vertical="marcas"
   hero={{
+    imagen: imagenHero,
+    imagenAlt: 'Llaveros personalizados impresos en 3D para una marca',
     eyebrow: 'Marcas y Agencias',
     titulo: 'Objetos con tu marca que la gente quiere conservar',
     bajada:

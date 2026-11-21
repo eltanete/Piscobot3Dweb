@@ -1,8 +1,52 @@
 ---
+import { Image } from 'astro:assets';
 import PaginaLayout from '../layouts/PaginaLayout.astro';
 import QueNecesitas from '../components/sections/QueNecesitas.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import LogoWall from '../components/sections/LogoWall.astro';
+import equipo from '../assets/images/paginas/nosotros-equipo.webp';
+import taller1 from '../assets/images/paginas/taller-01.webp';
+import taller2 from '../assets/images/paginas/taller-02.webp';
+import taller3 from '../assets/images/paginas/taller-03.webp';
+
+const galeria = [
+  { src: taller1, alt: 'Taller de PISCOBOT 3D en Villa Devoto con el cartel de la marca' },
+  { src: taller2, alt: 'Impresora 3D trabajando frente al cartel de PISCOBOT 3D' },
+  { src: taller3, alt: 'Fila de impresoras 3D Prusa en el taller' },
+];
 ---
 
-<PaginaLayout slug="nosotros">
-  <QueNecesitas slot="despues" />
+<PaginaLayout
+  slug="nosotros"
+  imagen={equipo}
+  imagenAlt="Técnico de PISCOBOT 3D trabajando con una impresora 3D"
+>
+  <Fragment slot="despues">
+    <Section fondo="gris" aria-labelledby="titulo-taller">
+      <SectionHeader
+        id="titulo-taller"
+        eyebrow="Nuestro taller"
+        titulo="Donde reparamos, imprimimos y capacitamos"
+        bajada="Benito Juárez 3306, Villa Devoto (CABA). Visitas sólo con coordinación previa."
+      />
+      <ul class="grid gap-4 md:grid-cols-3">
+        {galeria.map((f) => (
+          <li class="overflow-hidden rounded-xl">
+            <Image
+              src={f.src}
+              alt={f.alt}
+              widths={[400, 640, 900]}
+              sizes="(min-width: 768px) 33vw, 100vw"
+              class="aspect-[3/4] w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+            />
+          </li>
+        ))}
+      </ul>
+    </Section>
+    <Section espaciado="compacto">
+      <LogoWall />
+    </Section>
+    <QueNecesitas />
+  </Fragment>
 </PaginaLayout>

@@ -3,6 +3,7 @@ titulo: Cómo solucionar problemas de adhesión en impresoras 3D
 descripcion: Piezas que se despegan, warping y primera capa irregular. Nivelación, temperatura de cama, limpieza y adhesivos para mejorar la adhesión.
 categoria: Adhesión
 icono: target
+imagen: ../../assets/images/recursos/problemas-de-adhesion.webp
 fecha: 2025-05-15
 actualizado: 2026-11-20
 wpSlug: problemas-de-adhesion
