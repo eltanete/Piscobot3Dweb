@@ -1,0 +1,9 @@
+nombre: Placa de escritorio con nombre
+categoria: escritorio
+descripcion: Placa de escritorio con el nombre de cada persona y tu marca.
+niveles: [1, 2]
+quePersonaliza: Logo y nombre de cada persona
+materiales: [PLA bicolor]
+minimo: 20
+plazo: 10 días hábiles
+orden: 3

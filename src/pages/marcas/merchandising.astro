@@ -5,34 +5,53 @@ import ServicioLayout from '../../layouts/ServicioLayout.astro';
 import Section from '../../components/ui/Section.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import MerchGallery, { type MerchItem } from '../../components/islands/MerchGallery';
+import { campanaVigente } from '../../lib/campana';
 
 const servicio = await getEntry('servicios', 'merchandising');
 if (!servicio) throw new Error('Falta el servicio merchandising');
 
-const entradas = (await getCollection('merch')).sort((a, b) => a.data.orden - b.data.orden);
+// Los objetos estacionales (p. ej. adorno navideño) sólo se muestran durante la campaña.
+const enCampana = campanaVigente();
+const entradas = (await getCollection('merch', (e) => !e.data.estacional || enCampana)).sort(
+  (a, b) => a.data.orden - b.data.orden,
+);
 const items: MerchItem[] = await Promise.all(
-  entradas.map(async (e) => ({
-    id: e.id,
-    nombre: e.data.nombre,
-    categoria: e.data.categoria,
-    descripcion: e.data.descripcion,
-    materiales: e.data.materiales,
-    personalizacion: e.data.personalizacion,
-    minimo: e.data.minimo,
-    imagen: e.data.imagen
-      ? (await getImage({ src: e.data.imagen, width: 600, format: 'webp' })).src
-      : null,
-  })),
+  entradas.map(async (e) => {
+    const foto = e.data.fotos[0];
+    const opt = foto
+      ? await getImage({ src: foto, width: 600, height: 600, format: 'webp' })
+      : null;
+    return {
+      id: e.id,
+      nombre: e.data.nombre,
+      categoria: e.data.categoria,
+      descripcion: e.data.descripcion,
+      niveles: e.data.niveles,
+      quePersonaliza: e.data.quePersonaliza,
+      minimo: e.data.minimo,
+      plazo: e.data.plazo,
+      precio: e.data.mostrarPrecio ? e.data.precioDesde : null,
+      foto: opt ? { src: opt.src, width: 600, height: 600 } : null,
+      imagenIlustrativa: e.data.imagenIlustrativa,
+      piezaDeMesa: e.data.piezaDeMesa,
+    };
+  }),
 );
 ---
 
 <ServicioLayout servicio={servicio}>
-  <Section id="catalogo">
-    <SectionHeader
-      eyebrow="Catálogo curado"
-      titulo="Objetos base para personalizar"
-      bajada="Una selección de objetos útiles que adaptamos a tu marca. Si no encontrás lo que buscás, lo diseñamos."
-    />
-    <MerchGallery client:visible items={items} />
+  <Section id="catalogo" aria-labelledby="titulo-catalogo">
+    <div data-vertical="marcas">
+      <SectionHeader
+        id="titulo-catalogo"
+        eyebrow="Catálogo curado"
+        titulo="Objetos para personalizar con tu marca"
+        bajada="Elegí objetos, sumalos a tu kit y te mandamos una propuesta. Si no encontrás lo que buscás, lo diseñamos."
+      />
+      <p class="mb-8 rounded-lg border-l-4 border-naranja-500 bg-naranja-50 px-5 py-4 font-semibold text-grafito-900">
+        Ningún objeto de este catálogo sale igual para dos marcas.
+      </p>
+      <MerchGallery client:visible items={items} />
+    </div>
   </Section>
 </ServicioLayout>
