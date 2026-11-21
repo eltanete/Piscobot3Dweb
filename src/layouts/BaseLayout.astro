@@ -1,6 +1,8 @@
 ---
 import { rutaLimpia } from '../lib/ruta';
 import '../styles/global.css';
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import MobileCtaBar from '../components/layout/MobileCtaBar.astro';
@@ -17,6 +19,8 @@ interface Props {
   vertical?: Vertical;
   /** Imagen para redes (ruta absoluta en /public o URL). */
   ogImage?: string;
+  /** Imagen OG generada desde una foto de la página (1200×630, recorte centrado). */
+  ogImagen?: ImageMetadata;
   ogType?: 'website' | 'article';
   noindex?: boolean;
   /** CTA principal de la barra mobile. */
@@ -36,6 +40,7 @@ const {
   description = SITE.description,
   vertical,
   ogImage = '/og/default.jpg',
+  ogImagen,
   ogType = 'website',
   noindex = false,
   cta,
@@ -49,7 +54,17 @@ const {
 const fullTitle =
   title === SITE.name ? `${SITE.name} — ${sitio.eslogan}` : `${title} | ${SITE.name}`;
 const canonical = new URL(rutaLimpia(Astro.url), Astro.site).href;
-const ogUrl = new URL(ogImage, Astro.site).href;
+const ogGenerada = ogImagen
+  ? await getImage({
+      src: ogImagen,
+      width: 1200,
+      height: 630,
+      fit: 'cover',
+      format: 'jpg',
+      quality: 80,
+    })
+  : null;
+const ogUrl = new URL(ogGenerada?.src ?? ogImage, Astro.site).href;
 // Los entornos de prueba (PUBLIC_NOINDEX=true) nunca se indexan.
 const robots =
   noindex || import.meta.env.PUBLIC_NOINDEX === 'true' ? 'noindex, nofollow' : 'index, follow';
@@ -71,7 +86,19 @@ const organizacion = {
     addressLocality: sitio.ciudad,
     addressRegion: sitio.region,
     addressCountry: sitio.pais,
+    postalCode: sitio.codigoPostal,
   },
+  geo: { '@type': 'GeoCoordinates', latitude: sitio.geo.lat, longitude: sitio.geo.lng },
+  openingHoursSpecification: [
+    { opens: '10:00', closes: '13:00' },
+    { opens: '14:00', closes: '17:00' },
+  ].map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    ...h,
+  })),
+  areaServed: 'Argentina',
+  priceRange: '$',
   sameAs: Object.values(sitio.redes).filter(Boolean),
 };
 ---

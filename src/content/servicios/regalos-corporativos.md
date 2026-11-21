@@ -33,6 +33,6 @@ beneficios:
 faq:
   - marcas
 seo:
-  titulo: Regalos empresariales personalizados impresos en 3D en Buenos Aires
+  titulo: Regalos empresariales personalizados en 3D, Buenos Aires
   descripcion: Regalos corporativos a medida para clientes y equipos, diseñados y fabricados en 3D en CABA. Réplicas, miniaturas y objetos con tu marca, de 50 a 500 unidades.
 ---

@@ -84,6 +84,6 @@ bloques:
 faq:
   - capacitaciones
 seo:
-  titulo: Capacitación técnica en impresión 3D en planta, taller u online
+  titulo: Capacitación en impresión 3D en planta, taller u online
   descripcion: Capacitá a tu equipo en impresión 3D en sólo 6 horas. Hardware, software, reparación y materiales técnicos. En tu planta, en nuestro taller de CABA u online.
 ---

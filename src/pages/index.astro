@@ -9,7 +9,7 @@ import Stat from '../components/ui/Stat.astro';
 import Icon, { type IconName } from '../components/ui/Icon.astro';
 import Bifurcacion from '../components/sections/Bifurcacion.astro';
 import FeatureGrid from '../components/sections/FeatureGrid.astro';
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import heroImagen from '../assets/images/paginas/home-hero.webp';
 import ServiceCard from '../components/sections/ServiceCard.astro';
 import CasoCard from '../components/sections/CasoCard.astro';
@@ -87,7 +87,8 @@ const rutaDe = (s: (typeof servicios)[number]) => rutaServicio(s.data.vertical, 
             class="absolute -inset-4 -z-10 rounded-3xl bg-azul-600 opacity-25 blur-3xl"
             aria-hidden="true"
           ></div>
-          <Image
+          <Picture
+            formats={['avif', 'webp']}
             src={heroImagen}
             alt="Impresora 3D Prusa trabajando en el taller de PISCOBOT 3D"
             widths={[480, 720, 960]}

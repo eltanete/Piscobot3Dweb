@@ -33,6 +33,6 @@ beneficios:
 faq:
   - marcas
 seo:
-  titulo: Activaciones de marca con piezas impresas en 3D en Buenos Aires
+  titulo: Activaciones de marca con piezas 3D en Buenos Aires
   descripcion: Piezas, exhibidores y objetos para activaciones de marca, eventos y puntos de venta, diseñados y fabricados en impresión 3D en CABA.
 ---
