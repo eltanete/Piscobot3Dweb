@@ -110,10 +110,10 @@ public/
 
 ### `/empresas` y `/marcas` — Landings de vertical
 
-| Espacio                                          | Archivo              | Carpeta    | Medidas   | Estado | Código |
-| ------------------------------------------------ | -------------------- | ---------- | --------- | ------ | ------ |
+| Espacio                                          | Archivo             | Carpeta    | Medidas   | Estado | Código |
+| ------------------------------------------------ | ------------------- | ---------- | --------- | ------ | ------ |
 | Hero de Industria (taller, granja de impresoras) | `empresas-hero.jpg` | `paginas/` | 1600×1200 | ⬜     | ajuste |
-| Hero de Marcas (merch, exhibidor, evento)        | `marcas-hero.jpg`    | `paginas/` | 1600×1200 | ⬜     | ajuste |
+| Hero de Marcas (merch, exhibidor, evento)        | `marcas-hero.jpg`   | `paginas/` | 1600×1200 | ⬜     | ajuste |
 
 ### `/empresas/servicio-tecnico`
 

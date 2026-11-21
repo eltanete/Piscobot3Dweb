@@ -1,0 +1,71 @@
+---
+// Banner de cookies con opción de rechazar, conectado a Consent Mode v2 (ver Analytics.astro).
+// Sólo aparece si hay GTM configurado (sin GTM no se usan cookies de medición).
+const gtmId = import.meta.env.PUBLIC_GTM_ID ?? '';
+---
+
+{gtmId && (
+  <div
+    id="banner-cookies"
+    hidden
+    role="dialog"
+    aria-label="Preferencias de cookies"
+    class="fixed inset-x-3 bottom-24 z-50 mx-auto max-w-xl rounded-xl border border-grafito-200 bg-white p-5 text-sm shadow-elevada md:bottom-6 md:left-6 md:mx-0"
+  >
+    <p class="text-grafito-700">
+      Usamos cookies de medición y publicidad para saber qué funciona y mejorar el sitio. Podés
+      aceptarlas o rechazarlas. Más info en la{' '}
+      <a href="/privacidad" class="font-medium underline">
+        política de privacidad
+      </a>
+      .
+    </p>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <button
+        type="button"
+        data-consent="si"
+        class="rounded-md bg-grafito-950 px-4 py-2 font-semibold text-white"
+      >
+        Aceptar
+      </button>
+      <button
+        type="button"
+        data-consent="no"
+        class="rounded-md border border-grafito-300 px-4 py-2 font-semibold"
+      >
+        Rechazar
+      </button>
+    </div>
+  </div>
+)}
+
+<script>
+  const banner = document.getElementById('banner-cookies');
+  if (banner) {
+    let estado: string | null = null;
+    try {
+      estado = localStorage.getItem('piscobot-consent');
+    } catch {
+      /* sin almacenamiento */
+    }
+    if (!estado) banner.hidden = false;
+    banner.querySelectorAll<HTMLButtonElement>('[data-consent]').forEach((b) =>
+      b.addEventListener('click', () => {
+        const si = b.dataset.consent === 'si';
+        try {
+          localStorage.setItem('piscobot-consent', si ? 'si' : 'no');
+        } catch {
+          /* sin almacenamiento */
+        }
+        const valor = si ? 'granted' : 'denied';
+        (window as unknown as { gtag: (...a: unknown[]) => void }).gtag('consent', 'update', {
+          ad_storage: valor,
+          ad_user_data: valor,
+          ad_personalization: valor,
+          analytics_storage: valor,
+        });
+        banner.hidden = true;
+      }),
+    );
+  }
+</script>
