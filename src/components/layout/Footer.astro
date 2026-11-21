@@ -53,7 +53,7 @@ const anio = new Date().getFullYear();
 
     {NAV_VERTICALES.map((grupo) => (
       <nav aria-label={grupo.label} class="md:col-span-3">
-        <p class="eyebrow mb-4 text-grafito-500">{grupo.label}</p>
+        <p class="eyebrow mb-4 text-grafito-400">{grupo.label}</p>
         <ul class="space-y-2.5 text-sm">
           {grupo.items.map((item) => (
             <li>
@@ -67,7 +67,7 @@ const anio = new Date().getFullYear();
     ))}
 
     <nav aria-label="PISCOBOT 3D" class="md:col-span-2">
-      <p class="eyebrow mb-4 text-grafito-500">PISCOBOT 3D</p>
+      <p class="eyebrow mb-4 text-grafito-400">PISCOBOT 3D</p>
       <ul class="space-y-2.5 text-sm">
         {[...NAV_COMUNES, ...NAV_FOOTER_EXTRA].map((item) => (
           <li>
@@ -81,7 +81,7 @@ const anio = new Date().getFullYear();
   </div>
 
   <div class="border-t border-grafito-800">
-    <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-xs text-grafito-500 md:flex-row md:items-center md:justify-between md:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-xs text-grafito-400 md:flex-row md:items-center md:justify-between md:px-8">
       <p>
         © {anio} {sitio.nombre}. Todos los derechos reservados.
       </p>

@@ -51,18 +51,18 @@ const rutaDe = (s: (typeof servicios)[number]) => rutaServicio(s.data.vertical, 
   <section class="relative isolate overflow-hidden bg-grafito-950 text-white">
     <div class="fondo-grilla absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]"></div>
     <div
-      class="absolute -top-48 right-0 -z-10 size-[40rem] rounded-full bg-azul-600 opacity-25 blur-[140px]"
+      class="absolute -top-48 right-0 -z-10 size-[48rem] rounded-full bg-[radial-gradient(closest-side,#0033ff,transparent)] opacity-30"
       aria-hidden="true"
     ></div>
     <div
-      class="absolute bottom-0 -left-40 -z-10 size-[28rem] rounded-full bg-naranja-500 opacity-15 blur-[140px]"
+      class="absolute bottom-0 -left-40 -z-10 size-[36rem] rounded-full bg-[radial-gradient(closest-side,#ff6600,transparent)] opacity-15"
       aria-hidden="true"
     ></div>
     <Container class="pt-16 pb-20 md:pt-24 md:pb-28">
       <div class="grid items-center gap-12 xl:grid-cols-12">
         <div class="xl:col-span-7">
           <p class="eyebrow mb-5 flex items-center gap-2 text-grafito-300">
-            <span class="size-2 animate-pulse rounded-full bg-azul-500" aria-hidden="true"></span>
+            <span class="size-2 rounded-full bg-azul-500" aria-hidden="true"></span>
             {home.hero.eyebrow}
           </p>
           <h1 class="text-display text-white">{home.hero.titulo}</h1>
@@ -89,9 +89,11 @@ const rutaDe = (s: (typeof servicios)[number]) => rutaServicio(s.data.vertical, 
           ></div>
           <Picture
             formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            quality={62}
             src={heroImagen}
             alt="Impresora 3D Prusa trabajando en el taller de PISCOBOT 3D"
-            widths={[480, 720, 960]}
+            widths={[400, 640, 960]}
             sizes="(min-width: 1280px) 500px, 100vw"
             loading="eager"
             fetchpriority="high"
@@ -128,11 +130,11 @@ const rutaDe = (s: (typeof servicios)[number]) => rutaServicio(s.data.vertical, 
 
   <!-- 4 · Contadores -->
   <Section fondo="gris" espaciado="compacto">
-    <dl class="grid grid-cols-2 gap-8 xl:grid-cols-4">
+    <div class="grid grid-cols-2 gap-8 xl:grid-cols-4">
       {home.contadores.map((c) => (
         <Stat valor={c.valor} etiqueta={c.etiqueta} />
       ))}
-    </dl>
+    </div>
   </Section>
 
   <!-- 4b · Dolores del cliente industrial -->
@@ -151,7 +153,7 @@ const rutaDe = (s: (typeof servicios)[number]) => rutaServicio(s.data.vertical, 
     <ul class="grid gap-px overflow-hidden rounded-lg border border-grafito-200 bg-grafito-200 md:grid-cols-5">
       {home.autoridad.items.map((item, i) => (
         <li class="bg-white p-6">
-          <span class="font-mono text-xs text-grafito-400">0{i + 1}</span>
+          <span class="font-mono text-xs text-grafito-500">0{i + 1}</span>
           <Icon name={item.icono as IconName} size={28} class="mt-4 text-azul-600" />
           <h3 class="mt-4 text-lg">{item.titulo}</h3>
           <p class="mt-2 text-sm leading-relaxed text-grafito-600">{item.texto}</p>

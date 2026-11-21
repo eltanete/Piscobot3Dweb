@@ -20,7 +20,7 @@
   --color-grafito-800: #26292f;
   --color-grafito-700: #3a3e46;
   --color-grafito-600: #555a64;
-  --color-grafito-500: #737985;
+  --color-grafito-500: #656b76;
   --color-grafito-400: #9aa0aa;
   --color-grafito-300: #c3c7ce;
   --color-grafito-200: #e1e3e7;
@@ -48,7 +48,7 @@
   --color-exito: #16a34a;
   --color-error: #dc2626;
   --color-whatsapp: #25d366;
-  --color-whatsapp-oscuro: #128c4b;
+  --color-whatsapp-oscuro: #0d7a40;
 
   /* Radios y sombras (definidos una sola vez) */
   --radius-sm: 0.375rem;

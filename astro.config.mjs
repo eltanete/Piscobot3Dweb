@@ -117,7 +117,7 @@ export default defineConfig({
   ...(esNode ? { adapter: node({ mode: 'standalone' }) } : {}),
   trailingSlash: 'never',
   // En estático, /empresas se genera como empresas.html (Apache lo sirve con la regla del .htaccess).
-  build: { format: esNode ? 'directory' : 'file' },
+  build: { format: esNode ? 'directory' : 'file', inlineStylesheets: 'always' },
   integrations: [
     react(),
     sitemap({
