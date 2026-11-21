@@ -1,0 +1,277 @@
+---
+// Widget de chat de WhatsApp: botón flotante (desktop) + panel donde el cliente elige el tipo de
+// consulta y escribe su caso. "Abrir chat" abre WhatsApp (wa.me) con el mensaje armado.
+// En mobile lo abre el botón WhatsApp de la barra inferior (cualquier elemento con data-whatsapp-abrir).
+// Sin JavaScript, los botones siguen funcionando como links directos a WhatsApp.
+import { Image } from 'astro:assets';
+import isotipo from '../../assets/images/marca/isotipo.png';
+import { TIPOS_CONSULTA, type TipoConsulta } from '../../server/schemas';
+import { sitio } from '../../lib/constants';
+import { rutaLimpia } from '../../lib/ruta';
+import { whatsappUrl, MENSAJES_WHATSAPP } from '../../lib/whatsapp';
+
+const ruta = rutaLimpia(Astro.url);
+const TIPO_POR_RUTA: [RegExp, TipoConsulta][] = [
+  [/^\/industria\/servicio-tecnico|^\/recursos/, 'servicio-tecnico'],
+  [/^\/industria\/capacitaciones/, 'capacitaciones'],
+  [/^\/industria\/impresion-y-desarrollo|^\/industria$/, 'impresion'],
+  [/^\/marcas\/merchandising|^\/marcas$/, 'merchandising'],
+  [/^\/marcas\/proyectos-especiales/, 'proyectos'],
+];
+const tipoInicial = TIPO_POR_RUTA.find(([re]) => re.test(ruta))?.[1] ?? 'otro';
+
+const AYUDA: Record<TipoConsulta, string> = {
+  'servicio-tecnico': 'Ej.: Tengo una Ender 3 V2 que no extruye bien desde hace una semana…',
+  capacitaciones: 'Ej.: Somos 5 personas con 3 impresoras Prusa y queremos capacitarnos en…',
+  impresion: 'Ej.: Necesito 100 piezas en PETG, tengo el archivo STL, para fin de mes…',
+  merchandising: 'Ej.: Buscamos 200 regalos para un evento corporativo en diciembre…',
+  proyectos: 'Ej.: Queremos un exhibidor para el lanzamiento de un producto…',
+  otro: 'Contanos en qué te podemos ayudar…',
+};
+
+const WA_PATH =
+  'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z';
+---
+
+<div
+  id="wa-chat"
+  data-numero={sitio.whatsapp}
+  data-ayudas={JSON.stringify(AYUDA)}
+  data-etiquetas={JSON.stringify(
+    Object.fromEntries(Object.entries(TIPOS_CONSULTA).map(([k, v]) => [k, v.label])),
+  )}
+>
+  <!-- Panel del chat -->
+  <section
+    id="wa-panel"
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby="wa-titulo"
+    hidden
+    class="fixed inset-x-3 bottom-[5.75rem] z-50 mx-auto flex max-h-[calc(100dvh-7rem)] max-w-sm flex-col overflow-hidden rounded-2xl bg-white shadow-elevada ring-1 ring-black/5 md:inset-x-auto md:right-6 md:bottom-24 md:w-[23rem]"
+  >
+    <header class="flex items-center gap-3 bg-whatsapp-oscuro px-4 py-3 text-white">
+      <span class="relative shrink-0">
+        <Image src={isotipo} alt="" width={40} height={40} class="size-10 rounded-full" />
+        <span
+          class="absolute right-0 bottom-0 size-3 rounded-full border-2 border-whatsapp-oscuro bg-[#4ade80]"
+          aria-hidden="true"
+        ></span>
+      </span>
+      <div class="min-w-0 flex-1">
+        <p id="wa-titulo" class="font-semibold leading-tight">
+          PISCOBOT 3D
+        </p>
+        <p class="truncate text-xs text-white/80">Respondemos por WhatsApp</p>
+      </div>
+      <button
+        type="button"
+        data-whatsapp-cerrar
+        class="inline-flex size-9 items-center justify-center rounded-full bg-black/15 hover:bg-black/30"
+        aria-label="Cerrar chat"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.25"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M18 6 6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </header>
+
+    <form id="wa-form" novalidate class="flex min-h-0 flex-1 flex-col">
+      <div class="min-h-0 flex-1 space-y-4 overflow-y-auto bg-[#efeae2] px-4 py-4">
+        <div class="relative max-w-[88%] rounded-xl rounded-tl-none bg-white px-3.5 py-2.5 text-[0.9375rem] text-grafito-800 shadow-sm">
+          ¡Hola! 👋 Contanos tu caso y te respondemos por WhatsApp a la brevedad.
+          <span class="mt-1 block text-[0.6875rem] text-grafito-500">
+            Atención: {sitio.horario}
+          </span>
+        </div>
+
+        <fieldset class="rounded-xl bg-white p-3 shadow-sm">
+          <legend class="sr-only">Tipo de consulta</legend>
+          <p class="mb-2 text-xs font-medium text-grafito-600">¿Sobre qué es tu consulta?</p>
+          <div class="flex flex-wrap gap-1.5">
+            {(Object.keys(TIPOS_CONSULTA) as TipoConsulta[]).map((t) => (
+              <label class="cursor-pointer">
+                <input
+                  type="radio"
+                  name="wa-tipo"
+                  value={t}
+                  checked={t === tipoInicial}
+                  class="peer sr-only"
+                />
+                <span class="inline-block rounded-full border border-grafito-300 px-3 py-1 text-xs font-medium text-grafito-700 transition-colors peer-checked:border-whatsapp-oscuro peer-checked:bg-whatsapp-oscuro peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-whatsapp-oscuro hover:border-grafito-500">
+                  {TIPOS_CONSULTA[t].label}
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="space-y-3 rounded-xl bg-white p-3 shadow-sm">
+          <div>
+            <label for="wa-nombre" class="text-xs font-medium text-grafito-600">
+              Tu nombre <span class="font-normal text-grafito-400">(opcional)</span>
+            </label>
+            <input
+              id="wa-nombre"
+              name="nombre"
+              autocomplete="name"
+              maxlength="80"
+              class="mt-1 block w-full rounded-md border border-grafito-300 px-3 py-2 text-sm focus:border-whatsapp-oscuro focus:outline-2 focus:outline-whatsapp-oscuro/20"
+            />
+          </div>
+          <div>
+            <label for="wa-mensaje" class="text-xs font-medium text-grafito-600">
+              Tu mensaje
+            </label>
+            <textarea
+              id="wa-mensaje"
+              name="mensaje"
+              rows="4"
+              maxlength="1500"
+              aria-describedby="wa-error"
+              placeholder={AYUDA[tipoInicial]}
+              class="mt-1 block w-full resize-none rounded-md border border-grafito-300 px-3 py-2 text-sm placeholder:text-grafito-400 focus:border-whatsapp-oscuro focus:outline-2 focus:outline-whatsapp-oscuro/20"
+            ></textarea>
+            <p id="wa-error" class="mt-1 hidden text-xs text-error" role="alert">
+              Escribí tu consulta para poder ayudarte.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-grafito-200 bg-white p-3">
+        <button
+          type="submit"
+          class="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-whatsapp-oscuro font-semibold text-white transition-colors hover:bg-[#0f7a41]"
+        >
+          Abrir chat
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"></path>
+          </svg>
+        </button>
+        <p class="mt-2 text-center text-[0.6875rem] text-grafito-500">
+          Se abre WhatsApp con tu mensaje listo para enviar.
+        </p>
+      </div>
+    </form>
+  </section>
+
+  <!-- Botón flotante (desktop; en mobile se usa la barra inferior) -->
+  <a
+    id="wa-boton"
+    href={whatsappUrl(MENSAJES_WHATSAPP.general)}
+    target="_blank"
+    rel="noopener"
+    data-whatsapp-abrir
+    aria-controls="wa-panel"
+    aria-expanded="false"
+    aria-label="Abrir chat de WhatsApp"
+    class="group fixed right-6 bottom-6 z-50 hidden size-14 items-center justify-center rounded-full bg-[#25d366] text-white shadow-elevada transition-transform hover:scale-105 md:flex"
+  >
+    <span
+      class="absolute inset-0 animate-ping rounded-full bg-[#25d366] opacity-30 motion-reduce:hidden"
+      aria-hidden="true"
+    ></span>
+    <svg
+      viewBox="0 0 24 24"
+      width="30"
+      height="30"
+      fill="currentColor"
+      class="relative"
+      aria-hidden="true"
+    >
+      <path d={WA_PATH}></path>
+    </svg>
+  </a>
+</div>
+
+<script>
+  const raiz = document.getElementById('wa-chat');
+  const panel = document.getElementById('wa-panel');
+  const form = document.getElementById('wa-form') as HTMLFormElement | null;
+  const boton = document.getElementById('wa-boton');
+
+  if (raiz && panel && form) {
+    const numero = raiz.dataset.numero ?? '';
+    const ayudas = JSON.parse(raiz.dataset.ayudas ?? '{}') as Record<string, string>;
+    const etiquetas = JSON.parse(raiz.dataset.etiquetas ?? '{}') as Record<string, string>;
+    const mensaje = form.querySelector<HTMLTextAreaElement>('#wa-mensaje')!;
+    const nombre = form.querySelector<HTMLInputElement>('#wa-nombre')!;
+    const error = form.querySelector<HTMLElement>('#wa-error')!;
+    let disparador: HTMLElement | null = null;
+
+    const evento = (nombreEvento: string, params: Record<string, unknown> = {}) =>
+      window.dispatchEvent(
+        new CustomEvent('piscobot:evento', { detail: { nombre: nombreEvento, params } }),
+      );
+
+    const abrir = (desde?: HTMLElement) => {
+      disparador = desde ?? null;
+      panel.hidden = false;
+      boton?.setAttribute('aria-expanded', 'true');
+      requestAnimationFrame(() => mensaje.focus());
+      evento('whatsapp_chat_abierto');
+    };
+    const cerrar = () => {
+      panel.hidden = true;
+      boton?.setAttribute('aria-expanded', 'false');
+      disparador?.focus();
+    };
+
+    // Cualquier elemento con data-whatsapp-abrir abre el panel (botón flotante, barra mobile).
+    document.addEventListener('click', (e) => {
+      const el = (e.target as HTMLElement).closest<HTMLElement>('[data-whatsapp-abrir]');
+      if (el) {
+        e.preventDefault();
+        if (panel.hidden) abrir(el);
+        else cerrar();
+        return;
+      }
+      if ((e.target as HTMLElement).closest('[data-whatsapp-cerrar]')) cerrar();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) cerrar();
+    });
+
+    form.addEventListener('change', (e) => {
+      const t = e.target as HTMLInputElement;
+      if (t.name === 'wa-tipo') mensaje.placeholder = ayudas[t.value] ?? '';
+    });
+    mensaje.addEventListener('input', () => error.classList.add('hidden'));
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const texto = mensaje.value.trim();
+      if (texto.length < 5) {
+        error.classList.remove('hidden');
+        mensaje.focus();
+        return;
+      }
+      const tipo =
+        form.querySelector<HTMLInputElement>('input[name="wa-tipo"]:checked')?.value ?? 'otro';
+      const lineas = [
+        'Hola PISCOBOT 3D 👋',
+        nombre.value.trim() ? `Soy ${nombre.value.trim()}.` : '',
+        `Consulta: ${etiquetas[tipo] ?? 'General'}`,
+        '',
+        texto,
+        '',
+        `(Enviado desde ${location.origin}${location.pathname})`,
+      ].filter((l, i, arr) => !(l === '' && arr[i - 1] === ''));
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(lineas.join('\n'))}`;
+      evento('whatsapp_chat_enviado', { tipo });
+      window.open(url, '_blank', 'noopener');
+      mensaje.value = '';
+      cerrar();
+    });
+  }
+</script>
