@@ -1,4 +1,5 @@
 ---
+import { rutaLimpia } from '../lib/ruta';
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
@@ -38,7 +39,7 @@ const {
 
 const fullTitle =
   title === SITE.name ? `${SITE.name} — ${sitio.eslogan}` : `${title} | ${SITE.name}`;
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const canonical = new URL(rutaLimpia(Astro.url), Astro.site).href;
 const ogUrl = new URL(ogImage, Astro.site).href;
 // Los entornos de prueba (PUBLIC_NOINDEX=true) nunca se indexan.
 const robots =

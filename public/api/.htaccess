@@ -1,0 +1,4 @@
+# Archivos internos de los formularios: no accesibles desde la web.
+<FilesMatch "^(_lib|config|config\.example)\.php$">
+  Require all denied
+</FilesMatch>

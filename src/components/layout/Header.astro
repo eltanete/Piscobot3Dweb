@@ -1,10 +1,11 @@
 ---
+import { rutaLimpia } from '../../lib/ruta';
 import Logo from './Logo.astro';
 import Icon from '../ui/Icon.astro';
 import Button from '../ui/Button.astro';
 import { NAV_VERTICALES, NAV_COMUNES } from '../../lib/nav';
 
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = rutaLimpia(Astro.url);
 const activo = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
 

@@ -22,7 +22,10 @@ export default function ContactForm() {
     setErrores({});
     setEstado('enviando');
     try {
-      const res = await fetch('/api/contacto', { method: 'POST', body: fd });
+      const res = await fetch(`/api/contacto${import.meta.env.PUBLIC_API_EXT ?? ''}`, {
+        method: 'POST',
+        body: fd,
+      });
       const body = (await res.json()) as {
         ok: boolean;
         mensaje: string;

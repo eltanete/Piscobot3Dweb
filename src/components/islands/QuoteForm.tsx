@@ -111,7 +111,10 @@ export default function QuoteForm() {
     fd.delete('archivos');
     archivos.forEach((f) => fd.append('archivos', f));
     try {
-      const res = await fetch('/api/cotizacion', { method: 'POST', body: fd });
+      const res = await fetch(`/api/cotizacion${import.meta.env.PUBLIC_API_EXT ?? ''}`, {
+        method: 'POST',
+        body: fd,
+      });
       const body = (await res.json()) as {
         ok: boolean;
         mensaje: string;

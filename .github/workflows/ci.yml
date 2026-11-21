@@ -18,4 +18,11 @@ jobs:
       - run: npm run lint
       - run: npm run check
       - run: npm test --if-present
-      - run: npm run build
+      - name: Build estático (Hostinger PHP/HTML)
+        run: npm run build
+        env:
+          DEPLOY_TARGET: static
+      - name: Build Node
+        run: npm run build
+        env:
+          DEPLOY_TARGET: node

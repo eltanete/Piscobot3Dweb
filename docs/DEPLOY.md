@@ -1,36 +1,78 @@
 # Deploy en Hostinger
 
-## Opción A — App Node.js (planes Business / Cloud) · recomendada
+El proyecto compila para dos destinos (variable `DEPLOY_TARGET`):
 
-1. En hPanel → **Websites → Add website → Node.js app** y conectar el repo de GitHub `eltanete/Piscobot3Dweb`, rama `main`.
-2. Configuración:
-   - Node: 22 o superior
-   - Build: `npm ci && npm run build`
-   - Start: `npm start` (ejecuta `node ./dist/server/entry.mjs`)
-   - Puerto: el que asigne Hostinger (el servidor lee `PORT`; usar `HOST=0.0.0.0` si lo pide).
-3. **Variables de entorno** (copiar de `.env.example`):
-   - `SITE_URL=https://piscobot3d.com`
-   - `SMTP_HOST=smtp.hostinger.com`, `SMTP_PORT=465`, `SMTP_SECURE=true`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_TO_LEADS`
-   - `PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` (crear el sitio en Cloudflare Turnstile, gratis)
-   - `PUBLIC_GA_ID` (y opcional `PUBLIC_CLARITY_ID`)
-   - Keystatic en producción: `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`, `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`
-   - **Staging**: `PUBLIC_NOINDEX=true` (bloquea indexación y robots).
+| Destino                | Plan de Hostinger                              | Qué genera                                                   |
+| ---------------------- | ---------------------------------------------- | ------------------------------------------------------------ |
+| `static` (por defecto) | **Premium** — "Sitio web PHP/HTML" (el actual) | HTML estático + formularios PHP (`/api/*.php`) + `.htaccess` |
+| `node`                 | Business / Cloud — "App web de Node.js"        | Servidor Node con endpoints `/api`, Keystatic en producción  |
 
-> Las variables `PUBLIC_*` se incrustan en el build: después de cambiarlas hay que **volver a construir**.
+Requisitos del hosting PHP: **PHP 8.1 o superior** (hPanel → Avanzado → Configuración de PHP) y la casilla **info@piscobot3d.com** creada en Hostinger (los formularios envían desde ahí con `mail()`).
 
-## Opción B — Hosting sin Node (plan Premium o inferior)
+---
 
-Pendiente de implementar si hace falta:
+## A. Deploy manual (copiar la carpeta)
 
-1. Cambiar el adaptador por salida estática pura (quitar `@astrojs/node`, `/api/*`, Keystatic en producción y la ruta comodín).
-2. Crear `public/api/cotizacion.php` y `public/api/contacto.php` con la misma interfaz (multipart → JSON `{ ok, mensaje, errores }`) usando PHPMailer.
-3. Redirecciones 301 en `public/.htaccess` (lista en `src/lib/redirects.mjs`).
-4. Subir el contenido de `dist/` por FTP o Git.
+1. Compilar para el subdominio de prueba (PowerShell, en la carpeta del proyecto):
+   ```powershell
+   $env:SITE_URL="https://dev.piscobot3d.com"; $env:PUBLIC_NOINDEX="true"; npm run build
+   ```
+   Para el dominio definitivo: `$env:SITE_URL="https://piscobot3d.com"; $env:PUBLIC_NOINDEX="false"; npm run build`
+2. Subir **todo el contenido de la carpeta `dist/`** (no la carpeta en sí) a la carpeta raíz del subdominio en Hostinger
+   (Administrador de archivos → la carpeta de `dev.piscobot3d.com`, normalmente `public_html` del subdominio).
+   - Incluir el archivo oculto **`.htaccess`** y la carpeta **`api/`**. Si usás el Administrador de archivos, lo más seguro es comprimir el contenido de `dist/` en un zip, subirlo y extraerlo allí.
+   - Antes, borrar lo que haya en esa carpeta (p. ej. el `index` por defecto de Hostinger).
+3. (Opcional) Crear `api/config.php` en el servidor copiando `api/config.example.php`, si querés cambiar el email destino o activar Turnstile.
 
-## Lanzamiento
+## B. Deploy automático (cada push a `main`)
 
-1. Publicar primero en un subdominio (p. ej. `nuevo.piscobot3d.com`) con `PUBLIC_NOINDEX=true`.
-2. Probar: formularios con SMTP real, `npm run check:redirects -- https://nuevo.piscobot3d.com`, Lighthouse, celulares reales.
-3. Apuntar el dominio principal, quitar `PUBLIC_NOINDEX`, rebuild.
-4. Search Console: verificar el dominio y enviar `https://piscobot3d.com/sitemap-index.xml`.
-5. Dejar el WordPress como respaldo 30 días.
+Ya está armado en `.github/workflows/deploy.yml`. Para activarlo, en GitHub → repo → **Settings → Secrets and variables → Actions**:
+
+**Secrets** (pestaña _Secrets_):
+
+| Nombre                 | Valor                                                                                             |
+| ---------------------- | ------------------------------------------------------------------------------------------------- |
+| `FTP_SERVER`           | Servidor FTP de Hostinger (hPanel → Archivos → Cuentas FTP), p. ej. `ftp.piscobot3d.com` o una IP |
+| `FTP_USERNAME`         | Usuario FTP (conviene crear una cuenta FTP limitada a la carpeta del subdominio)                  |
+| `FTP_PASSWORD`         | Contraseña de esa cuenta                                                                          |
+| `TURNSTILE_SECRET_KEY` | (opcional) clave secreta de Cloudflare Turnstile                                                  |
+
+**Variables** (pestaña _Variables_):
+
+| Nombre                                      | Valor para dev                                                                                                            |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `DEPLOY_ENABLED`                            | `true`                                                                                                                    |
+| `SITE_URL`                                  | `https://dev.piscobot3d.com`                                                                                              |
+| `PUBLIC_NOINDEX`                            | `true`                                                                                                                    |
+| `FTP_SERVER_DIR`                            | carpeta destino relativa a la cuenta FTP, terminada en `/` (si la cuenta FTP ya apunta a la carpeta del subdominio: `./`) |
+| `FTP_PROTOCOL`                              | `ftps` (si falla, probar `ftp`)                                                                                           |
+| `MAIL_TO`                                   | (opcional) email que recibe las cotizaciones; por defecto `info@piscobot3d.com`                                           |
+| `PUBLIC_TURNSTILE_SITE_KEY`, `PUBLIC_GA_ID` | (opcional)                                                                                                                |
+
+Después de cargarlas: **Actions → Deploy Hostinger → Run workflow** (o cualquier push a `main`). El workflow corre los tests, compila y sube sólo los archivos que cambiaron.
+
+> Las variables `PUBLIC_*` y `SITE_URL` se incrustan al compilar: si las cambiás, volvé a correr el deploy.
+
+---
+
+## Verificar después de cada deploy
+
+1. Navegar el sitio, probar el formulario de **Cotizar** (llega un email a info@piscobot3d.com y otro de confirmación).
+2. Redirecciones y 404:
+   ```bash
+   npm run check:redirects -- https://dev.piscobot3d.com
+   ```
+3. `https://dev.piscobot3d.com/robots.txt` debe decir `Disallow: /` mientras sea de prueba.
+
+## Pasar a producción (piscobot3d.com)
+
+1. Compilar/deployar con `SITE_URL=https://piscobot3d.com` y `PUBLIC_NOINDEX=false`.
+2. Subir el contenido de `dist/` a la carpeta del dominio principal (reemplaza al WordPress: **hacer backup completo antes**), o apuntar el dominio a la carpeta nueva.
+3. Search Console: enviar `https://piscobot3d.com/sitemap-index.xml` y revisar errores 404 la primera semana.
+
+## Opción Node (si más adelante se contrata Business)
+
+- hPanel → Crear sitio → App web de Node.js → conectar GitHub (`eltanete/Piscobot3Dweb`, rama `main`).
+- Build: `npm ci && npm run build` con la variable `DEPLOY_TARGET=node`. Start: `npm start`.
+- Variables: las de `.env.example` (SMTP, Turnstile, Keystatic).
+- Ventaja: panel `/keystatic` editable desde la web (requiere GitHub App, ver `guia-editor.md`).

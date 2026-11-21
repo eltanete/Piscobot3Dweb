@@ -1,0 +1,60 @@
+# Deploy automático a Hostinger (hosting PHP/HTML) por FTP en cada push a main.
+# Se activa creando la variable de repositorio DEPLOY_ENABLED=true y los secretos FTP (ver docs/DEPLOY.md).
+name: Deploy Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+      - name: Build estático
+        run: npm run build
+        env:
+          DEPLOY_TARGET: static
+          SITE_URL: ${{ vars.SITE_URL }}
+          PUBLIC_NOINDEX: ${{ vars.PUBLIC_NOINDEX }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+          PUBLIC_GA_ID: ${{ vars.PUBLIC_GA_ID }}
+          PUBLIC_CLARITY_ID: ${{ vars.PUBLIC_CLARITY_ID }}
+
+      - name: Configuración de formularios (config.php)
+        run: |
+          {
+            echo "<?php"
+            echo "return ["
+            echo "    'mail_from' => '${MAIL_FROM}',"
+            echo "    'mail_to' => '${MAIL_TO}',"
+            echo "    'turnstile_secret' => '${TURNSTILE_SECRET}',"
+            echo "];"
+          } > dist/api/config.php
+        env:
+          MAIL_FROM: ${{ vars.MAIL_FROM || 'info@piscobot3d.com' }}
+          MAIL_TO: ${{ vars.MAIL_TO || 'info@piscobot3d.com' }}
+          TURNSTILE_SECRET: ${{ secrets.TURNSTILE_SECRET_KEY }}
+
+      - name: Subir por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          local-dir: ./dist/
+          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}

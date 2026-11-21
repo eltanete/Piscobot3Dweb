@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { GET } from '../../src/pages/api/health';
+import { GET } from '../../src/rutas-node/health';
 
 describe('GET /api/health', () => {
   it('responde ok en JSON', async () => {

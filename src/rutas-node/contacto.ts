@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { procesarCotizacion } from '../../server/handlers';
+import { procesarContacto } from '../server/handlers';
 
 export const prerender = false;
 
@@ -12,6 +12,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
   const ip =
     request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || clientAddress || 'desconocida';
-  const { status, body } = await procesarCotizacion(fd, ip);
+  const { status, body } = await procesarContacto(fd, ip);
   return Response.json(body, { status });
 };

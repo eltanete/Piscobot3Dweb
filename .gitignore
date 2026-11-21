@@ -29,3 +29,6 @@ Thumbs.db
 # backups del WordPress (nunca al repo)
 *.zip
 backup-wp/
+
+# credenciales de los formularios PHP (se generan en el servidor/deploy)
+public/api/config.php
