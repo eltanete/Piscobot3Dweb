@@ -7,6 +7,9 @@ aplicacion: Retail y exhibición comercial
 resumen: Sistema de exhibición diseñado para destacar productos ortopédicos en locales comerciales, combinando resistencia, estética y branding.
 imagen: ../../assets/images/casos/mostrador-rodillera.webp
 imagenAlt: Mostrador para rodillera ortopédica
+galeria:
+  - ../../assets/images/casos/mostrador-rodillera-02.webp
+  - ../../assets/images/casos/mostrador-rodillera-03.webp
 destacado: true
 orden: 5
 ---

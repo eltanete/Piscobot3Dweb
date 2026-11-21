@@ -17,9 +17,16 @@ interface Props {
   columnas?: 2 | 3 | 4;
   oscuro?: boolean;
   variante?: 'tarjeta' | 'simple';
+  formatoImagen?: 'horizontal' | 'vertical';
 }
 
-const { items, columnas = 3, oscuro = false, variante = 'tarjeta' } = Astro.props;
+const {
+  items,
+  columnas = 3,
+  oscuro = false,
+  variante = 'tarjeta',
+  formatoImagen = 'horizontal',
+} = Astro.props;
 const cols = {
   2: 'md:grid-cols-2',
   3: 'md:grid-cols-2 xl:grid-cols-3',
@@ -44,7 +51,10 @@ const cols = {
           alt=""
           widths={[400, 640]}
           sizes="(min-width: 1280px) 320px, (min-width: 768px) 50vw, 100vw"
-          class="aspect-[4/3] w-full object-cover"
+          class:list={[
+            'w-full object-cover',
+            formatoImagen === 'vertical' ? 'aspect-[3/4]' : 'aspect-[4/3]',
+          ]}
         />
       )}
       <div class:list={['flex flex-1 flex-col', variante === 'tarjeta' && 'p-6']}>

@@ -7,6 +7,8 @@ aplicacion: Protección y absorción de impactos
 resumen: Piezas técnicas en TPU de alta elasticidad para aplicaciones donde la absorción de impacto, la flexibilidad y la resistencia al desgaste son críticas.
 imagen: ../../assets/images/casos/suplementos-tpu.webp
 imagenAlt: Suplementos de TPU flexible para maquinaria
+galeria:
+  - ../../assets/images/casos/suplementos-tpu-02.webp
 destacado: false
 orden: 3
 ---

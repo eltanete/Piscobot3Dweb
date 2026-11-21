@@ -35,23 +35,28 @@ bloques:
   - id: modulos
     eyebrow: Programa por módulos
     titulo: Podés tomar la capacitación completa o por módulos
+    formatoImagen: vertical
     items:
       - titulo: Módulo 1 · Hardware
         texto: Calibración profesional, proceso de impresión, usos y costumbres, y mantenimiento preventivo básico.
         icono: settings
         meta: 90 min
+        imagen: ../../assets/images/servicios/capacitacion-modulo-1.webp
       - titulo: Módulo 2 · Software
         texto: Explicación en profundidad y optimización de parámetros del slicer. Problemas usuales de impresión.
         icono: cpu
         meta: 120 min
+        imagen: ../../assets/images/servicios/capacitacion-modulo-2.webp
       - titulo: Módulo 3 · Reparación
         texto: Protocolos de mantenimiento preventivo y correctivo. Identificación de fallas de hardware y software.
         icono: wrench
         meta: 150 min
+        imagen: ../../assets/images/servicios/capacitacion-modulo-3.webp
       - titulo: Módulo 4 · Materiales técnicos
         texto: Manipulación y configuración específica de materiales avanzados (ABS, nylon, TPU, PEEK, etc.).
         icono: layers
         meta: 90 min
+        imagen: ../../assets/images/servicios/capacitacion-modulo-4.webp
   - id: beneficios-exclusivos
     eyebrow: Beneficios exclusivos
     titulo: Sé más competitivo con una capacitación técnica
@@ -70,6 +75,7 @@ bloques:
     eyebrow: Particulares y emprendedores
     titulo: Workshops para hacer crecer tu negocio 3D
     bajada: Hoy cualquiera compra una impresora; pocos saben sacarle el máximo provecho.
+    ilustracion: ../../assets/images/ilustraciones/hotend-despiece.webp
     lista:
       - Dominá el software de impresión
       - Optimizá costos de producción

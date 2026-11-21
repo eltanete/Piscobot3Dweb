@@ -35,16 +35,20 @@ bloques:
   - id: servicios
     eyebrow: Impresión 3D
     titulo: Qué fabricamos
+    formatoImagen: vertical
     items:
       - titulo: Prototipos
         texto: Prototipos funcionales para diseñadores industriales e ingenieros.
         icono: box
+        imagen: ../../assets/images/servicios/impresion-prototipos.webp
       - titulo: Productos
         texto: Fabricación 3D por mayor para startups y pymes.
         icono: target
+        imagen: ../../assets/images/servicios/impresion-productos.webp
       - titulo: Producción en serie
         texto: Producción en gran escala de piezas industriales, con control de calidad.
         icono: layers
+        imagen: ../../assets/images/servicios/impresion-produccion.webp
   - id: por-que-3d
     eyebrow: ¿Por qué 3D?
     titulo: Hasta un 70 % menos de costos con impresión 3D
@@ -76,6 +80,7 @@ bloques:
   - id: proceso-diseno
     eyebrow: Proceso de diseño
     titulo: Del concepto a la pieza final, con precisión técnica
+    ilustracion: ../../assets/images/ilustraciones/gabinete-despiece.webp
     fondo: gris
     items:
       - titulo: Evaluación inicial

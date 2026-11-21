@@ -12,6 +12,7 @@ import Testimonios from '../components/sections/Testimonios.astro';
 import QueNecesitas from '../components/sections/QueNecesitas.astro';
 import Button from '../components/ui/Button.astro';
 import Icon from '../components/ui/Icon.astro';
+import { Image } from 'astro:assets';
 import { VERTICALES } from '../lib/constants';
 import { whatsappUrl } from '../lib/whatsapp';
 
@@ -88,17 +89,28 @@ const schema = {
 
   {s.bloques.map((b) => (
     <Section id={b.id} fondo={b.fondo}>
-      <SectionHeader
-        eyebrow={b.eyebrow}
-        titulo={b.titulo}
-        bajada={b.bajada}
-        oscuro={b.fondo === 'oscuro'}
-      />
+      <div class="flex items-end justify-between gap-8">
+        <SectionHeader
+          eyebrow={b.eyebrow}
+          titulo={b.titulo}
+          bajada={b.bajada}
+          oscuro={b.fondo === 'oscuro'}
+        />
+        {b.ilustracion && (
+          <Image
+            src={b.ilustracion}
+            alt=""
+            width={240}
+            class="mb-10 hidden h-auto w-40 shrink-0 opacity-90 md:mb-14 md:block xl:w-56"
+          />
+        )}
+      </div>
       {b.items.length > 0 && (
         <FeatureGrid
           items={b.items}
           columnas={b.items.length === 4 ? 4 : b.items.length === 2 ? 2 : 3}
           oscuro={b.fondo === 'oscuro'}
+          formatoImagen={b.formatoImagen}
         />
       )}
       {b.lista.length > 0 && (

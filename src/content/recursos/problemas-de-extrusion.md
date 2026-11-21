@@ -3,6 +3,7 @@ titulo: Cómo solucionar problemas de extrusión en impresoras 3D
 descripcion: Sub-extrusión, sobre-extrusión y atascos. Qué son, sus causas más comunes y cómo solucionarlos por tu cuenta o con servicio técnico especializado en Argentina.
 categoria: Extrusión
 icono: layers
+imagen: ../../assets/images/recursos/problemas-de-extrusion.webp
 fecha: 2025-05-15
 actualizado: 2026-11-20
 wpSlug: problemas-de-extrusion

@@ -15,10 +15,17 @@ import QueNecesitas from '../components/sections/QueNecesitas.astro';
 import { VERTICALES, type Vertical } from '../lib/constants';
 import { whatsappUrl } from '../lib/whatsapp';
 import type { IconName } from '../components/ui/Icon.astro';
+import type { ImageMetadata } from 'astro';
 
 interface Props {
   vertical: Vertical;
-  hero: { eyebrow: string; titulo: string; bajada: string };
+  hero: {
+    eyebrow: string;
+    titulo: string;
+    bajada: string;
+    imagen?: ImageMetadata;
+    imagenAlt?: string;
+  };
   seo: { titulo: string; descripcion: string };
   cta: { label: string; tipo: string };
   whatsapp: string;
@@ -51,6 +58,8 @@ const recursos = vertical === 'industria' ? (await getCollection('recursos')).sl
     titulo={hero.titulo}
     bajada={hero.bajada}
     migas={[{ label: v.nombre }]}
+    imagen={hero.imagen}
+    imagenAlt={hero.imagenAlt}
   >
     <Button
       href={`/cotizar?tipo=${cta.tipo}`}

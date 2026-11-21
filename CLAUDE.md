@@ -6,11 +6,11 @@ Backup del WordPress (fuente de contenido e imágenes): `C:\CLAUDE\piscobot3d-ba
 
 ## ⚠️ REGLA OBLIGATORIA — Manejo de ramas (aplica a TODAS las sesiones y tareas)
 
-| Rama | Rol |
-| --- | --- |
-| `main` | **Producción.** Sólo recibe merges desde `develop` cuando el usuario pide publicar/liberar. Nunca se trabaja ni se commitea directo. |
-| `develop` | **Integración.** Contiene todo el trabajo terminado. Toda tarea nueva sale de acá. Nunca se commitea directo: sólo recibe merges de ramas de tarea. |
-| `feature/<nombre>` · `fix/<nombre>` · `chore/<nombre>` | **Una rama por tarea**, siempre creada desde `develop` actualizado. |
+| Rama                                                   | Rol                                                                                                                                                 |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `main`                                                 | **Producción.** Sólo recibe merges desde `develop` cuando el usuario pide publicar/liberar. Nunca se trabaja ni se commitea directo.                |
+| `develop`                                              | **Integración.** Contiene todo el trabajo terminado. Toda tarea nueva sale de acá. Nunca se commitea directo: sólo recibe merges de ramas de tarea. |
+| `feature/<nombre>` · `fix/<nombre>` · `chore/<nombre>` | **Una rama por tarea**, siempre creada desde `develop` actualizado.                                                                                 |
 
 **Flujo que hay que seguir siempre, sin excepción:**
 
@@ -37,6 +37,7 @@ Backup del WordPress (fuente de contenido e imágenes): `C:\CLAUDE\piscobot3d-ba
    ```
 
 Notas:
+
 - Un hook de Git (`.githooks/pre-commit`, activado por `npm install` vía el script `prepare`) **bloquea los commits directos en `main` y `develop`**. No saltearlo con `--no-verify`.
 - Si hay conflictos al mergear, resolverlos en la rama de tarea (mergeando `develop` en ella) y volver al paso 4.
 - Nunca reescribir historia ya publicada (`push --force`) en `main` ni `develop`.

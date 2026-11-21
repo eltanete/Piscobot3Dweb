@@ -1,5 +1,19 @@
 # Guía de imágenes — qué falta, cómo nombrarlas y dónde van
 
+> **Actualización (branch `feature/imagenes-backup`):** se revisaron las 134 imágenes del backup del WordPress y se implementaron las útiles. Ya están resueltos:
+>
+> - Hero de Home, `/industria`, `/marcas`, Servicio técnico, Merchandising y Proyectos especiales (`paginas/`, `servicios/`).
+> - Fotos en las tarjetas de bifurcación de la Home.
+> - 13 logos de clientes **con nombre** (`clientes/<empresa>.png`).
+> - Tarjetas de los 4 módulos de capacitación y fotos de Prototipos / Productos / Producción en serie (formato vertical).
+> - Foto de cada una de las 6 fallas, en Servicio técnico y en las guías (`recursos/`).
+> - Galería de fotos adicionales en 6 casos (`casos/*-02.webp`…), con el campo `galeria`.
+> - Nosotros: foto del equipo y galería del taller (`paginas/taller-0X.webp`).
+> - Ilustraciones de línea junto a los títulos de algunos bloques (`ilustraciones/`, campo `ilustracion`).
+> - Logo oficial (wordmark) en header y footer (`marca/logo-oscuro.png`, `marca/logo-blanco.png`).
+>
+> **Sigue faltando (no estaba en el backup):** fotos del catálogo de merch (`merch/`), logo en SVG, modelos 3D (`.glb`), foto propia de una capacitación dictada y nuevos casos de proyectos especiales. Las tablas de abajo mantienen el detalle; los ítems ya resueltos se pueden ignorar.
+
 > Relevado el 21/11/2026 sobre el código actual. Estado: ✅ ya tiene imagen propia · 🔁 usa una foto prestada de otra sección · ⬜ falta.
 > Columna **Código**: "listo" = alcanza con copiar el archivo y escribir la ruta · "ajuste" = hay que habilitar el espacio en el código (pedírselo a Claude).
 

@@ -1,9 +1,12 @@
 // Optimiza las imágenes fuente de src/assets/images: máx. 1600 px de ancho, WebP calidad 82.
 // Los logos (marca/, clientes/) se mantienen en PNG para conservar la transparencia nítida.
 // Uso: node scripts/optimize-images.mjs [carpeta]
-import { readdir, stat, unlink, rename } from 'node:fs/promises';
+import { readdir, stat, unlink, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
+
+// En Windows sharp puede mantener abierto el archivo de entrada: se lee a memoria y se desactiva la caché.
+sharp.cache(false);
 
 const raiz = process.argv[2] ?? 'src/assets/images';
 const MAX = 1600;
@@ -23,12 +26,9 @@ for await (const archivo of archivos(raiz)) {
   const tam = (await stat(archivo)).size;
   antes += tam;
   const esLogo = CONSERVAR_PNG.some((c) => archivo.split(path.sep).includes(c));
-  const img = sharp(archivo).resize({ width: MAX, withoutEnlargement: true });
+  const img = sharp(await readFile(archivo)).resize({ width: MAX, withoutEnlargement: true });
   if (esLogo) {
-    const tmp = `${archivo}.tmp`;
-    await img.png({ compressionLevel: 9, palette: true }).toFile(tmp);
-    await unlink(archivo);
-    await rename(tmp, archivo);
+    await writeFile(archivo, await img.png({ compressionLevel: 9, palette: true }).toBuffer());
     despues += (await stat(archivo)).size;
   } else {
     const destino = archivo.replace(/\.(png|jpe?g)$/i, '.webp');

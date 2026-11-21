@@ -8,20 +8,19 @@ interface Props {
 const { titulo = 'Empresas que confían en nosotros' } = Astro.props;
 const clientes = await getCollection('clientes');
 // Los logos originales son blancos sobre transparente: se oscurecen con brightness-0.
-const alt = (nombre: string) => (/^Cliente \d+$/.test(nombre) ? 'Logo de cliente' : nombre);
 ---
 
 <div>
   <p class="eyebrow mb-8 text-center text-grafito-500">{titulo}</p>
-  <ul class="grid grid-cols-2 items-center gap-x-6 gap-y-8 md:grid-cols-5">
+  <ul class="flex flex-wrap items-center justify-center gap-x-10 gap-y-8 md:gap-x-14">
     {clientes.map(({ data: c }) => (
-      <li class="flex h-14 items-center justify-center px-2">
+      <li class="flex h-12 w-28 items-center justify-center md:w-32">
         {c.logo ? (
           <Image
             src={c.logo}
-            alt={alt(c.nombre)}
+            alt={c.nombre}
             height={56}
-            class="max-h-12 w-auto opacity-55 brightness-0 transition-opacity hover:opacity-90"
+            class="max-h-11 w-auto opacity-55 brightness-0 transition-opacity hover:opacity-90"
           />
         ) : (
           <span class="font-mono text-xs text-grafito-400">{c.nombre}</span>

@@ -3,6 +3,7 @@ titulo: Cómo corregir fallas térmicas en impresoras 3D
 descripcion: Temperaturas inestables, sobrecalentamiento, termistores y cables dañados. Causas, soluciones y la calibración PID.
 categoria: Térmica
 icono: thermometer
+imagen: ../../assets/images/recursos/fallas-termicas.webp
 fecha: 2025-05-15
 actualizado: 2026-11-20
 wpSlug: fallas-termicas

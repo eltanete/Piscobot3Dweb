@@ -7,6 +7,9 @@ aplicacion: Iluminación comercial e industrial
 resumen: Producción en serie de tapas para luminarias LED con tolerancias controladas y excelente terminación superficial, sin costos de matricería.
 imagen: ../../assets/images/casos/tapas-luminaria-led.webp
 imagenAlt: Fabricación de tapas para luminaria LED
+galeria:
+  - ../../assets/images/casos/tapas-luminaria-led-02.webp
+  - ../../assets/images/casos/tapas-luminaria-led-03.webp
 destacado: true
 orden: 1
 ---

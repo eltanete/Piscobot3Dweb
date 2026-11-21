@@ -4,10 +4,8 @@ Todo lo que hoy está provisorio o falta producir. Al completarlo, borrar la lí
 
 ## Datos a confirmar
 
-- [ ] **Email de contacto**: hoy `piscobot@gmail.com` (del sitio actual). ¿Se usa un email del dominio? → `src/content/sitio.json`.
-- [ ] **Email que recibe las cotizaciones** → variable `MAIL_TO_LEADS`.
+- [ ] **Email que recibe las cotizaciones**: hoy `info@piscobot3d.com` (`public/api/config.php` → `mail_to`, o variable `MAIL_TO` del deploy).
 - [ ] **Redes sociales** (Instagram, LinkedIn, etc.) → `sitio.json` → `redes`. El backup no las tenía.
-- [ ] **Nombres de los clientes** de los 10 logos (`src/content/clientes.json`, hoy "Cliente 1…10") para usarlos como texto alternativo. El blog menciona Mercedes Benz, Conuar, UBA y Globant.
 - [ ] Confirmar que los **contadores** siguen vigentes: +800 máquinas, +600 clientes, +20.000 horas, +30k piezas, +16.000 merch.
 - [ ] Confirmar **precios de referencia** de capacitaciones y garantía extendida (USD 50/100/80) y **descuentos**.
 
