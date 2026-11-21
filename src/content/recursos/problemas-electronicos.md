@@ -33,4 +33,4 @@ Son fallas en los circuitos y componentes electrónicos de la impresora, que pue
 
 ## ¿Por qué elegir PISCOBOT 3D?
 
-Los problemas electrónicos suelen requerir conocimiento avanzado y herramientas especializadas. Hacemos upgrades de placas, instalación y calibración de drivers y firmware personalizado, para clientes como la UBA. No arriesgues tu impresora con reparaciones caseras: conocé el [servicio técnico](/industria/servicio-tecnico).
+Los problemas electrónicos suelen requerir conocimiento avanzado y herramientas especializadas. Hacemos upgrades de placas, instalación y calibración de drivers y firmware personalizado, para clientes como la UBA. No arriesgues tu impresora con reparaciones caseras: conocé el [servicio técnico](/empresas/servicio-tecnico).

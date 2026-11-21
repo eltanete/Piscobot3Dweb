@@ -1,19 +1,19 @@
 ---
-titulo: Proyectos especiales y activaciones
+titulo: Piezas de autor
 vertical: marcas
 orden: 5
 icono: sparkles
-resumen: Exhibidores, props, piezas únicas y activaciones de marca diseñadas y fabricadas en 3D, del concepto a la entrega.
+resumen: Props funcionales para cine y contenido, pensados para usarse frente a cámara y guardarse como obra.
 imagen: ../../assets/images/servicios/proyectos-hero.webp
 imagenAlt: Serie de exhibidores impresos en 3D para una marca de productos ortopédicos
 hero:
-  eyebrow: Proyectos especiales · Activaciones
-  titulo: Piezas que hacen que tu marca se recuerde
-  bajada: Desde piezas técnicas hasta props de cine y presencia de marca. Diseñamos y fabricamos en 3D exhibidores, trofeos, escenografía y objetos para lanzamientos y eventos.
+  eyebrow: Piezas de autor · Marcas y agencias
+  titulo: Props que funcionan frente a cámara y quedan como obra
+  bajada: Props funcionales para cine y contenido, pensados para usarse frente a cámara y guardarse como obra. Diseño, fabricación y terminación en un solo equipo.
 cta:
   label: Contanos tu proyecto
   tipo: proyectos
-whatsapp: Hola PISCOBOT 3D, quiero contarles sobre un proyecto especial / activación de marca.
+whatsapp: Hola PISCOBOT 3D, quiero contarles sobre una pieza de autor / prop para una producción.
 pruebas:
   - valor: A medida
     etiqueta: cada pieza es única
@@ -50,8 +50,8 @@ bloques:
         texto: Objetos coleccionables y packaging especial para lanzamientos.
         icono: gift
 faq:
-  - proyectos-especiales
+  - piezas-de-autor
 seo:
-  titulo: Proyectos especiales y activaciones de marca con impresión 3D
-  descripcion: Exhibidores, trofeos, props y activaciones de marca diseñadas y fabricadas en impresión 3D para agencias y empresas. Post-procesado y confidencialidad.
+  titulo: Piezas de autor y props para cine impresos en 3D en Buenos Aires
+  descripcion: Props funcionales para cine, publicidad y contenido, diseñados y fabricados en impresión 3D en CABA. Pensados para usarse frente a cámara y guardarse como obra.
 ---

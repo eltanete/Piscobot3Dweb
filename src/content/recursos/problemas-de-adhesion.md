@@ -32,4 +32,4 @@ Ocurren cuando la primera capa no se pega adecuadamente a la superficie de impre
 
 ## ¿Por qué elegir PISCOBOT 3D?
 
-Si los problemas siguen, puede que la plataforma o el eje Z necesiten calibración profesional. Nuestros técnicos diagnostican y solucionan problemas de adhesión para clientes como Globant. Conocé el [servicio técnico](/industria/servicio-tecnico).
+Si los problemas siguen, puede que la plataforma o el eje Z necesiten calibración profesional. Nuestros técnicos diagnostican y solucionan problemas de adhesión para clientes como Globant. Conocé el [servicio técnico](/empresas/servicio-tecnico).

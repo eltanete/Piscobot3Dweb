@@ -1,7 +1,7 @@
 ---
 titulo: Mostrador para rodillera ortopédica
 vertical: marcas
-servicio: proyectos-especiales
+servicio: piezas-de-autor
 material: PLA industrial
 aplicacion: Retail y exhibición comercial
 resumen: Sistema de exhibición diseñado para destacar productos ortopédicos en locales comerciales, combinando resistencia, estética y branding.

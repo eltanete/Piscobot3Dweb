@@ -15,23 +15,23 @@ export interface NavGroup {
 
 export const NAV_VERTICALES: NavGroup[] = [
   {
-    label: 'Industria y Técnica',
-    href: '/industria',
+    label: 'Empresas e Industrias',
+    href: '/empresas',
     vertical: 'industria',
     items: [
       {
         label: 'Servicio técnico',
-        href: '/industria/servicio-tecnico',
+        href: '/empresas/servicio-tecnico',
         descripcion: 'Diagnóstico, reparación y mantenimiento de impresoras 3D',
       },
       {
         label: 'Capacitaciones',
-        href: '/industria/capacitaciones',
+        href: '/empresas/capacitaciones',
         descripcion: 'Formación técnica para equipos y particulares',
       },
       {
         label: 'Impresión y desarrollo',
-        href: '/industria/impresion-y-desarrollo',
+        href: '/empresas/impresion-y-desarrollo',
         descripcion: 'Piezas funcionales, diseño, ingeniería inversa y escaneo',
       },
     ],
@@ -47,9 +47,9 @@ export const NAV_VERTICALES: NavGroup[] = [
         descripcion: 'Objetos curados y personalizables con tu marca',
       },
       {
-        label: 'Proyectos especiales',
-        href: '/marcas/proyectos-especiales',
-        descripcion: 'Activaciones, displays y piezas únicas',
+        label: 'Piezas de autor',
+        href: '/marcas/piezas-de-autor',
+        descripcion: 'Props funcionales para cine y contenido',
       },
     ],
   },

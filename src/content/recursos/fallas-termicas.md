@@ -33,4 +33,4 @@ Son problemas en la regulación de temperatura de la impresora, que afectan al h
 
 ## ¿Por qué elegir PISCOBOT 3D?
 
-Cambiamos ventiladores, resistencias calefactoras, termistores y cableado, y calibramos el PID para que tu equipo mantenga temperaturas estables, como hacemos para clientes como Globant. Conocé el [servicio técnico](/industria/servicio-tecnico).
+Cambiamos ventiladores, resistencias calefactoras, termistores y cableado, y calibramos el PID para que tu equipo mantenga temperaturas estables, como hacemos para clientes como Globant. Conocé el [servicio técnico](/empresas/servicio-tecnico).

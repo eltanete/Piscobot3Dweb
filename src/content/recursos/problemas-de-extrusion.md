@@ -37,4 +37,4 @@ Si la impresora se atasca siempre después de un rato imprimiendo, suele ser por
 
 ## ¿Por qué elegir PISCOBOT 3D?
 
-Si probaste estas soluciones y el problema sigue, probablemente necesites un técnico especializado. Con más de 10 años de experiencia, diagnosticamos y reparamos cualquier problema de extrusión, y trabajamos con clientes como Mercedes Benz y Conuar. Conocé el [servicio técnico](/industria/servicio-tecnico).
+Si probaste estas soluciones y el problema sigue, probablemente necesites un técnico especializado. Con más de 10 años de experiencia, diagnosticamos y reparamos cualquier problema de extrusión, y trabajamos con clientes como Mercedes Benz y Conuar. Conocé el [servicio técnico](/empresas/servicio-tecnico).

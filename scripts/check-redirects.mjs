@@ -2,6 +2,13 @@
 // Uso: node scripts/check-redirects.mjs [baseUrl]   (por defecto http://localhost:4321)
 import { REDIRECCIONES } from '../src/lib/redirects.mjs';
 
+const CASOS_PREFIJO = {
+  '/industria': '/empresas',
+  '/industria/servicio-tecnico': '/empresas/servicio-tecnico',
+  '/industria/capacitaciones': '/empresas/capacitaciones',
+  '/industria/impresion-y-desarrollo': '/empresas/impresion-y-desarrollo',
+};
+
 const base = process.argv[2] ?? 'http://localhost:4321';
 
 async function seguir(url) {
@@ -18,7 +25,7 @@ async function seguir(url) {
 }
 
 let fallas = 0;
-for (const [viejo, nuevo] of Object.entries(REDIRECCIONES)) {
+for (const [viejo, nuevo] of Object.entries({ ...REDIRECCIONES, ...CASOS_PREFIJO })) {
   for (const variante of [viejo, `${viejo}/`]) {
     const { saltos, final } = await seguir(variante);
     const ok =

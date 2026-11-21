@@ -12,13 +12,13 @@
     "Impresión 3D",
     "Diseño e ingeniería inversa",
     "Merchandising",
-    "Proyectos especiales"
+    "Piezas de autor"
   ],
   "bifurcacion": {
     "titulo": "¿Qué te trae por acá?",
     "bajada": "Elegí tu camino y te mostramos lo que hacemos para vos.",
     "industria": {
-      "titulo": "Industria y Técnica",
+      "titulo": "Empresas e Industrias",
       "texto": "Tu impresora necesita un técnico, tu equipo necesita formación o tu proyecto necesita piezas que funcionen.",
       "cta": "Ver soluciones técnicas"
     },

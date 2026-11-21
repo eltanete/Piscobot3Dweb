@@ -2,7 +2,7 @@
 
 > **Actualización (branch `feature/imagenes-backup`):** se revisaron las 134 imágenes del backup del WordPress y se implementaron las útiles. Ya están resueltos:
 >
-> - Hero de Home, `/industria`, `/marcas`, Servicio técnico, Merchandising y Proyectos especiales (`paginas/`, `servicios/`).
+> - Hero de Home, `/empresas`, `/marcas`, Servicio técnico, Merchandising y Proyectos especiales (`paginas/`, `servicios/`).
 > - Fotos en las tarjetas de bifurcación de la Home.
 > - 13 logos de clientes **con nombre** (`clientes/<empresa>.png`).
 > - Tarjetas de los 4 módulos de capacitación y fotos de Prototipos / Productos / Producción en serie (formato vertical).
@@ -83,7 +83,7 @@ src/assets/images/
 │  └─ <slug-del-objeto>.jpg
 └─ paginas/                     Fotos institucionales        ⬜ carpeta nueva
    ├─ home-hero.jpg
-   ├─ industria-hero.jpg
+   ├─ empresas-hero.jpg
    ├─ marcas-hero.jpg
    ├─ nosotros-equipo.jpg
    └─ taller-01.jpg … taller-04.jpg
@@ -108,14 +108,14 @@ public/
 
 > Logos: lo ideal es renombrarlos con el nombre de la empresa (`mercedes-benz.png`, `conuar.png`, `uba.png`, `globant.png`…) y actualizar `src/content/clientes.json` (campos `nombre` y `logo`). El nombre se usa como texto alternativo, que suma para SEO y accesibilidad.
 
-### `/industria` y `/marcas` — Landings de vertical
+### `/empresas` y `/marcas` — Landings de vertical
 
 | Espacio                                          | Archivo              | Carpeta    | Medidas   | Estado | Código |
 | ------------------------------------------------ | -------------------- | ---------- | --------- | ------ | ------ |
-| Hero de Industria (taller, granja de impresoras) | `industria-hero.jpg` | `paginas/` | 1600×1200 | ⬜     | ajuste |
+| Hero de Industria (taller, granja de impresoras) | `empresas-hero.jpg` | `paginas/` | 1600×1200 | ⬜     | ajuste |
 | Hero de Marcas (merch, exhibidor, evento)        | `marcas-hero.jpg`    | `paginas/` | 1600×1200 | ⬜     | ajuste |
 
-### `/industria/servicio-tecnico`
+### `/empresas/servicio-tecnico`
 
 | Espacio                          | Archivo                     | Carpeta      | Estado | Dónde se referencia                                    |
 | -------------------------------- | --------------------------- | ------------ | ------ | ------------------------------------------------------ |
@@ -127,7 +127,7 @@ public/
 
 > Sugerencia: un hero distinto de la tarjeta "Reparaciones" (por ejemplo, el banco de trabajo con varias impresoras abiertas): `tecnico-hero.jpg`.
 
-### `/industria/capacitaciones`
+### `/empresas/capacitaciones`
 
 | Espacio                                     | Archivo                     | Carpeta      | Medidas   | Estado                         | Código |
 | ------------------------------------------- | --------------------------- | ------------ | --------- | ------------------------------ | ------ |
@@ -140,7 +140,7 @@ public/
 
 > Para los módulos: en `src/content/servicios/capacitaciones.md`, agregá `imagen: ../../assets/images/servicios/capacitacion-modulo-1.webp` debajo de cada módulo (en `bloques > modulos > items`).
 
-### `/industria/impresion-y-desarrollo`
+### `/empresas/impresion-y-desarrollo`
 
 | Espacio                                                 | Archivo                                                                           | Carpeta      | Estado                      |
 | ------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------ | --------------------------- |
@@ -162,7 +162,7 @@ public/
 
 > El nombre de cada foto del catálogo es el nombre del archivo del objeto en `src/content/merch/` (sin `.yaml`). Ruta a escribir en cada `.yaml`: `imagen: ../../assets/images/merch/llavero-tecnico.webp`. También se puede subir desde `/keystatic` → Catálogo de merchandising. Si el catálogo final cambia (está pendiente definirlo), el nombre de la foto sigue el nuevo slug.
 
-### `/marcas/proyectos-especiales`
+### `/marcas/piezas-de-autor`
 
 | Espacio                             | Archivo               | Carpeta      | Medidas   | Estado                       | Código                                |
 | ----------------------------------- | --------------------- | ------------ | --------- | ---------------------------- | ------------------------------------- |

@@ -13,7 +13,7 @@ const TIPOS = [
     'capacitaciones' => ['Capacitaciones', 'industria'],
     'impresion' => ['Impresión 3D / diseño', 'industria'],
     'merchandising' => ['Merchandising', 'marcas'],
-    'proyectos' => ['Proyecto especial / activación', 'marcas'],
+    'proyectos' => ['Pieza de autor', 'marcas'],
     'otro' => ['Otra consulta', 'general'],
 ];
 const EXTENSIONES = ['stl', 'step', 'stp', 'obj', '3mf', 'pdf', 'jpg', 'jpeg', 'png', 'webp', 'zip'];

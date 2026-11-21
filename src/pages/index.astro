@@ -18,7 +18,7 @@ import Testimonios from '../components/sections/Testimonios.astro';
 import LogoWall from '../components/sections/LogoWall.astro';
 import QueNecesitas from '../components/sections/QueNecesitas.astro';
 import home from '../content/home.json';
-import { SITE } from '../lib/constants';
+import { SITE, rutaServicio } from '../lib/constants';
 import { whatsappUrl, MENSAJES_WHATSAPP } from '../lib/whatsapp';
 
 const servicios = (await getCollection('servicios')).sort((a, b) => a.data.orden - b.data.orden);
@@ -31,7 +31,7 @@ const recursos = (await getCollection('recursos'))
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
   .slice(0, 3);
 const testimonios = await getCollection('testimonios');
-const rutaServicio = (s: (typeof servicios)[number]) => `/${s.data.vertical}/${s.id}`;
+const rutaDe = (s: (typeof servicios)[number]) => rutaServicio(s.data.vertical, s.id);
 ---
 
 <BaseLayout title={SITE.name}>
@@ -152,7 +152,7 @@ const rutaServicio = (s: (typeof servicios)[number]) => `/${s.data.vertical}/${s
     <div data-vertical="industria">
       <SectionHeader
         id="titulo-industria"
-        eyebrow="Industria y Técnica"
+        eyebrow="Empresas e Industrias"
         titulo="Soluciones técnicas para que tu producción no se detenga"
         bajada="Para empresas, talleres, escuelas técnicas y makers que trabajan con impresión 3D."
       />
@@ -162,7 +162,7 @@ const rutaServicio = (s: (typeof servicios)[number]) => `/${s.data.vertical}/${s
             <ServiceCard
               titulo={s.data.titulo}
               resumen={s.data.resumen}
-              href={rutaServicio(s)}
+              href={rutaDe(s)}
               icono={s.data.icono}
               vertical="industria"
             />
@@ -187,7 +187,7 @@ const rutaServicio = (s: (typeof servicios)[number]) => `/${s.data.vertical}/${s
             <ServiceCard
               titulo={s.data.titulo}
               resumen={s.data.resumen}
-              href={rutaServicio(s)}
+              href={rutaDe(s)}
               icono={s.data.icono}
               vertical="marcas"
             />

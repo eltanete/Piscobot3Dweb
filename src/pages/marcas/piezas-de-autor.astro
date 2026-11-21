@@ -2,8 +2,8 @@
 import { getEntry } from 'astro:content';
 import ServicioLayout from '../../layouts/ServicioLayout.astro';
 
-const servicio = await getEntry('servicios', 'proyectos-especiales');
-if (!servicio) throw new Error('Falta el servicio proyectos-especiales');
+const servicio = await getEntry('servicios', 'piezas-de-autor');
+if (!servicio) throw new Error('Falta el servicio piezas-de-autor');
 ---
 
 <ServicioLayout servicio={servicio} />
