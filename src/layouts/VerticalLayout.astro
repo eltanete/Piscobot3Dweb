@@ -39,7 +39,12 @@ const v = VERTICALES[vertical];
 const servicios = (await getCollection('servicios', (s) => s.data.vertical === vertical)).sort(
   (a, b) => a.data.orden - b.data.orden,
 );
-const casos = (await getCollection('casos', (c) => c.data.vertical === vertical))
+const casos = (
+  await getCollection(
+    'casos',
+    (c) => c.data.vertical === vertical && !c.data.borrador && c.data.nivel !== 'galeria',
+  )
+)
   .sort((a, b) => a.data.orden - b.data.orden)
   .slice(0, 3);
 const testimonios = await getCollection('testimonios', (t) => t.data.vertical === vertical);

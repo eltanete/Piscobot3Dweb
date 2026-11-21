@@ -4,7 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import ImagePlaceholder from '../ui/ImagePlaceholder.astro';
 import Icon from '../ui/Icon.astro';
-import { nombreCliente } from '../../lib/casos';
+import { fotosDe, nombreCliente } from '../../lib/casos';
 
 interface Props {
   caso: CollectionEntry<'casos'>;
@@ -14,6 +14,7 @@ interface Props {
 const { caso, compacto = false } = Astro.props;
 const d = caso.data;
 const cliente = nombreCliente(caso);
+const portada = fotosDe(caso)[0];
 ---
 
 <a
@@ -26,10 +27,10 @@ const cliente = nombreCliente(caso);
   ]}
 >
   <div class="relative overflow-hidden">
-    {d.imagen ? (
+    {portada ? (
       <Image
-        src={d.imagen}
-        alt={d.imagenAlt ?? d.titulo}
+        src={portada.src}
+        alt={portada.alt}
         widths={[480, 800, 1200]}
         sizes="(min-width: 768px) 50vw, 100vw"
         class="aspect-[16/9] size-full object-cover transition-transform duration-500 group-hover:scale-[1.03] md:aspect-auto"

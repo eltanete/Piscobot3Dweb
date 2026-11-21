@@ -107,8 +107,55 @@ export default config({
           ],
           defaultValue: 'impresion-y-desarrollo',
         }),
+        nivel: fields.select({
+          label: 'Nivel',
+          options: [
+            { label: '1 · Insignia (página propia)', value: 'insignia' },
+            { label: '2 · Ficha (modal en /casos)', value: 'ficha' },
+            { label: '3 · Galería (sólo foto)', value: 'galeria' },
+          ],
+          defaultValue: 'ficha',
+        }),
         cliente: fields.text({ label: 'Cliente (opcional)' }),
-        material: fields.text({ label: 'Material' }),
+        mostrarNombreCliente: fields.checkbox({
+          label: 'Mostrar el nombre del cliente (sólo con permiso confirmado)',
+          defaultValue: false,
+        }),
+        descripcionGenerica: fields.text({
+          label: 'Descripción genérica (p. ej. "una ortopedia")',
+        }),
+        fecha: fields.date({ label: 'Fecha' }),
+        bajada: fields.text({ label: 'Bajada', multiline: true }),
+        desafio: fields.text({ label: 'Desafío / Qué', multiline: true }),
+        solucion: fields.text({ label: 'Solución / Cómo', multiline: true }),
+        resultado: fields.text({ label: 'Resultado', multiline: true }),
+        datos: fields.array(
+          fields.object({
+            valor: fields.text({ label: 'Cifra' }),
+            etiqueta: fields.text({ label: 'Etiqueta' }),
+          }),
+          {
+            label: 'Datos destacados (3-4)',
+            itemLabel: (p) => `${p.fields.valor.value} ${p.fields.etiqueta.value}`,
+          },
+        ),
+        fotos: fields.array(
+          fields.object({
+            src: fields.image({
+              label: 'Foto',
+              directory: 'src/assets/images/casos',
+              publicPath: '../../assets/images/casos/',
+              validation: { isRequired: true },
+            }),
+            alt: fields.text({
+              label: 'Texto alternativo (obligatorio)',
+              validation: { length: { min: 1 } },
+            }),
+          }),
+          { label: 'Fotos', itemLabel: (p) => p.fields.alt.value },
+        ),
+        borrador: fields.checkbox({ label: 'Borrador (no se publica)', defaultValue: false }),
+        material: fields.text({ label: 'Material (opcional)' }),
         aplicacion: fields.text({ label: 'Aplicación' }),
         resumen: fields.text({ label: 'Resumen', multiline: true }),
         imagen: fields.image({

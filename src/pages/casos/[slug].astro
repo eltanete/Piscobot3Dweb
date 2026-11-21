@@ -1,134 +1,191 @@
 ---
+// Caso insignia (nivel 1). Las fichas no tienen página: se abren en el modal de /casos.
 import { getCollection, getEntry, render } from 'astro:content';
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageHero from '../../components/sections/PageHero.astro';
 import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import Button from '../../components/ui/Button.astro';
-import Badge from '../../components/ui/Badge.astro';
+import ImagePlaceholder from '../../components/ui/ImagePlaceholder.astro';
 import ModelViewer from '../../components/islands/ModelViewer.astro';
-import QueNecesitas from '../../components/sections/QueNecesitas.astro';
-import { VERTICALES, rutaServicio } from '../../lib/constants';
-import { nombreCliente } from '../../lib/casos';
+import CasoCard from '../../components/sections/CasoCard.astro';
+import { VERTICALES } from '../../lib/constants';
+import { ctaCaso, fotosDe, nombreCliente, publicable } from '../../lib/casos';
+import { whatsappUrl } from '../../lib/whatsapp';
 
 export async function getStaticPaths() {
-  const casos = await getCollection('casos');
+  const casos = await getCollection('casos', (c) => publicable(c) && c.data.nivel === 'insignia');
   return casos.map((caso) => ({ params: { slug: caso.id }, props: { caso } }));
 }
 
 const { caso } = Astro.props;
 const d = caso.data;
 const { Content } = await render(caso);
-const servicio = await getEntry('servicios', d.servicio);
 const v = VERTICALES[d.vertical];
+const linea = await getEntry('servicios', d.servicio);
 const cliente = nombreCliente(caso);
-const tipo = servicio?.data.cta.tipo ?? 'impresion';
+const fotos = fotosDe(caso);
+const portada = fotos[0];
+const galeria = fotos.slice(1, 8);
+// Completa la galería hasta 6 lugares con placeholders mientras llegan las fotos.
+const faltantes = Math.max(0, 6 - galeria.length);
+const cta = ctaCaso(caso);
+const prefijo = caso.id.split('-')[0];
+
+const relacionados = (
+  await getCollection(
+    'casos',
+    (c) =>
+      publicable(c) &&
+      c.id !== caso.id &&
+      c.data.vertical === d.vertical &&
+      c.data.nivel !== 'galeria',
+  )
+)
+  .sort(
+    (a, b) =>
+      Number(b.data.servicio === d.servicio) - Number(a.data.servicio === d.servicio) ||
+      a.data.orden - b.data.orden,
+  )
+  .slice(0, 3);
+
+const bloques = [
+  { titulo: 'Desafío', texto: d.desafio },
+  { titulo: 'Solución', texto: d.solucion },
+  { titulo: 'Resultado', texto: d.resultado },
+].filter((b) => b.texto);
 ---
 
 <BaseLayout
-  title={d.titulo}
-  description={d.resumen}
+  title={`${d.titulo}${cliente ? ` — ${cliente}` : ''}`}
+  description={d.bajada ?? d.resumen}
   vertical={d.vertical}
   ogType="article"
-  cta={{ label: 'Quiero algo así', href: `/cotizar?tipo=${tipo}` }}
+  cta={{ label: 'Quiero algo así', href: `/cotizar?vertical=${d.vertical}` }}
 >
-  <PageHero
-    eyebrow={`Caso · ${servicio?.data.titulo ?? ''}`}
-    titulo={d.titulo}
-    bajada={d.resumen}
-    migas={[{ label: 'Casos', href: '/casos' }, { label: d.titulo }]}
-    pruebas={d.metricas}
-    compacto
-  />
-
-  <Container class="grid gap-12 py-16 md:py-20 xl:grid-cols-12">
-    <aside class="xl:order-2 xl:col-span-4">
-      <dl class="space-y-4 rounded-lg border border-grafito-200 bg-grafito-50 p-6 text-sm xl:sticky xl:top-24">
-        <div>
-          <dt class="eyebrow text-grafito-500">Vertical</dt>
-          <dd class="mt-1">
-            <Badge tono={d.vertical}>{v.nombre}</Badge>
-          </dd>
-        </div>
-        {cliente && (
-          <div>
-            <dt class="eyebrow text-grafito-500">Cliente</dt>
-            <dd class="mt-1 font-medium">{cliente}</dd>
-          </div>
-        )}
-        <div>
-          <dt class="eyebrow text-grafito-500">Material</dt>
-          <dd class="mt-1 font-mono">{d.material}</dd>
-        </div>
-        <div>
-          <dt class="eyebrow text-grafito-500">Aplicación</dt>
-          <dd class="mt-1">{d.aplicacion}</dd>
-        </div>
-        {servicio && (
-          <div>
-            <dt class="eyebrow text-grafito-500">Servicio</dt>
-            <dd class="mt-1">
-              <a
-                href={rutaServicio(servicio.data.vertical, servicio.id)}
-                class="font-medium text-acento-texto underline"
-              >
-                {servicio.data.titulo}
-              </a>
-            </dd>
-          </div>
-        )}
-        <div class="pt-2">
-          <Button href={`/cotizar?tipo=${tipo}`} bloque iconoFinal="arrow-right" evento="cta_caso">
-            Quiero algo así
-          </Button>
-        </div>
-      </dl>
-    </aside>
-
-    <div class="xl:col-span-8">
+  <section class="bg-grafito-950 text-white">
+    <Container class="pt-10 pb-12 md:pt-14">
+      <Breadcrumbs items={[{ label: 'Casos', href: '/casos' }, { label: d.titulo }]} oscuro />
+      <p class="eyebrow mb-4 flex items-center gap-2 text-grafito-400">
+        <span class="size-2 rounded-full bg-acento" aria-hidden="true"></span>
+        {v.nombre}
+        {linea ? ` · ${linea.data.titulo}` : ''}
+        {cliente ? ` · ${cliente}` : ''}
+      </p>
+      <h1 class="text-display max-w-5xl text-white">{d.titulo}</h1>
+      {d.bajada && <p class="text-bajada mt-6 max-w-3xl text-grafito-300">{d.bajada}</p>}
+      {d.datos.length > 0 && (
+        <dl class="mt-10 grid grid-cols-2 gap-6 border-t border-grafito-800 pt-8 md:grid-cols-4">
+          {d.datos.slice(0, 4).map((x) => (
+            <div>
+              <dt class="sr-only">{x.etiqueta}</dt>
+              <dd class="font-mono text-3xl font-semibold text-white md:text-4xl">{x.valor}</dd>
+              <dd class="mt-1 text-sm text-grafito-400">{x.etiqueta}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </Container>
+    <div class="mx-auto max-w-7xl px-4 pb-12 md:px-8">
       {d.modelo3d ? (
-        <div class="mb-10">
-          <ModelViewer src={d.modelo3d} alt={`Modelo 3D: ${d.titulo}`} />
-        </div>
-      ) : d.imagen ? (
+        <ModelViewer src={d.modelo3d} alt={`Modelo 3D: ${d.titulo}`} />
+      ) : portada ? (
         <Image
-          src={d.imagen}
-          alt={d.imagenAlt ?? d.titulo}
-          widths={[600, 1000, 1400]}
-          sizes="(min-width: 1280px) 800px, 100vw"
-          class="mb-10 w-full rounded-lg"
+          src={portada.src}
+          alt={portada.alt}
+          widths={[800, 1400, 2400]}
+          sizes="(min-width: 1280px) 1216px, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          class="aspect-[16/9] w-full rounded-xl object-cover"
         />
-      ) : null}
-      <article class="prose-piscobot">
-        <Content />
-      </article>
-      {d.galeria.length > 0 && (
-        <section aria-label="Galería de fotos" class="mt-12">
-          <h2 class="mb-4 text-xl">Más fotos del trabajo</h2>
-          <ul class="grid grid-cols-2 gap-3 md:gap-4">
-            {d.galeria.map((foto, i) => (
-              <li class:list={[d.galeria.length % 2 === 1 && i === 0 && 'col-span-2']}>
-                <a
-                  href={foto.src}
-                  target="_blank"
-                  rel="noopener"
-                  class="block overflow-hidden rounded-lg"
-                >
-                  <Image
-                    src={foto}
-                    alt={`${d.titulo} — foto ${i + 2}`}
-                    widths={[400, 800]}
-                    sizes="(min-width: 1280px) 400px, 50vw"
-                    class="aspect-[4/3] w-full object-cover transition-transform duration-300 hover:scale-[1.03]"
-                  />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
+      ) : (
+        <ImagePlaceholder formato="16x9" archivo={`${prefijo}-01-16x9.jpg`} class="rounded-xl" />
       )}
     </div>
-  </Container>
+  </section>
 
-  <QueNecesitas />
+  {bloques.length > 0 && (
+    <Section>
+      <div class="grid gap-10 md:grid-cols-3">
+        {bloques.map((b) => (
+          <div>
+            <h2 class="eyebrow mb-3 text-acento-texto">{b.titulo}</h2>
+            <p class="text-[1.0625rem] leading-relaxed text-grafito-800">{b.texto}</p>
+          </div>
+        ))}
+      </div>
+      <div class="prose-piscobot mt-10">
+        <Content />
+      </div>
+    </Section>
+  )}
+
+  <Section fondo="gris" aria-labelledby="titulo-galeria-caso">
+    <SectionHeader id="titulo-galeria-caso" eyebrow="Galería" titulo="El trabajo, en fotos" />
+    <ul class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+      {galeria.map((f) => (
+        <li class="overflow-hidden rounded-lg">
+          <Image
+            src={f.src}
+            alt={f.alt}
+            widths={[400, 800]}
+            sizes="(min-width: 768px) 33vw, 50vw"
+            class="aspect-[4/3] w-full object-cover"
+          />
+        </li>
+      ))}
+      {Array.from({ length: faltantes }, (_, i) => (
+        <li class="overflow-hidden rounded-lg">
+          <ImagePlaceholder
+            formato="4x3"
+            archivo={`${prefijo}-${String(galeria.length + i + 2).padStart(2, '0')}-4x3.jpg`}
+            oscuro={false}
+          />
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  {relacionados.length > 0 && (
+    <Section aria-labelledby="titulo-relacionados">
+      <SectionHeader id="titulo-relacionados" eyebrow="Seguí viendo" titulo="Casos relacionados" />
+      <ul class="grid gap-6 md:grid-cols-3">
+        {relacionados.map((c) => (
+          <li>
+            <CasoCard caso={c} />
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )}
+
+  <Section fondo="oscuro">
+    <div class="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+      <div>
+        <h2 class="text-titulo">
+          ¿Querés algo así para tu {d.vertical === 'marcas' ? 'marca' : 'empresa'}?
+        </h2>
+        {linea && (
+          <p class="mt-2 text-grafito-300">Conocé la línea {linea.data.titulo.toLowerCase()}.</p>
+        )}
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <Button href={cta.href} variante="claro" tamano="lg" iconoFinal="arrow-right">
+          {cta.label}
+        </Button>
+        <Button
+          href={whatsappUrl(`Hola PISCOBOT 3D, vi el caso "${d.titulo}" y quiero algo así.`)}
+          variante="whatsapp"
+          tamano="lg"
+          icono="message"
+          evento="clic_whatsapp"
+        >
+          WhatsApp
+        </Button>
+      </div>
+    </div>
+  </Section>
 </BaseLayout>
