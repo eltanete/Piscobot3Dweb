@@ -9,6 +9,10 @@ Todo lo que hoy está provisorio o falta producir. Al completarlo, borrar la lí
 - [ ] Confirmar que los **contadores** siguen vigentes: +800 máquinas, +600 clientes, +20.000 horas, +30k piezas, +16.000 merch.
 - [ ] Confirmar **precios de referencia** de capacitaciones y garantía extendida (USD 50/100/80) y **descuentos**.
 
+- [ ] **Merch curado**: confirmar mínimos y plazos de los 10 objetos (cargados como provisorios en `src/content/merch/`) y si se publica algún precio.
+- [ ] **Campaña de fin de año**: confirmar la fecha de cierre de pedidos (hoy 5/12/2026 23:59, en `src/content/campana.json`) y el precio orientativo de los kits.
+- [ ] **Casos insignia de Marcas** (Carbone, IntraMed, Santa Planta, Ofer Katz): textos definitivos y fotos (hoy provisorios).
+
 ## Contenido a producir
 
 > Para las imágenes (nombres, medidas y carpetas), ver [`IMAGENES.md`](IMAGENES.md).

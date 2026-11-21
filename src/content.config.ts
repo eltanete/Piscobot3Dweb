@@ -140,13 +140,32 @@ const merch = defineCollection({
   schema: ({ image }) =>
     z.object({
       nombre: z.string(),
-      categoria: z.enum(['escritorio', 'tecnologia', 'hogar', 'eventos', 'premios']),
+      categoria: z.enum(['escritorio', 'regalo', 'premio', 'presencia-de-marca', 'branding']),
       descripcion: z.string(),
+      /** Niveles de personalización: 1 Marca · 2 Persona · 3 Forma. */
+      niveles: z.array(z.coerce.number().int().min(1).max(3)).default([1]),
+      quePersonaliza: z.string().nullish(),
       materiales: z.array(z.string()).default([]),
-      personalizacion: z.array(z.string()).default([]),
       minimo: z.number().nullish(),
-      plazo: z.string().optional(),
-      imagen: image().nullish(),
+      plazo: z.string().nullish(),
+      precioDesde: z.string().nullish(),
+      mostrarPrecio: z.boolean().default(false),
+      fotos: z.array(image()).default([]),
+      /** Si la foto fue generada con IA: se muestra la leyenda "Imagen ilustrativa". */
+      imagenIlustrativa: z.boolean().default(false),
+      /** Sólo visible durante la campaña de fin de año. */
+      estacional: z.boolean().default(false),
+      /** Piezas de mesa: muestran la advertencia de no aptas para contacto con alimentos. */
+      piezaDeMesa: z.boolean().default(false),
+      /** Preparado para el probador de logo: zona del logo por foto (4 esquinas, en % de la imagen). */
+      zonasLogo: z
+        .array(
+          z.object({
+            foto: z.number().default(0),
+            esquinas: z.array(z.object({ x: z.number(), y: z.number() })).length(4),
+          }),
+        )
+        .default([]),
       orden: z.number().default(0),
     }),
 });
