@@ -7,7 +7,7 @@ export interface MerchItem {
   descripcion: string;
   materiales: string[];
   personalizacion: string[];
-  minimo?: number;
+  minimo?: number | null;
   imagen?: string | null;
 }
 

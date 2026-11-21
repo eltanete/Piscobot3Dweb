@@ -6,6 +6,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
+import keystatic from '@keystatic/astro';
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,6 +24,7 @@ export default defineConfig({
       changefreq: 'monthly',
     }),
     mdx(),
+    keystatic(),
   ],
   // Las redirecciones 301 del WordPress viven en src/lib/redirects.mjs y las aplica src/middleware.ts.
   vite: {
